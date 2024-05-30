@@ -6,14 +6,14 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardPanaderia implements CanActivate {
+export class adminGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isAuthenticatedPanaderia()) {
+    if (this.authService.isAuthenticatedAdmin()) {
       return true;
     } else {
       this.router.navigate(['']);

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-body',

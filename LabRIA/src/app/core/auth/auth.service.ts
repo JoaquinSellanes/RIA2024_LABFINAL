@@ -7,9 +7,30 @@ export class AuthService {
 
   constructor() { }
 
-  isAuthenticated(): boolean {
-    // Check if the token exists in localStorage
+  isAuthenticatedPanaderia(): boolean {
     const token = localStorage.getItem('token');
-    return !!token;
+    const role = localStorage.getItem('role');
+    if (role === 'PANADERO') {
+      return !!token;
+    }
+    return false;
+  }
+
+  isAuthenticatedUser(): boolean {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (role === 'USER') {
+      return !!token;
+    }
+    return false;
+  }
+
+  isAuthenticatedAdmin(): boolean {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (role === 'ADMIN') {
+      return !!token;
+    }
+    return false;
   }
 }

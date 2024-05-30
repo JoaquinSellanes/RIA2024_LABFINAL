@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Usuario } from '../../../../shared/models/usuario';
+import { Usuario } from '../../../shared/models/usuario';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,7 @@ import { Usuario } from '../../../../shared/models/usuario';
     ])
   ]
 })
-export class LoginPanaderoComponent {
+export class LoginComponent {
 
   loginForm: FormGroup;
 
@@ -42,7 +42,9 @@ export class LoginPanaderoComponent {
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.role);
           localStorage.setItem('email', res.nombre);
-          this.router.navigate(['/panaderia']);
+          if (res.role === "PANADERO") {
+            this.router.navigate(['/panaderia/dashboard']);
+          }
         }, (error) => {
           console.error('Error logging in', error);
         });

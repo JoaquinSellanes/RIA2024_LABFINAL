@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Usuario } from '../../../../shared/models/usuario';
+import { Usuario } from '../../../shared/models/usuario';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, HttpClientModule, RouterModule, CommonModule],
-  providers: [AuthService, HttpClientModule ],
+  providers: [AuthService, HttpClientModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   animations: [
@@ -60,8 +60,8 @@ export class RegisterComponent {
         email: this.registerForm.value.email,
         telefono: this.registerForm.value.telefono,
         password: this.registerForm.value.password,
-        enabled: true,
-        role: 'PANADERO'
+        enabled: false,
+        role: 'USER'
       };
 
       this.authService.registerUsuario(usuario)

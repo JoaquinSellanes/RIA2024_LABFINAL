@@ -6,7 +6,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardPanaderia implements CanActivate {
+export class userGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
