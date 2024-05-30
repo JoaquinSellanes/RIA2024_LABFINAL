@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const usuarios = [];
 
+const status = async (req, res, next) => {
+  res.status(200).json({ message: 'Todo biem.' });
+};
+
 const generateToken = (user) => {
   return jwt.sign({ id: user.id, role: user.role }, 'your_secret_key', { expiresIn: '1h' });
 };
@@ -102,6 +106,7 @@ const disableUser = (req, res) => {
 };
 
 module.exports = {
+  status,
   register,
   login,
   changePassword,
