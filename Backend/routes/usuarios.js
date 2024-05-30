@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const usuariosController = require('../controllers/usuariosController');
+const { verifyToken } = require('../middleware/auth');
+
+router.get('/status', verifyToken, function (req, res) {
+  usuariosController.status(req, res);
+});
 
 router.post('/register', (req, res) => {
   /* #swagger.summary = 'Registra un nuevo usuario' */
