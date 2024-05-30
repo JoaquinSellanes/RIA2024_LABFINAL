@@ -35,15 +35,28 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    console.log(this.loginForm.value);
+    
     if (this.loginForm.valid) {
+      console.log('Formulario válido');
+      
       this.authService.loginUsuario(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe((res: any) => {
           console.log(res);
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.role);
           localStorage.setItem('email', res.nombre);
+
+          console.log(res.role);
+          
           if (res.role === "PANADERO") {
             this.router.navigate(['/panaderia/dashboard']);
+          }else if (res.role === "ADMIN") {
+            this.router.navigate(['/admin/dashboard']);
+          }else if (res.role === "USER") {
+            console.log('User');
+            
+            this.router.navigate(['/user/dashboard']);
           }
         }, (error) => {
           console.error('Error logging in', error);

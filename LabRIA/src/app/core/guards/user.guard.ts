@@ -13,7 +13,7 @@ export class userGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isAuthenticatedPanaderia()) {
+    if (this.authService.isAuthenticatedUser()) {
       return true;
     } else {
       this.router.navigate(['']);
