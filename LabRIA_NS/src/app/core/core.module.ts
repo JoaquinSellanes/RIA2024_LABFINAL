@@ -23,10 +23,10 @@ import { UserGuard } from './guards/user.guard';
     // { provide: HTTP_INTERCEPTORS, useClass: YourInterceptorClass, multi: true },
   ],
   exports: [
-    // Aquí puedes exportar los guards si deseas usarlos en otros módulos
+    // No es necesario exportar servicios o guards aquí
   ]
 })
-export class CoreModule { 
+export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error('CoreModule is already loaded. Import it in the AppModule only');

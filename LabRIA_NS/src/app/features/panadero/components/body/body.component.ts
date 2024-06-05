@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })
-export class AdminBodyComponent implements AfterViewInit {
+export class panaderoBodyComponent implements AfterViewInit {
 
   constructor(private router: Router) { }
 
