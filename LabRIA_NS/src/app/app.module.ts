@@ -3,18 +3,27 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BodyComponent } from './features/panaderia/components/body/body.component';
-import { DashboardComponent } from './features/panaderia/components/dashboard/dashboard.component';
+
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { AdminModule } from './features/admin/admin.module';
+import { PanaderoModule } from './features/panadero/panadero.module';
+import { ClienteModule } from './features/cliente/cliente.module';
+import { AuthModule } from './features/auth/auth.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    BodyComponent,
-    DashboardComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule,
+    SharedModule,
+    AdminModule,
+    PanaderoModule,
+    ClienteModule,
+    AuthModule
   ],
   providers: [
     provideClientHydration()
