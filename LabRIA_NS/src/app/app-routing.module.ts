@@ -36,7 +36,8 @@ const routes: Routes = [
     { path: '**', redirectTo: 'pedidos' }
   ], canActivate: [UserGuard]},
   // PANADERO
-  { path: 'panaderia', component: panaderoBodyComponent, children: [
+  {
+    path: 'panaderia', component: panaderoBodyComponent, children: [
     { path: '', redirectTo: 'pedidos', pathMatch: 'full'},
     { path: 'pedidos', component: panaderoDashboardComponent },
     { path: '**', redirectTo: 'pedidos' }

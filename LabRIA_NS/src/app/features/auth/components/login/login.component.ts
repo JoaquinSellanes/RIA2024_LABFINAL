@@ -43,7 +43,7 @@ export class LoginComponent {
           console.log(res.role);
 
           if (res.role === "PANADERO") {
-            this.router.navigate(['/panaderia/dashboard']);
+            this.router.navigate(['/panaderia/pedidos']);
           } else if (res.role === "ADMIN") {
             this.router.navigate(['/admininstracion/dashboard']);
           } else if (res.role === "USER") {
