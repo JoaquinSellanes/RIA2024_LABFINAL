@@ -1,4 +1,4 @@
-<body class="bg-gray-100 font-sans leading-normal tracking-normal w-full h-screen">
+<body class=" font-sans leading-normal tracking-normal w-full min-h-screen">
   <header>
     <nav class="
           flex flex-wrap
@@ -9,7 +9,7 @@
           md:py-0
           px-4
           text-lg text-gray-700
-          bg-white
+          shadow-md
         ">
       <div class="flex items-center space-x-3">
         <a href="#" class="flex items-center space-x-2">
@@ -26,7 +26,6 @@
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
-
       <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
         <ul class="
               pt-4
@@ -35,16 +34,20 @@
               md:justify-between 
               md:pt-0">
           <li>
+            <a class="md:p-4 py-2 block hover:text-slate-900 text-slate-600" routerLink="/administracion/productos">Productos</a>
+          </li>
+          <li>
             <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#" (click)="salir()">Salir</a>
           </li>
         </ul>
       </div>
     </nav>
   </header>
-
+<!--  -->
   <div class="min-w-full min-h-screen flex justify-center">
     <div class="w-[80%] pt-5">
       <router-outlet></router-outlet>
     </div>
   </div>
 </body>
+<app-footer></app-footer>

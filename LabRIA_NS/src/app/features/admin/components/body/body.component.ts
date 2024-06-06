@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-body',
@@ -18,7 +19,6 @@ export class AdminBodyComponent implements AfterViewInit {
       menu?.classList.toggle('hidden');
     });
   }
-
 
   salir() {
     localStorage.removeItem('token');

@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const usuariosController = require('../controllers/usuariosController');
-const { verifyToken } = require('../middleware/auth');
-
-router.get('/status', verifyToken, function (req, res) {
-  usuariosController.status(req, res);
-});
 
 router.post('/register', (req, res) => {
   /* #swagger.summary = 'Registra un nuevo usuario' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Registro de nuevo usuario.',
@@ -21,6 +17,7 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
   /* #swagger.summary = 'Inicia sesión' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Credenciales de usuario.',
@@ -32,6 +29,7 @@ router.post('/login', (req, res) => {
 router.post('/change-password', (req, res) => {
   /* #swagger.summary = 'Cambia la contraseña del usuario' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Cambio de contraseña de usuario.',
@@ -43,6 +41,7 @@ router.post('/change-password', (req, res) => {
 router.post('/forgot-password', (req, res) => {
   /* #swagger.summary = 'Recupera la contraseña olvidada' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Recuperación de contraseña de usuario.',
@@ -54,6 +53,7 @@ router.post('/forgot-password', (req, res) => {
 router.post('/enable-user', (req, res) => {
   /* #swagger.summary = 'Habilita un usuario' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Habilitación de usuario.',
@@ -65,6 +65,7 @@ router.post('/enable-user', (req, res) => {
 router.post('/disable-user', (req, res) => {
   /* #swagger.summary = 'Deshabilita un usuario' */
   /* #swagger.tags = ['Usuarios'] */
+  /* #swagger.security = [{ "BearerAuth": [] }] */
   /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Deshabilitación de usuario.',

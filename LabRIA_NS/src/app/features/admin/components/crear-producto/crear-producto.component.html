@@ -1,0 +1,75 @@
+<div class="container mx-auto p-4 flex justify-center">
+  <div class="flex flex-col md:flex-row lg:w-[60%]">
+    <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="flex-1 md:mr-4">
+      <!-- <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">ID</span>
+        </label>
+        <input type="number" formControlName="id" class="input input-bordered" />
+      </div> -->
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Nombre</span>
+        </label>
+        <input type="text" formControlName="nombre" class="input input-bordered" />
+      </div>
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Descripción</span>
+        </label>
+        <textarea formControlName="descripcion" class="textarea textarea-bordered"></textarea>
+      </div>
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Imagen</span>
+        </label>
+        <input type="file" (change)="onImageChange($event)" class="file-input file-input-bordered" />
+      </div>
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Precio</span>
+        </label>
+        <input type="number" formControlName="precio" class="input input-bordered" />
+      </div>
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Ingredientes</span>
+        </label>
+        <div formArrayName="ingredientes">
+          <div *ngFor="let ingrediente of ingredientes.controls; let i = index" [formGroupName]="i" class="mb-2">
+            <div class="grid grid-cols-3 gap-4">
+              <input type="text" formControlName="nombre" placeholder="Nombre" class="input input-bordered" />
+              <input type="number" formControlName="cantidad" placeholder="Cantidad" class="input input-bordered" />
+              <select formControlName="unidad" class="select select-bordered">
+                <option value="ml">ml</option>
+                <option value="gr">gr</option>
+                <option value="c/u">c/u</option>
+              </select>
+              <button type="button" (click)="removerIngrediente(i)" class="btn btn-error">Eliminar</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" (click)="agregarIngrediente()" class="btn btn-primary mt-2">Agregar Ingrediente</button>
+      </div>
+      <button type="submit" class="btn btn-success mt-4">Crear Producto</button>
+    </form>
+
+    <!-- <div class="flex-1 md:ml-4 mt-4 md:mt-0">
+      <h2 class="text-xl font-bold mb-2">Vista Previa del Producto</h2>
+      <div class="card shadow-lg">
+        <figure><img [src]="productoPreview.imagen" alt="Imagen del Producto" /></figure>
+        <div class="card-body">
+          <h2 class="card-title">{{ productoPreview.nombre }}</h2>
+          <p>{{ productoPreview.descripcion }}</p>
+          <p><strong>Precio:</strong> {{ productoPreview.precio | currency }}</p>
+          <h3 class="text-lg font-bold mt-4">Ingredientes</h3>
+          <ul>
+            <li *ngFor="let ing of productoPreview.ingredientes">
+              {{ ing.cantidad }} {{ ing.unidad }} de {{ ing.nombre }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

@@ -45,7 +45,7 @@ export class LoginComponent {
           if (res.role === "PANADERO") {
             this.router.navigate(['/panaderia/pedidos']);
           } else if (res.role === "ADMIN") {
-            this.router.navigate(['/admininstracion/dashboard']);
+            this.router.navigate(['/administracion/dashboard']);
           } else if (res.role === "USER") {
             this.router.navigate(['/cliente/pedidos']);
           }

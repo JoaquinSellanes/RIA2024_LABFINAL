@@ -11,6 +11,8 @@ import { RegisterComponent } from './features/auth/components/register/register.
 // ADMIN
 import { AdminBodyComponent } from './features/admin/components/body/body.component';
 import { DashboardComponent } from './features/admin/components/dashboard/dashboard.component';
+import { ProductosComponent } from './features/admin/components/productos/productos.component';
+import { CrearProductoComponent } from './features/admin/components/crear-producto/crear-producto.component';
 // CLIENTE o USUARIO
 import { clienteBodyComponent } from './features/cliente/components/body/body.component';
 import { clienteDashboardComponent } from './features/cliente/components/dashboard/dashboard.component';
@@ -24,9 +26,12 @@ const routes: Routes = [
   { path: 'ingreso', component: LoginComponent },
   { path: 'registro', component: RegisterComponent },
   // ADMIN
-  { path: 'admininstracion', component: AdminBodyComponent, canActivate: [AdminGuard], children: [
+  {
+    path: 'administracion', component: AdminBodyComponent, canActivate: [AdminGuard], children: [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     { path: 'dashboard', component: DashboardComponent },
+    { path: 'productos', component: ProductosComponent },
+    { path: 'crear-producto', component: CrearProductoComponent },
     { path: '**', redirectTo: 'dashboard' }
   ] },
   // CLIENTE
