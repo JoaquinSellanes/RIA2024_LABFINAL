@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const chalk = require('chalk');
+const cors = require('cors');
+
 
 const morganMiddleware = require('./utils/logging');
 const loadRoutes = require('./utils/routeLoader');
@@ -25,6 +27,7 @@ app.use(morganMiddleware);
 // app.use(morgan('dev'));
 
 app.use(bodyParser.json());
+app.use(cors());
 
 // Cargar rutas de manera dinámica
 loadRoutes(app);
