@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 
 import { clienteBodyComponent } from './components/body/body.component';
 import { clienteDashboardComponent } from './components/dashboard/dashboard.component';
+import { CartModalComponent } from './components/cart-modal/cart-modal.component';
 
 
 
 @NgModule({
   declarations: [
     clienteBodyComponent,
-    clienteDashboardComponent
+    clienteDashboardComponent,
+    CartModalComponent
   ],
   imports: [
     CommonModule,

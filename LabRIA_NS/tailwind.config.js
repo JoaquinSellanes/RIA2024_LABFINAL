@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: ["winter"],  // Aplica el tema "winter"
     styled: true,
@@ -14,5 +14,5 @@ module.exports = {
     utils: true,
     logs: true,
     rtl: false,
-  }
+  },
 }
