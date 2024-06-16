@@ -26,7 +26,9 @@ app.use(morganMiddleware);
 // tiny: Logs muy breves.
 // app.use(morgan('dev'));
 
-app.use(bodyParser.json());
+// Configuración de body-parser con un tamaño de cuerpo mayor
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cors());
 
 // Cargar rutas de manera dinámica
