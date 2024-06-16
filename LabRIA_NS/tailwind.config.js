@@ -8,7 +8,7 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
-    themes: ["winter"],  // Aplica el tema "winter"
+    themes: ["winter", "dim "],  // Aplica el tema "winter"
     styled: true,
     base: true,
     utils: true,

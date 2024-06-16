@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 // import { Router}
 
+import { SharedModule } from '../../shared/shared.module';
+
 import { AdminBodyComponent } from './components/body/body.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProductosComponent } from './components/productos/productos.component';
@@ -22,7 +24,8 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class AdminModule { }

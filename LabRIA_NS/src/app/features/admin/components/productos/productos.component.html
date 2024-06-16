@@ -11,13 +11,12 @@
 <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
     <figure>
-      <img
-        src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Shoes" />
+      <img *ngIf="foo.imagen !== ''" [src]="foo.imagen" alt="Imagen del producto" />
+      <img *ngIf="foo.imagen == ''" src="/assets/no-image.png" alt="Imagen del producto" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">Pan</h2>
-      <p>Descripcion</p>
+      <h2 class="card-title">{{foo.nombre}}</h2>
+      <p>{{foo.descripcion}}</p>
       <div class="card-actions justify-end">
         <button class="btn btn-primary">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

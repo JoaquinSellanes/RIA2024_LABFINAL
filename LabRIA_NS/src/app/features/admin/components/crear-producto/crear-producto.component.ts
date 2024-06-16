@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Producto } from '../../../shared/models/producto';
 import { Ingrediente } from '../../../shared/models/ingrediente';
 import { ProductoService } from '../../services/producto.service';
+import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-crear-producto',
@@ -12,6 +13,7 @@ import { ProductoService } from '../../services/producto.service';
 export class CrearProductoComponent {
   productoForm: FormGroup;
   productoPreview: Producto;
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -72,6 +74,9 @@ export class CrearProductoComponent {
       console.log("component -> ", nuevoProducto);
       // Lógica para manejar el nuevo producto, por ejemplo, enviarlo a una API
       this.productoService.createProducto(nuevoProducto);
+    } else {
+      console.log("Formulario no válido");
+      this.toast.showToast('Formulario no válido 😩', 'alert alert-error');
     }
   }
 }
