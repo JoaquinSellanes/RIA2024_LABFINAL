@@ -1,7 +1,8 @@
 const productoService = require('../services/productoService');
 const filterProductProperties = require('../utils/filterProductProperties');
+const sharp = require('sharp');
 
-exports.crearProducto = (req, res) => {
+exports.crearProducto = async (req, res) => {
     const { nombre, descripcion, imagen, precio, ingredientes } = req.body;
 
     // Validaciones
@@ -21,7 +22,26 @@ exports.crearProducto = (req, res) => {
     }
 
     try {
-        const nuevoProducto = productoService.crearProducto(req.body);
+        // Decodificar la imagen base64
+        const imageBuffer = Buffer.from(imagen.split(",")[1], 'base64');
+        // Procesar la imagen
+        const processedImage = await sharp(imageBuffer)
+            .resize(864, 480)
+            .toFormat('jpeg')
+            .toBuffer();
+        
+        // Convertir la imagen procesada a base64 y agregar el prefijo adecuado
+        const processedImageBase64 = `data:image/jpeg;base64,${processedImage.toString('base64')}`;
+        
+        // Crear el producto en el servicio de productos (mock)
+        const nuevoProducto = productoService.crearProducto({
+            nombre,
+            descripcion,
+            imagen: processedImageBase64,  // Guardar la imagen procesada con el prefijo base64
+            precio,
+            ingredientes
+        });
+
         res.status(201).json(filterProductProperties(nuevoProducto));
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -32,7 +52,7 @@ exports.obtenerProductoPorId = (req, res) => {
     const { id } = req.params;
 
     try {
-        const producto = productoService.obtenerProductoPorId(parseInt(id));
+        const producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
         res.status(200).json(filterProductProperties(producto));
     } catch (error) {
@@ -45,7 +65,7 @@ exports.actualizarProducto = (req, res) => {
     const productoData = req.body;
 
     try {
-        const productoActualizado = productoService.actualizarProducto(parseInt(id), productoData);
+        const productoActualizado = productoService.actualizarProducto(id, productoData);
         res.status(200).json(filterProductProperties(productoActualizado));
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -56,7 +76,7 @@ exports.eliminarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const productoEliminado = productoService.eliminarProducto(parseInt(id));
+        const productoEliminado = productoService.eliminarProducto(id);
         res.status(200).json(filterProductProperties(productoEliminado));
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -67,7 +87,7 @@ exports.activarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const productoActivado = productoService.activarProducto(parseInt(id));
+        const productoActivado = productoService.activarProducto(id);
         res.status(200).json(filterProductProperties(productoActivado));
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -78,7 +98,7 @@ exports.desactivarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const productoDesactivado = productoService.desactivarProducto(parseInt(id));
+        const productoDesactivado = productoService.desactivarProducto(id);
         res.status(200).json(filterProductProperties(productoDesactivado));
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -107,4 +127,3 @@ exports.obtenerTodosLosProductos = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-

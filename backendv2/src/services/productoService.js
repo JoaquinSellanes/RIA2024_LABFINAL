@@ -1,8 +1,24 @@
 const { productos } = require('../data/mockData');
 const Producto = require('../models/productoModel');
+const slugify = require('../utils/slugify');
+
+const generarIdProducto = (nombre) => {
+    const slug = slugify(nombre);
+    const numeroUnico = Date.now().toString().slice(-4); // Últimos 4 dígitos del timestamp
+    return `${slug}-${numeroUnico}`;
+};
 
 const crearProducto = (productoData) => {
-    const nuevoProducto = new Producto({ id: productos.length + 1, ...productoData });
+    let id;
+    let idUnico = false;
+
+    // Generar un ID único
+    while (!idUnico) {
+        id = generarIdProducto(productoData.nombre);
+        idUnico = !productos.some(p => p.id === id);
+    }
+
+    const nuevoProducto = new Producto({ id, ...productoData });
     productos.push(nuevoProducto);
     return nuevoProducto;
 };
