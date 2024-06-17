@@ -5,9 +5,11 @@ const morgan = require('morgan');
 const chalk = require('chalk');
 const cors = require('cors');
 
-
 const morganMiddleware = require('./utils/logging');
 const loadRoutes = require('./utils/routeLoader');
+const env = require('./config/env');
+const db = require('./models');
+const seedData = require('./models/seedData');
 
 console.clear();
 
@@ -34,8 +36,25 @@ app.use(cors());
 // Cargar rutas de manera dinámica
 loadRoutes(app);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  // console.log(`${chalk.yellow} Servidor corriendo en el puerto ${PORT}`);
-  console.log(chalk.cyan('Servidor corriendo en el puerto ') + chalk.yellow(PORT));
-});
+// Conectar a la base de datos y sincronizar modelos
+db.sequelize.sync({ force: true }) // Usar { force: true } para borrar y volver a crear, o { alter: true } para ajustar tablas sin perder datos
+  .then(() => {
+    console.log(chalk.green('Base de datos sincronizada'));
+    // Precargar datos
+    return seedData();
+  })
+  .then(() => {
+    const PORT = env.PORT;
+    app.listen(PORT, () => {
+      console.log(chalk.cyan('Servidor corriendo en el puerto ') + chalk.yellow(PORT));
+    });
+  })
+  .catch(err => {
+    // console.error('Error al sincronizar la base de datos:', err);
+    console.error('Error al sincronizar la base de datos');
+  });
+
+// const PORT = env.PORT;
+// app.listen(PORT, () => {
+//   console.log(chalk.cyan('Servidor corriendo en el puerto ') + chalk.yellow(PORT));
+// });
