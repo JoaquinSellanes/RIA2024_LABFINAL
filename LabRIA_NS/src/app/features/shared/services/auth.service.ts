@@ -13,10 +13,13 @@ export class AuthService {
 
   loginUsuario(email: string, password: string) {
     console.log("loginUsuario");
-    return this.http.post(`${this.apiUrl}/usuarios/login`, { email, password });
+    return this.http.post(`${this.apiUrl}/auth/login`, {
+      correo: email,
+      password
+    });
   }
 
   registerUsuario(usuario: Usuario) {
-    return this.http.post(`${this.apiUrl}/usuarios/register`, usuario);
+    return this.http.post(`${this.apiUrl}/auth/register`, usuario);
   }
 }

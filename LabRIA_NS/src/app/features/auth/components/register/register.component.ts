@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -54,7 +54,7 @@ export class RegisterComponent {
     if (this.registerForm.valid && this.comprobarContraseñas()) {
       let usuario: Usuario = {
         id: this.generateUniqueId(),
-        email: this.registerForm.value.email,
+        correo: this.registerForm.value.email,
         telefono: this.registerForm.value.telefono,
         password: this.registerForm.value.password,
         enabled: false,

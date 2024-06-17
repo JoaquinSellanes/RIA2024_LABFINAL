@@ -2,7 +2,7 @@ const Usuario = require('../models/usuarioModel');
 const Producto = require('../models/productoModel');
 const Pedido = require('../models/pedidoModel');
 
-async function createMockData() {
+async function createMockData () {
     let usuarios = [
         new Usuario({ id: 1, correo: 'admin@example.com', password: 'static', nombre: 'Admin', rol: 'ADMIN' }),
         new Usuario({ id: 2, correo: 'panadero@example.com', password: 'static', nombre: 'Panadero', rol: 'PANADERO' }),

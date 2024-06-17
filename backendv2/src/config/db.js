@@ -12,8 +12,8 @@ sequelize.authenticate()
     console.log('Conexión a la base de datos exitosa');
   })
   .catch(err => {
-    // console.error('No se pudo conectar a la base de datos:', err);
-    console.error('No se pudo conectar a la base de datos');
+    console.error('No se pudo conectar a la base de datos:', err);
+    // console.error('No se pudo conectar a la base de datos');
   });
 
 module.exports = sequelize;
