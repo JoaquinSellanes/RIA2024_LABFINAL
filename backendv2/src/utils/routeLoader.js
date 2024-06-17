@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const { verifyToken, isAdmin } = require('../middlewares/authMiddleware');
 
 const loadRoutes = (app) => {
     const routesPath = path.join(__dirname, '../routes');
@@ -23,7 +24,14 @@ const loadRoutes = (app) => {
                             if (layer.route && layer.route.path) {
                                 const methods = Object.keys(layer.route.methods).join(', ').toUpperCase();
                                 const endpoint = `${routeName}${layer.route.path}`;
-                                console.log(''.padStart(4) + '🔗' + chalk.cyan(` ${methods.padEnd(6)} | ${endpoint}`));
+
+                                // Verificar si la ruta está protegida
+                                const isProtected = layer.route.stack.some(middleware => 
+                                    middleware.name === verifyToken.name || middleware.name === isAdmin.name
+                                );
+
+                                const lockIcon = isProtected ? chalk.yellow('🔒') : '';
+                                console.log(''.padStart(4) + '🔗' + lockIcon.padEnd(2) + chalk.cyan(` ${methods.padEnd(6)} | ${endpoint}`));
                             }
                         });
                     }
