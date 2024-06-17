@@ -15,7 +15,7 @@ const crearProducto = (productoData) => {
     // Generar un ID único
     while (!idUnico) {
         id = generarIdProducto(productoData.nombre);
-        idUnico = !productos.some(p => p.id === id);
+        idUnico = !productos.some(p => p.id == id);
     }
 
     const nuevoProducto = new Producto({ id, ...productoData });
@@ -24,11 +24,11 @@ const crearProducto = (productoData) => {
 };
 
 const obtenerProductoPorId = (id) => {
-    return productos.find(p => p.id === id && !p.isDeleted);
+    return productos.find(p => p.id == id && !p.isDeleted);
 };
 
 const actualizarProducto = (id, productoData) => {
-    const producto = productos.find(p => p.id === id);
+    const producto = productos.find(p => p.id == id);
     if (!producto) throw new Error('Producto no encontrado');
 
     Object.assign(producto, productoData);
@@ -36,7 +36,7 @@ const actualizarProducto = (id, productoData) => {
 };
 
 const eliminarProducto = (id) => {
-    const producto = productos.find(p => p.id === id);
+    const producto = productos.find(p => p.id == id);
     if (!producto) throw new Error('Producto no encontrado');
 
     producto.isDeleted = true;
