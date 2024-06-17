@@ -26,10 +26,32 @@ export class ProductoService {
   // traer productos /productos/disponibles
   async getProductos() {
     try {
-      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/productos/disponibles`));
+      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/productos`));
       return response;
     } catch (error) {
       console.error('Error fetching products', error);
+      throw error;
+    }
+  }
+
+  // PUT    | /productos/:id/activar
+  async activarProducto(id: number) {
+    try {
+      const response = await firstValueFrom(this.http.put(`${this.apiUrl}/productos/${id}/activar`, {}));
+      return response;
+    } catch (error) {
+      console.error('Error activating product', error);
+      throw error;
+    }
+  }
+
+  // PUT    | /productos/:id/desactivar
+  async desactivarProducto(id: number) {
+    try {
+      const response = await firstValueFrom(this.http.put(`${this.apiUrl}/productos/${id}/desactivar`, {}));
+      return response;
+    } catch (error) {
+      console.error('Error deactivating product', error);
       throw error;
     }
   }

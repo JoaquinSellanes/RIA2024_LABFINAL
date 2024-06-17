@@ -7,6 +7,7 @@ export class Producto {
   imagen: string;
   precio: number;
   ingredientes: Ingrediente[];
+  isActive?: boolean;
 
   constructor(
     id: number,
@@ -14,7 +15,7 @@ export class Producto {
     descripcion: string,
     imagen: string,
     precio: number,
-    ingredientes: Ingrediente[]
+    ingredientes: Ingrediente[],
   ) {
     this.id = id;
     this.nombre = nombre;
@@ -22,5 +23,6 @@ export class Producto {
     this.imagen = imagen;
     this.precio = precio;
     this.ingredientes = ingredientes;
+    this.isActive = true;
   }
 }

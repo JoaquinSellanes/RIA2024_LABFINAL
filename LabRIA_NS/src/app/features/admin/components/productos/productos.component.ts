@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../../shared/models/producto';
+import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-productos',
@@ -8,7 +9,9 @@ import { Producto } from '../../../shared/models/producto';
   styleUrls: ['./productos.component.scss']  // corregido el estilo 'styleUrl' a 'styleUrls'
 })
 export class ProductosComponent implements OnInit {
+
   productos: any = [];
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private productoService: ProductoService) { }
 
@@ -20,4 +23,24 @@ export class ProductosComponent implements OnInit {
       console.error('Error fetching products in component', error);
     }
   }
+
+  cambiarEstado(producto: Producto) {
+    this.productos.map((p: Producto) => {
+      if (p.id === producto.id) {
+        p.isActive = !p.isActive;
+
+        if (p.isActive) {
+          this.productoService.activarProducto(p.id);
+          this.toast.showToast(`Producto ${p.nombre} Activado, Este ahora se listara a los clientes`, 'alert alert-info');
+        } else {
+          this.productoService.desactivarProducto(p.id);
+          this.toast.showToast(`Producto ${p.nombre} Desactivado, Este ahora no sera visto por los clientes`, 'alert alert-info');
+        }
+
+        console.log('Producto actualizado', p.isActive);
+
+      }
+    });
+  }
+
 }
