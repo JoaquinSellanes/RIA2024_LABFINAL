@@ -3,9 +3,9 @@ const Producto = require('../models/productoModel');
 const Pedido = require('../models/pedidoModel');
 
 let usuarios = [
-    new Usuario({ id: 1, username: 'admin', password: 'admin', role: 'ADMIN' }),
-    new Usuario({ id: 2, username: 'panadero', password: 'panadero', role: 'PANADERO' }),
-    new Usuario({ id: 3, username: 'cliente', password: 'cliente', role: 'CLIENTE' }),
+    new Usuario({ id: 1, email: 'admin@panpan.uy', password: 'admin', role: 'ADMIN' }),
+    new Usuario({ id: 2, email: 'panadero@panpan.uy', password: 'panadero', role: 'PANADERO' }),
+    new Usuario({ id: 3, email: 'cliente@panpan.uy', password: 'cliente', role: 'CLIENTE' }),
 ];
 
 let productos = [
