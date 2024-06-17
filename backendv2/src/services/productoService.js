@@ -44,7 +44,7 @@ const eliminarProducto = (id) => {
 };
 
 const activarProducto = (id) => {
-    const producto = productos.find(p => p.id === id);
+    const producto = productos.find(p => p.id == id);
     if (!producto) throw new Error('Producto no encontrado');
 
     producto.isActive = true;
@@ -52,7 +52,7 @@ const activarProducto = (id) => {
 };
 
 const desactivarProducto = (id) => {
-    const producto = productos.find(p => p.id === id);
+    const producto = productos.find(p => p.id == id);
     if (!producto) throw new Error('Producto no encontrado');
 
     producto.isActive = false;
