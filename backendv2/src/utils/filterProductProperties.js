@@ -1,5 +1,5 @@
 const filterProductProperties = (producto) => {
-    const { isDeleted, ...filteredProduct } = producto;
+    const { isDeleted, isActive, ...filteredProduct } = producto;
     return filteredProduct;
 };
 
