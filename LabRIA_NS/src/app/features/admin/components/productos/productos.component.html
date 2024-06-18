@@ -12,11 +12,14 @@
 <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
     <figure>
-      <img *ngIf="foo.imagen !== ''" [src]="foo.imagen" alt="Imagen del producto" />
-      <img *ngIf="foo.imagen == ''" src="/assets/no-image.png" alt="Imagen del producto" />
+      <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)" [src]="foo.imagen"
+        alt="Imagen del producto" />
+      <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
+        src="/assets/no-image.png" alt="Imagen del producto" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{foo.nombre}}</h2>
+      <h2 class="card-title hover:text-primary cursor-pointer transition-all" (click)="consulta(foo.id)">{{foo.nombre}}
+      </h2>
       <p>{{foo.descripcion}}</p>
       <div class="card-actions justify-end">
         <input (change)="cambiarEstado(foo)" type="checkbox" class="toggle toggle-info" [checked]="foo.isActive" />
@@ -24,3 +27,5 @@
     </div>
   </div>
 </div>
+
+<app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>

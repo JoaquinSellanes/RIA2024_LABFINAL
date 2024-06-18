@@ -9,7 +9,6 @@ import { ToastComponent } from '../../../../shared/toast/toast.component';
   styleUrls: ['./productos.component.scss']  // corregido el estilo 'styleUrl' a 'styleUrls'
 })
 export class ProductosComponent implements OnInit {
-
   productos: any = [];
   @ViewChild('toast') toast!: ToastComponent;
 
@@ -43,4 +42,10 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  consulta(id: string) {
+    const modal: any = document.getElementById(id);
+    if (modal) {
+      modal.showModal();
+    }
+  }
 }

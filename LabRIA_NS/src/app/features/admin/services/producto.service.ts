@@ -55,4 +55,16 @@ export class ProductoService {
       throw error;
     }
   }
+
+  // GET    | /productos/:id
+  async getProductoById(id: number) {
+    try {
+      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/productos/${id}`));
+      return response;
+    } catch (error) {
+      console.error('Error fetching product by id', error);
+      throw error;
+    }
+  }
+
 }
