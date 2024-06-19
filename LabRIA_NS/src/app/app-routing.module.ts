@@ -13,6 +13,7 @@ import { AdminBodyComponent } from './features/admin/components/body/body.compon
 import { DashboardComponent } from './features/admin/components/dashboard/dashboard.component';
 import { ProductosComponent } from './features/admin/components/productos/productos.component';
 import { CrearProductoComponent } from './features/admin/components/crear-producto/crear-producto.component';
+import { PedidosComponent } from './features/admin/components/pedidos/pedidos.component';
 // CLIENTE o USUARIO
 import { clienteBodyComponent } from './features/cliente/components/body/body.component';
 import { clienteDashboardComponent } from './features/cliente/components/dashboard/dashboard.component';
@@ -28,25 +29,30 @@ const routes: Routes = [
   // ADMIN
   {
     path: 'administracion', component: AdminBodyComponent, canActivate: [AdminGuard], children: [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'productos', component: ProductosComponent },
-    { path: 'crear-producto', component: CrearProductoComponent },
-    { path: '**', redirectTo: 'dashboard' }
-  ] },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'productos', component: ProductosComponent },
+      { path: 'crear-producto', component: CrearProductoComponent },
+      { path: 'pedidos', component: PedidosComponent },
+      { path: '**', redirectTo: 'dashboard' }
+    ]
+  },
   // CLIENTE
-  { path: 'cliente', component: clienteBodyComponent, children: [
-    { path: '', redirectTo: 'pedidos', pathMatch: 'full'},
-    { path: 'pedidos', component: clienteDashboardComponent },
-    { path: '**', redirectTo: 'pedidos' }
-  ], canActivate: [UserGuard]},
+  {
+    path: 'cliente', component: clienteBodyComponent, children: [
+      { path: '', redirectTo: 'pedidos', pathMatch: 'full' },
+      { path: 'pedidos', component: clienteDashboardComponent },
+      { path: '**', redirectTo: 'pedidos' }
+    ], canActivate: [UserGuard]
+  },
   // PANADERO
   {
     path: 'panaderia', component: panaderoBodyComponent, children: [
-    { path: '', redirectTo: 'pedidos', pathMatch: 'full'},
-    { path: 'pedidos', component: panaderoDashboardComponent },
-    { path: '**', redirectTo: 'pedidos' }
-  ], canActivate: [PanaderiaGuard]},
+      { path: '', redirectTo: 'pedidos', pathMatch: 'full' },
+      { path: 'pedidos', component: panaderoDashboardComponent },
+      { path: '**', redirectTo: 'pedidos' }
+    ], canActivate: [PanaderiaGuard]
+  },
   // comodin
   { path: '**', redirectTo: 'ingreso' }
 ];
