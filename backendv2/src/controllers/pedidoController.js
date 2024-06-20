@@ -30,15 +30,25 @@ exports.obtenerTodosLosPedidos = (req, res) => {
                 const producto = productoService.obtenerProductoPorId(item.productoId);
                 if (producto) {
                     const { isDeleted, ...productoSinIsDeleted } = producto;
+
+                    // Calcular ingredientes necesarios
+                    const ingredientesNecesarios = producto.ingredientes.map(ingrediente => ({
+                        nombre: ingrediente.nombre,
+                        cantidad: ingrediente.cantidad * item.cantidad,
+                        unidad: ingrediente.unidad
+                    }));
+
                     return {
                         cantidad: item.cantidad,
-                        producto: productoSinIsDeleted
+                        producto: productoSinIsDeleted,
+                        ingredientesNecesarios
                     };
                 } else {
                     // Manejar el caso en el que el producto no se encuentra
                     return {
                         cantidad: item.cantidad,
-                        producto: null
+                        producto: null,
+                        ingredientesNecesarios: []
                     };
                 }
             }).filter(item => item.producto !== null); // Filtrar los productos no encontrados
@@ -53,6 +63,47 @@ exports.obtenerTodosLosPedidos = (req, res) => {
         });
 
         res.status(200).json(pedidos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.calcularIngredientesTotales = (req, res) => {
+    const { pedidoIds } = req.body;
+
+    if (!Array.isArray(pedidoIds) || pedidoIds.length === 0) {
+        return res.status(400).json({ error: 'Debe proporcionar una lista de IDs de pedidos' });
+    }
+
+    try {
+        let ingredientesTotales = {};
+
+        pedidoIds.forEach(id => {
+            const pedido = pedidoService.obtenerPedidoPorId(id);
+            if (pedido) {
+                pedido.productos.forEach(item => {
+                    const producto = productoService.obtenerProductoPorId(item.productoId);
+                    if (producto) {
+                        producto.ingredientes.forEach(ingrediente => {
+                            const key = `${ingrediente.nombre}-${ingrediente.unidad}`;
+                            if (!ingredientesTotales[key]) {
+                                ingredientesTotales[key] = {
+                                    nombre: ingrediente.nombre,
+                                    cantidad: 0,
+                                    unidad: ingrediente.unidad
+                                };
+                            }
+                            ingredientesTotales[key].cantidad += ingrediente.cantidad * item.cantidad;
+                        });
+                    }
+                });
+            }
+        });
+
+        // Convertir a un array de ingredientes
+        const ingredientesArray = Object.values(ingredientesTotales);
+
+        res.status(200).json(ingredientesArray);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
