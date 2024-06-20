@@ -16,8 +16,13 @@ const getLastUserId = () => {
     return Math.max(...usuarios.map(u => u.id));
 };
 
+const obtenerUsuarioPorId = (id) => {
+    return usuarios.find(u => u.id === id);
+};
+
 module.exports = {
     findUserByEmail,
     addUser,
     getLastUserId,
+    obtenerUsuarioPorId,
 };

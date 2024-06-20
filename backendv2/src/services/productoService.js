@@ -1,17 +1,27 @@
 const { productos } = require('../data/mockData');
+const deepClone = require('../utils/deepClone');
 
 const agregarProducto = (producto) => {
     productos.push(producto);
     return producto;
 };
 
+// const obtenerProductoPorId = (id) => {
+//     return productos.find(p => p.id == id && !p.isDeleted);
+// };
+
 const obtenerProductoPorId = (id) => {
-    return productos.find(p => p.id == id && !p.isDeleted);
+    const producto = productos.find(p => p.id == id && !p.isDeleted);
+    return producto ? deepClone(producto) : null;
 };
 
 const obtenerTodosLosProductos = () => {
-    return productos.filter(p => !p.isDeleted);
+    return productos.filter(p => !p.isDeleted).map(p => deepClone(p)); // Retornar copias de los productos
 };
+
+// const obtenerTodosLosProductos = () => {
+//     return productos.filter(p => !p.isDeleted);
+// };
 
 module.exports = {
     agregarProducto,
