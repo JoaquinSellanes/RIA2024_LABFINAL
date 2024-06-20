@@ -12,6 +12,7 @@ import { ProductosComponent } from './components/productos/productos.component';
 import { CrearProductoComponent } from './components/crear-producto/crear-producto.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProductoModalComponent } from './components/producto-modal/producto-modal.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ProductoModalComponent } from './components/producto-modal/producto-mod
     ProductosComponent,
     CrearProductoComponent,
     FooterComponent,
-    ProductoModalComponent
+    ProductoModalComponent,
+    PedidosComponent
   ],
   imports: [
     CommonModule,

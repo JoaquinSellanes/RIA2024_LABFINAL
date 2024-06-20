@@ -7,7 +7,14 @@ export class AuthService {
 
   constructor() { }
 
+  private isLocalStorageAvailable(): boolean {
+    return typeof localStorage !== 'undefined';
+  }
+
   isAuthenticatedPanaderia(): boolean {
+    if (!this.isLocalStorageAvailable()) {
+      return false;
+    }
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     if (role === 'PANADERO') {
@@ -17,6 +24,9 @@ export class AuthService {
   }
 
   isAuthenticatedUser(): boolean {
+    if (!this.isLocalStorageAvailable()) {
+      return false;
+    }
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     if (role === 'USER') {
@@ -26,6 +36,9 @@ export class AuthService {
   }
 
   isAuthenticatedAdmin(): boolean {
+    if (!this.isLocalStorageAvailable()) {
+      return false;
+    }
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     if (role === 'ADMIN') {

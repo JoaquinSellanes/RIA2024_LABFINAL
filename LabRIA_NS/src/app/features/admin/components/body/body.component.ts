@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
+import { ThemeService } from '../../../../shared/services/theme.service';
 
 @Component({
   selector: 'app-body',
@@ -9,7 +10,7 @@ import { FooterComponent } from '../footer/footer.component';
 })
 export class AdminBodyComponent implements AfterViewInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public themeService: ThemeService) { }
 
   ngAfterViewInit(): void {
     const button = document.querySelector('#menu-button');
@@ -18,6 +19,11 @@ export class AdminBodyComponent implements AfterViewInit {
     button?.addEventListener('click', () => {
       menu?.classList.toggle('hidden');
     });
+  }
+
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
   }
 
   salir() {
