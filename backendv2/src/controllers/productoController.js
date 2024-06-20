@@ -1,4 +1,5 @@
 const productoService = require('../services/productoService');
+const pedidoService = require('../services/pedidoService');
 const slugify = require('../utils/slugify');
 const filterProductProperties = require('../utils/filterProductProperties');
 const sharp = require('sharp');
@@ -101,7 +102,6 @@ exports.actualizarProducto = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 exports.eliminarProducto = (req, res) => {
     const { id } = req.params;
 
@@ -109,12 +109,18 @@ exports.eliminarProducto = (req, res) => {
         const producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
-        producto.isDeleted = true;
-        res.status(200).json(filterProductProperties(producto));
+        // Verificar si el producto está en un pedido pendiente
+        if (pedidoService.productoEnPedidoPendiente(id)) {
+            return res.status(400).json({ error: 'No se puede eliminar el producto porque está en un pedido pendiente' });
+        }
+
+        const productoEliminado = productoService.eliminarProducto(id);
+        res.status(200).json(filterProductProperties(productoEliminado));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 exports.activarProducto = (req, res) => {
     const { id } = req.params;

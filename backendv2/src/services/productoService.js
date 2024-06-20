@@ -32,9 +32,19 @@ const actualizarProducto = (id, productoActualizado) => {
     return null;
 };
 
+const eliminarProducto = (id) => {
+    const index = productos.findIndex(p => p.id == id);
+    if (index !== -1) {
+        productos[index].isDeleted = true;
+        return deepClone(productos[index]);
+    }
+    return null;
+};
+
 module.exports = {
     agregarProducto,
     obtenerProductoPorId,
     obtenerTodosLosProductos,
     actualizarProducto,
+    eliminarProducto,
 };

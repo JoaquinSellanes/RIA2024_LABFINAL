@@ -38,6 +38,13 @@ exports.obtenerTodosLosPedidos = () => {
     return pedidos;
 };
 
+exports.productoEnPedidoPendiente = (productoId) => {
+    return pedidos.some(pedido => 
+        pedido.estado === 'pendiente' && 
+        pedido.productos.some(item => item.productoId == productoId)
+    );
+};
+
 
 // exports.crearPedido = ({ clienteId, productos }) => {
 //     const nuevoPedido = new Pedido({
