@@ -23,8 +23,18 @@ const obtenerTodosLosProductos = () => {
 //     return productos.filter(p => !p.isDeleted);
 // };
 
+const actualizarProducto = (id, productoActualizado) => {
+    const index = productos.findIndex(p => p.id == id && !p.isDeleted);
+    if (index !== -1) {
+        productos[index] = { ...productos[index], ...productoActualizado };
+        return deepClone(productos[index]);
+    }
+    return null;
+};
+
 module.exports = {
     agregarProducto,
     obtenerProductoPorId,
     obtenerTodosLosProductos,
+    actualizarProducto,
 };

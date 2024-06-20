@@ -95,8 +95,8 @@ exports.actualizarProducto = (req, res) => {
         const producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
-        Object.assign(producto, productoData);
-        res.status(200).json(filterProductProperties(producto));
+        const productoActualizado = productoService.actualizarProducto(id, productoData);
+        res.status(200).json(filterProductProperties(productoActualizado));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
