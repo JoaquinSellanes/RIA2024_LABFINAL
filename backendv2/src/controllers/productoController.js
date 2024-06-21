@@ -1,5 +1,6 @@
 const productoService = require('../services/productoService');
 const pedidoService = require('../services/pedidoService');
+const ingredienteService = require('../services/ingredienteService');
 const slugify = require('../utils/slugify');
 const filterProductProperties = require('../utils/filterProductProperties');
 const sharp = require('sharp');
@@ -19,22 +20,25 @@ exports.crearProducto = async (req, res) => {
         return res.status(400).json({ error: 'Todos los campos son obligatorios: nombre, descripcion, precio, ingredientes' });
     }
 
-    if (!Array.isArray(ingredientes) || ingredientes.length == 0) {
+    if (!Array.isArray(ingredientes) || ingredientes.length === 0) {
         return res.status(400).json({ error: 'Debe proporcionar al menos un ingrediente' });
     }
 
     // Validar cada ingrediente
     for (const ingrediente of ingredientes) {
-        if (!ingrediente.nombre || !ingrediente.cantidad || !ingrediente.unidad) {
-            return res.status(400).json({ error: 'Cada ingrediente debe tener nombre, cantidad y unidad' });
+        if (!ingrediente.id || !ingrediente.cantidad) {
+            return res.status(400).json({ error: 'Cada ingrediente debe tener un ID y una cantidad' });
+        }
+        const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+        if (!ingredienteValido) {
+            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
         }
     }
 
     try {
         let processedImageBase64 = null;
 
-
-        if (imagen != "") {
+        if (imagen !== "") {
             // Decodificar la imagen base64
             const imageBuffer = Buffer.from(imagen.split(",")[1], 'base64');
             // Procesar la imagen
@@ -54,7 +58,7 @@ exports.crearProducto = async (req, res) => {
         let idUnico = false;
         while (!idUnico) {
             id = generarIdProducto(nombre);
-            idUnico = !productos.some(p => p.id == id);
+            idUnico = !productos.some(p => p.id === id);
         }
 
         const nuevoProducto = {
@@ -70,7 +74,22 @@ exports.crearProducto = async (req, res) => {
         
         // Agregar el producto
         const productoCreado = productoService.agregarProducto(nuevoProducto);
-        res.status(201).json(filterProductProperties(productoCreado));
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = productoCreado.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...productoCreado,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(201).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -82,7 +101,22 @@ exports.obtenerProductoPorId = (req, res) => {
     try {
         const producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
-        res.status(200).json(filterProductProperties(producto));
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...producto,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -90,18 +124,60 @@ exports.obtenerProductoPorId = (req, res) => {
 
 exports.actualizarProducto = (req, res) => {
     const { id } = req.params;
-    const productoData = req.body;
+    const { nombre, descripcion, imagen, precio, ingredientes } = req.body;
+
+    // Validaciones
+    if (!nombre || !descripcion || !precio || !ingredientes) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios: nombre, descripcion, precio, ingredientes' });
+    }
+
+    if (!Array.isArray(ingredientes) || ingredientes.length === 0) {
+        return res.status(400).json({ error: 'Debe proporcionar al menos un ingrediente' });
+    }
+
+    // Validar cada ingrediente
+    for (const ingrediente of ingredientes) {
+        if (!ingrediente.id || !ingrediente.cantidad) {
+            return res.status(400).json({ error: 'Cada ingrediente debe tener un ID y una cantidad' });
+        }
+        const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+        if (!ingredienteValido) {
+            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
+        }
+    }
 
     try {
         const producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
-        const productoActualizado = productoService.actualizarProducto(id, productoData);
-        res.status(200).json(filterProductProperties(productoActualizado));
+        const productoActualizado = productoService.actualizarProducto(id, {
+            nombre,
+            descripcion,
+            imagen,
+            precio,
+            ingredientes,
+        });
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = productoActualizado.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...productoActualizado,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 exports.eliminarProducto = (req, res) => {
     const { id } = req.params;
 
@@ -115,7 +191,22 @@ exports.eliminarProducto = (req, res) => {
         }
 
         const productoEliminado = productoService.eliminarProducto(id);
-        res.status(200).json(filterProductProperties(productoEliminado));
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = productoEliminado.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...productoEliminado,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -130,7 +221,22 @@ exports.activarProducto = (req, res) => {
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
         producto.isActive = true;
-        res.status(200).json(filterProductProperties(producto));
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...producto,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -144,7 +250,22 @@ exports.desactivarProducto = (req, res) => {
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
         producto.isActive = false;
-        res.status(200).json(filterProductProperties(producto));
+
+        // Mapear IDs de ingredientes a sus nombres
+        const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+            const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+            return {
+                nombre: ingredienteInfo.nombre,
+                cantidad: ingrediente.cantidad
+            };
+        });
+
+        const productoConNombresDeIngredientes = {
+            ...producto,
+            ingredientes: ingredientesConNombres
+        };
+
+        res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -154,8 +275,23 @@ exports.obtenerProductosDisponibles = (req, res) => {
     try {
         const productos = productoService.obtenerTodosLosProductos();
         const productosDisponibles = productos.filter(p => p.isActive);
-        const productosSinPropiedades = productosDisponibles.map(producto => filterProductProperties(producto));
-        res.status(200).json(productosSinPropiedades);
+
+        // Mapear IDs de ingredientes a sus nombres
+        const productosConNombresDeIngredientes = productosDisponibles.map(producto => {
+            const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+                const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+                return {
+                    nombre: ingredienteInfo.nombre,
+                    cantidad: ingrediente.cantidad
+                };
+            });
+            return {
+                ...producto,
+                ingredientes: ingredientesConNombres
+            };
+        });
+
+        res.status(200).json(productosConNombresDeIngredientes.map(producto => filterProductProperties(producto)));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -164,11 +300,26 @@ exports.obtenerProductosDisponibles = (req, res) => {
 exports.obtenerTodosLosProductos = (req, res) => {
     try {
         const productos = productoService.obtenerTodosLosProductos();
-        const productosSinIsDeleted = productos.map(producto => {
+
+        // Mapear IDs de ingredientes a sus nombres
+        const productosConNombresDeIngredientes = productos.map(producto => {
+            const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+                const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+                return {
+                    nombre: ingredienteInfo.nombre,
+                    cantidad: ingrediente.cantidad
+                };
+            });
+            return {
+                ...producto,
+                ingredientes: ingredientesConNombres
+            };
+        });
+
+        res.status(200).json(productosConNombresDeIngredientes.map(producto => {
             const { isDeleted, ...rest } = producto;
             return rest;
-        });
-        res.status(200).json(productosSinIsDeleted);
+        }));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

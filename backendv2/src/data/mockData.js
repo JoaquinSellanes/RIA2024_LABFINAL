@@ -1,12 +1,27 @@
 const Usuario = require('../models/usuarioModel');
 const Producto = require('../models/productoModel');
 const Pedido = require('../models/pedidoModel');
+const Ingrediente = require('../models/ingredienteModel');
 
 let usuarios = [
     new Usuario({ id: 1, email: 'admin@panpan.uy', password: 'asdasd123', role: 'ADMIN' }),
     new Usuario({ id: 2, email: 'panadero@panpan.uy', password: 'panadero', role: 'PANADERO' }),
     new Usuario({ id: 3, email: 'cliente@panpan.uy', password: 'cliente', role: 'CLIENTE' }),
     new Usuario({ id: 4, email: 'cliente2@panpan.uy', password: 'cliente2', role: 'CLIENTE' }),
+];
+
+let ingredientes = [
+    new Ingrediente({ id: 1, nombre: 'Harina (gramos)' }),
+    new Ingrediente({ id: 2, nombre: 'Harina (kilogramos)' }),
+    new Ingrediente({ id: 3, nombre: 'Sal (gramos)' }),
+    new Ingrediente({ id: 4, nombre: 'Cebolla (kilogramos)' }),
+    new Ingrediente({ id: 5, nombre: 'Mantequilla (gramos)' }),
+    new Ingrediente({ id: 6, nombre: 'Leche (mililitros)' }),
+    new Ingrediente({ id: 7, nombre: 'Azúcar (gramos)' }),
+    new Ingrediente({ id: 8, nombre: 'Harina integral (gramos)' }),
+    new Ingrediente({ id: 9, nombre: 'Agua (mililitros)' }),
+    new Ingrediente({ id: 10, nombre: 'Levadura (gramos)' }),
+    new Ingrediente({ id: 11, nombre: 'Huevos (c/u)' }),
 ];
 
 let productos = [
@@ -17,10 +32,10 @@ let productos = [
         imagen: '',
         precio: 1.00,
         ingredientes: [
-            { nombre: 'Harina', cantidad: 500, unidad: 'gr' },
-            { nombre: 'Agua', cantidad: 300, unidad: 'ml' },
-            { nombre: 'Sal', cantidad: 10, unidad: 'gr' },
-            { nombre: 'Levadura', cantidad: 5, unidad: 'gr' },
+            { id: 1, cantidad: 500 },  // Harina (gramos)
+            { id: 9, cantidad: 300 },  // Agua (mililitros)
+            { id: 3, cantidad: 10 },   // Sal (gramos)
+            { id: 10, cantidad: 5 },   // Levadura (gramos)
         ],
     }),
     new Producto({
@@ -30,10 +45,10 @@ let productos = [
         imagen: '',
         precio: 5.00,
         ingredientes: [
-            { nombre: 'Harina integral', cantidad: 500, unidad: 'gr' },
-            { nombre: 'Agua', cantidad: 300, unidad: 'ml' },
-            { nombre: 'Sal', cantidad: 10, unidad: 'gr' },
-            { nombre: 'Levadura', cantidad: 5, unidad: 'gr' },
+            { id: 8, cantidad: 500 },  // Harina integral (gramos)
+            { id: 9, cantidad: 300 },  // Agua (mililitros)
+            { id: 3, cantidad: 10 },   // Sal (gramos)
+            { id: 10, cantidad: 5 },   // Levadura (gramos)
         ],
         isActive: false,
     }),
@@ -44,23 +59,23 @@ let productos = [
         imagen: '',
         precio: 2.50,
         ingredientes: [
-            { nombre: 'Harina', cantidad: 250, unidad: 'gr' },
-            { nombre: 'Mantequilla', cantidad: 150, unidad: 'gr' },
-            { nombre: 'Leche', cantidad: 100, unidad: 'ml' },
-            { nombre: 'Azúcar', cantidad: 30, unidad: 'gr' },
+            { id: 1, cantidad: 250 },  // Harina (gramos)
+            { id: 5, cantidad: 150 },  // Mantequilla (gramos)
+            { id: 6, cantidad: 100 },  // Leche (mililitros)
+            { id: 7, cantidad: 30 },   // Azúcar (gramos)
         ],
     }),
     new Producto({
         id: 4,
         nombre: 'Baguette',
         descripcion: 'Baguette francesa crujiente',
-        imagen: '',
+        imagen: '', 
         precio: 3.00,
         ingredientes: [
-            { nombre: 'Harina', cantidad: 400, unidad: 'gr' },
-            { nombre: 'Agua', cantidad: 250, unidad: 'ml' },
-            { nombre: 'Sal', cantidad: 8, unidad: 'gr' },
-            { nombre: 'Levadura', cantidad: 6, unidad: 'gr' },
+            { id: 1, cantidad: 400 },  // Harina (gramos)
+            { id: 9, cantidad: 250 },  // Agua (mililitros)
+            { id: 3, cantidad: 8 },    // Sal (gramos)
+            { id: 10, cantidad: 6 },   // Levadura (gramos)
         ],
     }),
 ];
@@ -77,4 +92,5 @@ module.exports = {
     usuarios,
     productos,
     pedidos,
+    ingredientes,
 };

@@ -1,19 +1,14 @@
+const deepClone = require('../utils/deepClone');
 const { pedidos } = require('../data/mockData');
 
-exports.crearPedido = ({ clienteId, productos }) => {
-    const nuevoPedido = {
-        id: pedidos.length + 1,
-        clienteId,
-        productos,
-        estado: 'pendiente',
-        fecha: new Date(),
-    };
-    pedidos.push(nuevoPedido);
-    return nuevoPedido;
+exports.agregarPedido = (pedido) => {
+    pedidos.push(pedido);
+    return deepClone(pedido);
 };
 
 exports.obtenerPedidoPorId = (id) => {
-    return pedidos.find(pedido => pedido.id == id);
+    const pedido = pedidos.find(p => p.id == id);
+    return pedido ? deepClone(pedido) : null;
 };
 
 exports.actualizarPedido = (id, datosPedido) => {

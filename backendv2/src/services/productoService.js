@@ -3,12 +3,8 @@ const deepClone = require('../utils/deepClone');
 
 const agregarProducto = (producto) => {
     productos.push(producto);
-    return producto;
+    return deepClone(producto);
 };
-
-// const obtenerProductoPorId = (id) => {
-//     return productos.find(p => p.id == id && !p.isDeleted);
-// };
 
 const obtenerProductoPorId = (id) => {
     const producto = productos.find(p => p.id == id && !p.isDeleted);
@@ -18,10 +14,6 @@ const obtenerProductoPorId = (id) => {
 const obtenerTodosLosProductos = () => {
     return productos.filter(p => !p.isDeleted).map(p => deepClone(p)); // Retornar copias de los productos
 };
-
-// const obtenerTodosLosProductos = () => {
-//     return productos.filter(p => !p.isDeleted);
-// };
 
 const actualizarProducto = (id, productoActualizado) => {
     const index = productos.findIndex(p => p.id == id && !p.isDeleted);
