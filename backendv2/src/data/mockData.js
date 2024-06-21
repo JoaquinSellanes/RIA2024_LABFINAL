@@ -21,6 +21,7 @@ let ingredientes = [
     new Ingrediente({ id: 8, nombre: 'Harina integral (gramos)' }),
     new Ingrediente({ id: 9, nombre: 'Agua (mililitros)' }),
     new Ingrediente({ id: 10, nombre: 'Levadura (gramos)' }),
+    new Ingrediente({ id: 11, nombre: 'Huevos (c/u)' }),
 ];
 
 let productos = [
