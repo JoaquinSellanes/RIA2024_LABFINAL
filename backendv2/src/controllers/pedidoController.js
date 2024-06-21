@@ -3,6 +3,79 @@ const productoService = require('../services/productoService');
 const usuarioService = require('../services/usuarioService');
 const deepClone = require('../utils/deepClone');
 
+exports.crearPedido = (req, res) => {
+    const { clienteId, productos } = req.body;
+
+    // Validaciones
+    if (!clienteId || !Array.isArray(productos) || productos.length === 0) {
+        return res.status(400).json({ error: 'Debe proporcionar un ID de cliente y una lista de productos' });
+    }
+
+    // Validar cada producto
+    for (const item of productos) {
+        if (!item.productoId || !item.cantidad) {
+            return res.status(400).json({ error: 'Cada producto debe tener un ID de producto y una cantidad' });
+        }
+
+        const producto = productoService.obtenerProductoPorId(item.productoId);
+        if (!producto) {
+            return res.status(400).json({ error: `El producto con ID ${item.productoId} no existe o está inactivo` });
+        }
+    }
+
+    try {
+        // Verificar que el cliente exista
+        const cliente = usuarioService.obtenerUsuarioPorId(clienteId);
+        if (!cliente) {
+            return res.status(400).json({ error: 'El cliente no existe' });
+        }
+
+        // Crear el nuevo pedido
+        const nuevoPedido = {
+            id: Date.now(), // Generar un ID único basado en la marca de tiempo
+            clienteId,
+            productos,
+            estado: 'pendiente',
+            fecha: new Date().toISOString(),
+        };
+
+        const pedidoCreado = pedidoService.agregarPedido(nuevoPedido);
+        res.status(201).json(pedidoCreado);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.obtenerPedidoPorId = (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const pedido = pedidoService.obtenerPedidoPorId(id);
+        if (!pedido) return res.status(404).json({ error: 'Pedido no encontrado' });
+
+        // Obtener detalles completos de los productos
+        pedido.productos = pedido.productos.map(item => {
+            const producto = productoService.obtenerProductoPorId(item.productoId);
+            return {
+                cantidad: item.cantidad,
+                producto
+            };
+        });
+
+        // Obtener detalles completos del cliente
+        const cliente = usuarioService.obtenerUsuarioPorId(pedido.clienteId);
+        if (cliente) {
+            const { password, role, ...clienteSinPasswordYRole } = cliente;
+            pedido.cliente = clienteSinPasswordYRole;
+        }
+
+        delete pedido.clienteId;
+        res.status(200).json(pedido);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.obtenerTodosLosPedidos = (req, res) => {
     const { fechaInicio, fechaFin, estado } = req.body;
       
