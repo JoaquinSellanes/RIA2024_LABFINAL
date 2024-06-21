@@ -4,8 +4,8 @@ const pedidoController = require('../controllers/pedidoController');
 
 router.post('/', pedidoController.crearPedido);
 router.get('/:id', pedidoController.obtenerPedidoPorId);
-router.post('/all', pedidoController.obtenerTodosLosPedidos);
-router.post('/ingredientes', pedidoController.calcularIngredientesTotales);  // Nueva ruta para calcular ingredientes totales
+router.get('/all', pedidoController.obtenerTodosLosPedidos);
+router.get('/ingredientes', pedidoController.calcularIngredientesTotales);  // Nueva ruta para calcular ingredientes totales
 // router.post('/', pedidoController.crearPedido);
 // router.get('/:id', pedidoController.obtenerPedidoPorId);
 // router.put('/:id', pedidoController.actualizarPedido);
