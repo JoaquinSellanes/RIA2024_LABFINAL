@@ -1,6 +1,7 @@
 const Usuario = require('../models/usuarioModel');
 const Producto = require('../models/productoModel');
 const Pedido = require('../models/pedidoModel');
+const Ingrediente = require('../models/ingredienteModel');
 
 let usuarios = [
     new Usuario({ id: 1, email: 'admin@panpan.uy', password: 'asdasd123', role: 'ADMIN' }),
@@ -54,7 +55,7 @@ let productos = [
         id: 4,
         nombre: 'Baguette',
         descripcion: 'Baguette francesa crujiente',
-        imagen: '',
+        imagen: '', 
         precio: 3.00,
         ingredientes: [
             { nombre: 'Harina', cantidad: 400, unidad: 'gr' },
@@ -73,8 +74,16 @@ let pedidos = [
     new Pedido({ id: 5, clienteId: 3, productos: [{ productoId: 4, cantidad: 3 }, { productoId: 2, cantidad: 2 }], estado: 'pendiente', fecha: '2024-06-16' }),
 ];
 
+let ingredientes = [
+    new Ingrediente({ id: 1, nombre: 'Harina (gramos)' }),
+    new Ingrediente({ id: 2, nombre: 'Harina (kilogramos)' }),
+    new Ingrediente({ id: 3, nombre: 'Sal (gramos)' }),
+    new Ingrediente({ id: 4, nombre: 'Cebolla (kilogramos)' }),
+];
+
 module.exports = {
     usuarios,
     productos,
     pedidos,
+    ingredientes,
 };
