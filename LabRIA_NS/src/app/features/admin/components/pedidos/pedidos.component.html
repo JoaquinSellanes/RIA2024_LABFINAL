@@ -1,1 +1,26 @@
-<p>pedidos works!</p>
+<div class="prose">
+  <h1>Pedidos</h1>
+  <p>Lista de los pedidos del sistema</p>
+</div>
+<div class="overflow-x-auto border rounded-lg mt-2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Cant. Productos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover" *ngFor="let pedido of pedidos">
+        <th>{{ pedido.id }}</th>
+        <td>{{ pedido.cliente }}</td>
+        <td>{{ pedido.fecha }}</td>
+        <td>{{ pedido.estado }}</td>
+        <td>{{ pedido.cantProductos }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -13,6 +13,9 @@ import { CrearProductoComponent } from './components/crear-producto/crear-produc
 import { FooterComponent } from './components/footer/footer.component';
 import { ProductoModalComponent } from './components/producto-modal/producto-modal.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { InformesComponent } from './components/informes/informes.component';
+import { InsumosComponent } from './components/insumos/insumos.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
     CrearProductoComponent,
     FooterComponent,
     ProductoModalComponent,
-    PedidosComponent
+    PedidosComponent,
+    UsuariosComponent,
+    InformesComponent,
+    InsumosComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,497 @@
+[
+  {
+    "id": 1,
+    "productos": [
+      {
+        "cantidad": 2,
+        "producto": {
+          "id": 1,
+          "nombre": "Pan",
+          "descripcion": "Delicioso pan fresco",
+          "imagen": "",
+          "precio": 1,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 500,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 300,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 10,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 5,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 1000,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 600,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 20,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 10,
+            "unidad": "gr"
+          }
+        ]
+      }
+    ],
+    "estado": "pendiente",
+    "fecha": "2024-06-15",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy"
+    }
+  },
+  {
+    "id": 2,
+    "productos": [
+      {
+        "cantidad": 1,
+        "producto": {
+          "id": 2,
+          "nombre": "Pan integral",
+          "descripcion": "Delicioso pan integral fresco",
+          "imagen": "",
+          "precio": 5,
+          "ingredientes": [
+            {
+              "nombre": "Harina integral",
+              "cantidad": 500,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 300,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 10,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 5,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": false
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina integral",
+            "cantidad": 500,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 300,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 10,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 5,
+            "unidad": "gr"
+          }
+        ]
+      },
+      {
+        "cantidad": 3,
+        "producto": {
+          "id": 3,
+          "nombre": "Croissant",
+          "descripcion": "Croissant de mantequilla",
+          "imagen": "",
+          "precio": 2.5,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 250,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Mantequilla",
+              "cantidad": 150,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Leche",
+              "cantidad": 100,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Azúcar",
+              "cantidad": 30,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 750,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Mantequilla",
+            "cantidad": 450,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Leche",
+            "cantidad": 300,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Azúcar",
+            "cantidad": 90,
+            "unidad": "gr"
+          }
+        ]
+      }
+    ],
+    "estado": "completado",
+    "fecha": "2024-06-10",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy"
+    }
+  },
+  {
+    "id": 3,
+    "productos": [
+      {
+        "cantidad": 1,
+        "producto": {
+          "id": 1,
+          "nombre": "Pan",
+          "descripcion": "Delicioso pan fresco",
+          "imagen": "",
+          "precio": 1,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 500,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 300,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 10,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 5,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 500,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 300,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 10,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 5,
+            "unidad": "gr"
+          }
+        ]
+      },
+      {
+        "cantidad": 2,
+        "producto": {
+          "id": 4,
+          "nombre": "Baguette",
+          "descripcion": "Baguette francesa crujiente",
+          "imagen": "",
+          "precio": 3,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 400,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 250,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 8,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 6,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 800,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 500,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 16,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 12,
+            "unidad": "gr"
+          }
+        ]
+      }
+    ],
+    "estado": "cancelado",
+    "fecha": "2024-06-12",
+    "cliente": {
+      "id": 4,
+      "email": "cliente2@panpan.uy"
+    }
+  },
+  {
+    "id": 4,
+    "productos": [
+      {
+        "cantidad": 5,
+        "producto": {
+          "id": 3,
+          "nombre": "Croissant",
+          "descripcion": "Croissant de mantequilla",
+          "imagen": "",
+          "precio": 2.5,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 250,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Mantequilla",
+              "cantidad": 150,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Leche",
+              "cantidad": 100,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Azúcar",
+              "cantidad": 30,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 1250,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Mantequilla",
+            "cantidad": 750,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Leche",
+            "cantidad": 500,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Azúcar",
+            "cantidad": 150,
+            "unidad": "gr"
+          }
+        ]
+      }
+    ],
+    "estado": "pendiente",
+    "fecha": "2024-06-17",
+    "cliente": {
+      "id": 4,
+      "email": "cliente2@panpan.uy"
+    }
+  },
+  {
+    "id": 5,
+    "productos": [
+      {
+        "cantidad": 3,
+        "producto": {
+          "id": 4,
+          "nombre": "Baguette",
+          "descripcion": "Baguette francesa crujiente",
+          "imagen": "",
+          "precio": 3,
+          "ingredientes": [
+            {
+              "nombre": "Harina",
+              "cantidad": 400,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 250,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 8,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 6,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": true
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina",
+            "cantidad": 1200,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 750,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 24,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 18,
+            "unidad": "gr"
+          }
+        ]
+      },
+      {
+        "cantidad": 2,
+        "producto": {
+          "id": 2,
+          "nombre": "Pan integral",
+          "descripcion": "Delicioso pan integral fresco",
+          "imagen": "",
+          "precio": 5,
+          "ingredientes": [
+            {
+              "nombre": "Harina integral",
+              "cantidad": 500,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Agua",
+              "cantidad": 300,
+              "unidad": "ml"
+            },
+            {
+              "nombre": "Sal",
+              "cantidad": 10,
+              "unidad": "gr"
+            },
+            {
+              "nombre": "Levadura",
+              "cantidad": 5,
+              "unidad": "gr"
+            }
+          ],
+          "isActive": false
+        },
+        "ingredientesNecesarios": [
+          {
+            "nombre": "Harina integral",
+            "cantidad": 1000,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Agua",
+            "cantidad": 600,
+            "unidad": "ml"
+          },
+          {
+            "nombre": "Sal",
+            "cantidad": 20,
+            "unidad": "gr"
+          },
+          {
+            "nombre": "Levadura",
+            "cantidad": 10,
+            "unidad": "gr"
+          }
+        ]
+      }
+    ],
+    "estado": "pendiente",
+    "fecha": "2024-06-16",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy"
+    }
+  }
+]

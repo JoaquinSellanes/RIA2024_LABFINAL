@@ -39,8 +39,8 @@ exports.obtenerTodosLosPedidos = () => {
 };
 
 exports.productoEnPedidoPendiente = (productoId) => {
-    return pedidos.some(pedido => 
-        pedido.estado === 'pendiente' && 
+    return pedidos.some(pedido =>
+        pedido.estado === 'pendiente' &&
         pedido.productos.some(item => item.productoId == productoId)
     );
 };

@@ -1,0 +1,88 @@
+<div class="prose">
+  <h1>Insumos</h1>
+</div>
+<button class="btn btn-primary w-full mt-4" (click)="openModal()">Crear nuevo insumo</button>
+<div class="prose mt-4">
+  <h4>Listado</h4>
+</div>
+<div class="overflow-x-auto border rounded-lg">
+  <table class="table w-full">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Unidad</th>
+        <th class="w-1">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- row 1 -->
+      <tr>
+        <th>1</th>
+        <td>Harina</td>
+        <td>Kg</td>
+        <td><button class="btn btn-error text-white">Eliminar</button></td>
+      </tr>
+      <!-- row 2 -->
+      <tr>
+        <th>2</th>
+        <td>Leche</td>
+        <td>Ml</td>
+        <td><button class="btn btn-error text-white">Eliminar</button></td>
+      </tr>
+      <!-- row 3 -->
+      <tr>
+        <th>3</th>
+        <td>Huevos</td>
+        <td>Unidades</td>
+        <td><button class="btn btn-error text-white">Eliminar</button></td>
+      </tr>
+      <!-- row 4 -->
+      <tr>
+        <th>4</th>
+        <td>Levadura</td>
+        <td>Gr</td>
+        <td><button class="btn btn-error text-white">Eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<dialog #modalCrearInsumo id="modalCrearInsumo" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="font-bold text-lg">Crear nuevo insumo</h3>
+    <form [formGroup]="insumoForm" (ngSubmit)="crearInsumo()">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Nombre</span>
+        </label>
+        <input type="text" formControlName="nombre" placeholder="Nombre del insumo" class="input input-bordered"
+          required>
+        <div
+          *ngIf="insumoForm.get('nombre')?.invalid && (insumoForm.get('nombre')?.dirty || insumoForm.get('nombre')?.touched)"
+          class="text-red-500 text-xs mt-1">
+          <div *ngIf="insumoForm.get('nombre')?.errors">Nombre es requerido.</div>
+        </div>
+      </div>
+      <div class="form-control mt-4">
+        <label class="label">
+          <span class="label-text">Unidad</span>
+        </label>
+        <input type="text" formControlName="unidad" placeholder="Unidad de medida" class="input input-bordered"
+          required>
+        <div
+          *ngIf="insumoForm.get('unidad')?.invalid && (insumoForm.get('unidad')?.dirty || insumoForm.get('unidad')?.touched)"
+          class="text-red-500 text-xs mt-1">
+          <div *ngIf="insumoForm.get('unidad')?.errors">Unidad es requerida.</div>
+        </div>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <button type="submit" class="btn btn-primary" [disabled]="insumoForm.invalid">Crear</button>
+      </div>
+    </form>
+  </div>
+</dialog>

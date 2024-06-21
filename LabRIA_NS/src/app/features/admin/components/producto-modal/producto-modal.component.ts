@@ -20,7 +20,7 @@ import { ProductoService } from '../../services/producto.service';
           <h3 class="font-bold">Ingredientes:</h3>
           <ul>
             <li *ngFor="let ingrediente of producto?.ingredientes">
-              {{ingrediente}}
+              {{ingrediente.nombre}} - {{ingrediente.cantidad}}{{ingrediente.unidad}}
             </li>
           </ul>
           <h3 *ngIf="producto?.ingredientes.length == 0" class="text-center text-3xl m-0 p-0">Aire al parecer...</h3>

@@ -14,6 +14,9 @@ import { DashboardComponent } from './features/admin/components/dashboard/dashbo
 import { ProductosComponent } from './features/admin/components/productos/productos.component';
 import { CrearProductoComponent } from './features/admin/components/crear-producto/crear-producto.component';
 import { PedidosComponent } from './features/admin/components/pedidos/pedidos.component';
+import { InsumosComponent } from './features/admin/components/insumos/insumos.component';
+import { UsuariosComponent } from './features/admin/components/usuarios/usuarios.component';
+import { InformesComponent } from './features/admin/components/informes/informes.component';
 // CLIENTE o USUARIO
 import { clienteBodyComponent } from './features/cliente/components/body/body.component';
 import { clienteDashboardComponent } from './features/cliente/components/dashboard/dashboard.component';
@@ -34,6 +37,9 @@ const routes: Routes = [
       { path: 'productos', component: ProductosComponent },
       { path: 'crear-producto', component: CrearProductoComponent },
       { path: 'pedidos', component: PedidosComponent },
+      { path: 'insumos', component: InsumosComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'informes', component: InformesComponent },
       { path: '**', redirectTo: 'dashboard' }
     ]
   },

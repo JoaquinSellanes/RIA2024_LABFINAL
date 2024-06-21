@@ -5,7 +5,7 @@ const deepClone = require('../utils/deepClone');
 
 exports.obtenerTodosLosPedidos = (req, res) => {
     const { fechaInicio, fechaFin, estado } = req.body;
-      
+
     try {
         let pedidos = pedidoService.obtenerTodosLosPedidos();
         pedidos = deepClone(pedidos);  // Clonar profundamente los pedidos para evitar modificaciones accidentales
@@ -23,7 +23,7 @@ exports.obtenerTodosLosPedidos = (req, res) => {
         if (estado) {
             pedidos = pedidos.filter(pedido => pedido.estado === estado);
         }
-        
+
         // Reemplazar productoId con la información completa del producto y limpiar datos
         pedidos = pedidos.map(pedido => {
             pedido.productos = pedido.productos.map(item => {
@@ -104,6 +104,36 @@ exports.calcularIngredientesTotales = (req, res) => {
         const ingredientesArray = Object.values(ingredientesTotales);
 
         res.status(200).json(ingredientesArray);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.obtenerPedidoPorId = (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const pedido = pedidoService.obtenerPedidoPorId(id);
+        if (!pedido) return res.status(404).json({ error: 'Pedido no encontrado' });
+
+        // Procesar datos
+        pedido.productos = pedido.productos.map(item => {
+            const producto = productoService.obtenerProductoPorId(item.productoId);
+            if (producto) {
+                const { isDeleted, ...productoSinIsDeleted } = producto;
+                return { cantidad: item.cantidad, producto: productoSinIsDeleted };
+            }
+            return null;
+        }).filter(item => item !== null); // Filtrar los productos no encontrados
+
+        const cliente = usuarioService.obtenerUsuarioPorId(pedido.clienteId);
+        if (cliente) {
+            const { password, ...clienteSinPassword } = cliente;
+            pedido.cliente = clienteSinPassword;
+        }
+        delete pedido.clienteId; // Eliminar clienteId
+
+        res.status(200).json(pedido);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
