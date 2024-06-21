@@ -1,79 +1,50 @@
 const { productos } = require('../data/mockData');
-const Producto = require('../models/productoModel');
-const slugify = require('../utils/slugify');
+const deepClone = require('../utils/deepClone');
 
-const generarIdProducto = (nombre) => {
-    const slug = slugify(nombre);
-    const numeroUnico = Date.now().toString().slice(-4); // Últimos 4 dígitos del timestamp
-    return `${slug}-${numeroUnico}`;
+const agregarProducto = (producto) => {
+    productos.push(producto);
+    return producto;
 };
 
-const crearProducto = (productoData) => {
-    let id;
-    let idUnico = false;
-
-    // Generar un ID único
-    while (!idUnico) {
-        id = generarIdProducto(productoData.nombre);
-        idUnico = !productos.some(p => p.id == id);
-    }
-
-    const nuevoProducto = new Producto({ id, ...productoData });
-    productos.push(nuevoProducto);
-    return nuevoProducto;
-};
+// const obtenerProductoPorId = (id) => {
+//     return productos.find(p => p.id == id && !p.isDeleted);
+// };
 
 const obtenerProductoPorId = (id) => {
-    return productos.find(p => p.id == id && !p.isDeleted);
-};
-
-const actualizarProducto = (id, productoData) => {
-    const producto = productos.find(p => p.id == id);
-    if (!producto) throw new Error('Producto no encontrado');
-
-    Object.assign(producto, productoData);
-    return producto;
-};
-
-const eliminarProducto = (id) => {
-    const producto = productos.find(p => p.id == id);
-    if (!producto) throw new Error('Producto no encontrado');
-
-    producto.isDeleted = true;
-    return producto;
-};
-
-const activarProducto = (id) => {
-    const producto = productos.find(p => p.id == id);
-    if (!producto) throw new Error('Producto no encontrado');
-
-    producto.isActive = true;
-    return producto;
-};
-
-const desactivarProducto = (id) => {
-    const producto = productos.find(p => p.id == id);
-    if (!producto) throw new Error('Producto no encontrado');
-
-    producto.isActive = false;
-    return producto;
-};
-
-const obtenerProductosDisponibles = () => {
-    return productos.filter(p => !p.isDeleted && p.isActive);
+    const producto = productos.find(p => p.id == id && !p.isDeleted);
+    return producto ? deepClone(producto) : null;
 };
 
 const obtenerTodosLosProductos = () => {
-    return productos.filter(p => !p.isDeleted);
+    return productos.filter(p => !p.isDeleted).map(p => deepClone(p)); // Retornar copias de los productos
+};
+
+// const obtenerTodosLosProductos = () => {
+//     return productos.filter(p => !p.isDeleted);
+// };
+
+const actualizarProducto = (id, productoActualizado) => {
+    const index = productos.findIndex(p => p.id == id && !p.isDeleted);
+    if (index !== -1) {
+        productos[index] = { ...productos[index], ...productoActualizado };
+        return deepClone(productos[index]);
+    }
+    return null;
+};
+
+const eliminarProducto = (id) => {
+    const index = productos.findIndex(p => p.id == id);
+    if (index !== -1) {
+        productos[index].isDeleted = true;
+        return deepClone(productos[index]);
+    }
+    return null;
 };
 
 module.exports = {
-    crearProducto,
+    agregarProducto,
     obtenerProductoPorId,
+    obtenerTodosLosProductos,
     actualizarProducto,
     eliminarProducto,
-    activarProducto,
-    desactivarProducto,
-    obtenerProductosDisponibles,
-    obtenerTodosLosProductos,
 };

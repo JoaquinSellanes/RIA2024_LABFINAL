@@ -1,16 +1,25 @@
 const productoService = require('../services/productoService');
+const pedidoService = require('../services/pedidoService');
+const slugify = require('../utils/slugify');
 const filterProductProperties = require('../utils/filterProductProperties');
 const sharp = require('sharp');
+const { productos } = require('../data/mockData');
+
+const generarIdProducto = (nombre) => {
+    const slug = slugify(nombre);
+    const numeroUnico = Date.now().toString().slice(-4); // Últimos 4 dígitos del timestamp
+    return `${slug}-${numeroUnico}`;
+};
 
 exports.crearProducto = async (req, res) => {
     const { nombre, descripcion, imagen, precio, ingredientes } = req.body;
 
     // Validaciones
-    if (!nombre || !descripcion || !imagen || !precio || !ingredientes) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios: nombre, descripcion, imagen, precio, ingredientes' });
+    if (!nombre || !descripcion || !precio || !ingredientes) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios: nombre, descripcion, precio, ingredientes' });
     }
 
-    if (!Array.isArray(ingredientes) || ingredientes.length === 0) {
+    if (!Array.isArray(ingredientes) || ingredientes.length == 0) {
         return res.status(400).json({ error: 'Debe proporcionar al menos un ingrediente' });
     }
 
@@ -22,27 +31,46 @@ exports.crearProducto = async (req, res) => {
     }
 
     try {
-        // Decodificar la imagen base64
-        const imageBuffer = Buffer.from(imagen.split(",")[1], 'base64');
-        // Procesar la imagen
-        const processedImage = await sharp(imageBuffer)
-            .resize(864, 480)
-            .toFormat('jpeg')
-            .toBuffer();
-        
-        // Convertir la imagen procesada a base64 y agregar el prefijo adecuado
-        const processedImageBase64 = `data:image/jpeg;base64,${processedImage.toString('base64')}`;
-        
-        // Crear el producto en el servicio de productos (mock)
-        const nuevoProducto = productoService.crearProducto({
+        let processedImageBase64 = null;
+
+
+        if (imagen != "") {
+            // Decodificar la imagen base64
+            const imageBuffer = Buffer.from(imagen.split(",")[1], 'base64');
+            // Procesar la imagen
+            const processedImage = await sharp(imageBuffer)
+                .resize(864, 480)
+                .toFormat('jpeg')
+                .toBuffer();
+            
+            // Convertir la imagen procesada a base64 y agregar el prefijo adecuado
+            processedImageBase64 = `data:image/jpeg;base64,${processedImage.toString('base64')}`;
+        } else {
+            processedImageBase64 = "";
+        }
+
+        // Generar un ID único
+        let id;
+        let idUnico = false;
+        while (!idUnico) {
+            id = generarIdProducto(nombre);
+            idUnico = !productos.some(p => p.id == id);
+        }
+
+        const nuevoProducto = {
+            id,
             nombre,
             descripcion,
             imagen: processedImageBase64,  // Guardar la imagen procesada con el prefijo base64
             precio,
-            ingredientes
-        });
-
-        res.status(201).json(filterProductProperties(nuevoProducto));
+            ingredientes,
+            isActive: true,
+            isDeleted: false
+        };
+        
+        // Agregar el producto
+        const productoCreado = productoService.agregarProducto(nuevoProducto);
+        res.status(201).json(filterProductProperties(productoCreado));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -65,17 +93,27 @@ exports.actualizarProducto = (req, res) => {
     const productoData = req.body;
 
     try {
+        const producto = productoService.obtenerProductoPorId(id);
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+
         const productoActualizado = productoService.actualizarProducto(id, productoData);
         res.status(200).json(filterProductProperties(productoActualizado));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 exports.eliminarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
+        const producto = productoService.obtenerProductoPorId(id);
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+
+        // Verificar si el producto está en un pedido pendiente
+        if (pedidoService.productoEnPedidoPendiente(id)) {
+            return res.status(400).json({ error: 'No se puede eliminar el producto porque está en un pedido pendiente' });
+        }
+
         const productoEliminado = productoService.eliminarProducto(id);
         res.status(200).json(filterProductProperties(productoEliminado));
     } catch (error) {
@@ -83,12 +121,16 @@ exports.eliminarProducto = (req, res) => {
     }
 };
 
+
 exports.activarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const productoActivado = productoService.activarProducto(id);
-        res.status(200).json(filterProductProperties(productoActivado));
+        const producto = productoService.obtenerProductoPorId(id);
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+
+        producto.isActive = true;
+        res.status(200).json(filterProductProperties(producto));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -98,8 +140,11 @@ exports.desactivarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const productoDesactivado = productoService.desactivarProducto(id);
-        res.status(200).json(filterProductProperties(productoDesactivado));
+        const producto = productoService.obtenerProductoPorId(id);
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+
+        producto.isActive = false;
+        res.status(200).json(filterProductProperties(producto));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -107,8 +152,9 @@ exports.desactivarProducto = (req, res) => {
 
 exports.obtenerProductosDisponibles = (req, res) => {
     try {
-        const productos = productoService.obtenerProductosDisponibles();
-        const productosSinPropiedades = productos.map(producto => filterProductProperties(producto));
+        const productos = productoService.obtenerTodosLosProductos();
+        const productosDisponibles = productos.filter(p => p.isActive);
+        const productosSinPropiedades = productosDisponibles.map(producto => filterProductProperties(producto));
         res.status(200).json(productosSinPropiedades);
     } catch (error) {
         res.status(500).json({ error: error.message });
