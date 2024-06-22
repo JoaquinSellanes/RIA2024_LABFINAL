@@ -19,8 +19,10 @@ export class InsumosService {
   async getInsumos(): Promise<Insumo[]> {
     try {
       const response = await firstValueFrom(this.http.get<Insumo[]>(`${this.apiUrl}/ingredientes`));
+      console.log("Insumos fetched from API: ", response); // Depuración
       return response;
     } catch (error) {
+      console.error("Error fetching insumos: ", error); // Depuración
       throw new Error('Error fetching insumos');
     }
   }
@@ -29,6 +31,7 @@ export class InsumosService {
     try {
       await firstValueFrom(this.http.post(`${this.apiUrl}/ingredientes`, { nombre: nombre }));
     } catch (error) {
+      console.error("Error creating insumo: ", error); // Depuración
       throw new Error('Error creating insumo');
     }
   }
@@ -37,6 +40,7 @@ export class InsumosService {
     try {
       await firstValueFrom(this.http.delete(`${this.apiUrl}/ingredientes/${id}`));
     } catch (error) {
+      console.error("Error deleting insumo: ", error); // Depuración
       throw new Error('Error deleting insumo');
     }
   }

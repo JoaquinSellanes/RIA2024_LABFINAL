@@ -27,10 +27,12 @@ export class InsumosComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.insumosService.getInsumos().then((insumos: Insumo[]) => {
       this.insumos = insumos;
     });
+    console.log("Insumos: ", this.insumos);
+
     this.loaded = true;
   }
 

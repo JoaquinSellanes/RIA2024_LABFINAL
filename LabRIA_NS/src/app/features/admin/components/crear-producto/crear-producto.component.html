@@ -39,21 +39,22 @@
         </label>
         <div formArrayName="ingredientes">
           <div *ngFor="let ingrediente of ingredientes.controls; let i = index" [formGroupName]="i" class="mb-2">
-            <div class="grid grid-cols-3 gap-4">
-              <input type="text" formControlName="nombre" placeholder="Nombre" class="input input-bordered" />
-              <input type="number" formControlName="cantidad" placeholder="Cantidad" class="input input-bordered" />
-              <select formControlName="unidad" class="select select-bordered">
-                <option value="ml">ml</option>
-                <option value="gr">gr</option>
-                <option value="c/u">c/u</option>
+            <div class="flex join w-full">
+              <select formControlName="id" class="select select-bordered join-item w-full">
+                <!-- <option value="ml">ml</option> -->
+                <option *ngFor="let ing of ingredientesList" [value]="ing.id">{{ ing.nombre }}</option>
               </select>
-              <button type="button" (click)="removerIngrediente(i)" class="btn btn-error">Eliminar</button>
+              <input type="number" formControlName="cantidad" placeholder="Cantidad"
+                class="input input-bordered join-item w-full" />
+              <button type="button" (click)="removerIngrediente(i)" class="btn btn-error w-12 join-item">✕</button>
             </div>
           </div>
         </div>
         <button type="button" (click)="agregarIngrediente()" class="btn btn-primary mt-2">Agregar Ingrediente</button>
       </div>
-      <button type="submit" class="btn btn-success mt-4">Crear Producto</button>
+      <div class="flex justify-end">
+        <button type="submit" class="btn btn-success mt-4">Crear Producto</button>
+      </div>
     </form>
 
     <!-- <div class="flex-1 md:ml-4 mt-4 md:mt-0">

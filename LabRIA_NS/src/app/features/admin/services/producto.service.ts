@@ -15,9 +15,15 @@ export class ProductoService {
 
   // crear producto post /productos
   async createProducto(producto: Producto) {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    const token = this.getToken();
+    console.log('Token:', token); // Depuración: Verificar el token
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    console.log('Headers:', headers); // Depuración: Verificar los headers
+
     try {
       const response = await firstValueFrom(this.http.post(`${this.apiUrl}/productos`, producto, { headers }));
+      console.log('Response:', response); // Depuración: Verificar la respuesta
       return response;
     } catch (error) {
       console.error('Error creating product', error);
