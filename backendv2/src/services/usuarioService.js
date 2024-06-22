@@ -20,9 +20,14 @@ const obtenerUsuarioPorId = (id) => {
     return usuarios.find(u => u.id === id);
 };
 
+const obtenerTodosLosUsuarios = () => {
+    return usuarios;
+};
+
 module.exports = {
     findUserByEmail,
     addUser,
     getLastUserId,
     obtenerUsuarioPorId,
+    obtenerTodosLosUsuarios
 };
