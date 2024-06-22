@@ -20,7 +20,7 @@ exports.crearPedido = (req, res) => {
         }
 
         const producto = productoService.obtenerProductoPorId(item.productoId);
-        if (!producto) {
+        if (!producto || !producto.isActive) {
             return res.status(400).json({ error: `El producto con ID ${item.productoId} no existe o está inactivo` });
         }
     }
