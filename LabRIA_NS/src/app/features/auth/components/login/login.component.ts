@@ -46,7 +46,7 @@ export class LoginComponent {
             this.router.navigate(['/panaderia/pedidos']);
           } else if (res.role === "ADMIN") {
             this.router.navigate(['/administracion/dashboard']);
-          } else if (res.role === "USER") {
+          } else if (res.role === "CLIENTE") {
             this.router.navigate(['/cliente/pedidos']);
           }
         }, (error) => {

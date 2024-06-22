@@ -29,7 +29,7 @@ export class AuthService {
     }
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
-    if (role === 'USER') {
+    if (role === 'CLIENTE') {
       return !!token;
     }
     return false;

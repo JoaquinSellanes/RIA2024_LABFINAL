@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { Router}
 
 import { SharedModule } from '../../shared/shared.module';
@@ -35,7 +35,8 @@ import { InsumosComponent } from './components/insumos/insumos.component';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class AdminModule { }

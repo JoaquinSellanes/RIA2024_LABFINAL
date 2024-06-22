@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -58,7 +58,7 @@ export class RegisterComponent {
         telefono: this.registerForm.value.telefono,
         password: this.registerForm.value.password,
         enabled: false,
-        role: 'USER'
+        role: 'CLIENTE'
       };
 
       this.authService.registerUsuario(usuario)

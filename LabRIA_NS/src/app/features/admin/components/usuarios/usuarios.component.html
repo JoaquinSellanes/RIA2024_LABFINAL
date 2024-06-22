@@ -1,1 +1,59 @@
-<p>usuarios works!</p>
+<div class="w-full flex justify-center">
+  <div class="w-[70%] mb-3">
+    <div class="prose">
+      <h1>Usuarios</h1>
+      <p>Lista los usuarios y administra los roles eficientemente.</p>
+    </div>
+
+    <div class="overflow-x-auto border rounded-lg mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th class="flex justify-end">Administrar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover" *ngFor="let usuario of usuarios">
+            <th>{{ usuario.id }}</th>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.role }}</td>
+            <td>
+              <div class="join flex justify-end">
+                <button class="btn btn-outline btn-primary join-item" (click)="roleUsuario(usuario.id)">Cambiar
+                  Rol</button>
+                <button class="btn btn-outline btn-danger join-item" (click)="eliminarUsuario(usuario.id)">Dar de
+                  Baja</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<dialog #modalCambiarRol class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        (click)="closeModal()">✕</button>
+      <h3 class="text-lg font-bold">Cambiar Rol del Usuario</h3>
+      <div class="py-4">
+        <label for="role-select" class="block text-sm font-medium text-gray-700">Selecciona un nuevo rol</label>
+        <select id="role-select" [(ngModel)]="selectedRole" name="role" class="mt-1 block w-full border-b">
+          <option value=""></option>
+          <option value="ADMIN">Administrador</option>
+          <option value="PANADERO">Panadero</option>
+          <option value="CLIENTE">Cliente</option>
+        </select>
+      </div>
+      <div class="modal-action">
+        <button type="button" class="btn btn-primary" (click)="cambiarRol()"
+          [disabled]="selectedRole == ''">Guardar</button>
+      </div>
+    </form>
+  </div>
+</dialog>
