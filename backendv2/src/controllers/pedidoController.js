@@ -5,11 +5,12 @@ const usuarioService = require('../services/usuarioService');
 const deepClone = require('../utils/deepClone');
 
 exports.crearPedido = (req, res) => {
-    const { clienteId, productos } = req.body;
+    const { productos } = req.body;
+    const clienteId = req.userId; // Obtener el ID del usuario desde el token
 
     // Validaciones
     if (!clienteId || !Array.isArray(productos) || productos.length === 0) {
-        return res.status(400).json({ error: 'Debe proporcionar un ID de cliente y una lista de productos' });
+        return res.status(400).json({ error: 'Debe proporcionar una lista de productos' });
     }
 
     // Validar cada producto
@@ -31,9 +32,13 @@ exports.crearPedido = (req, res) => {
             return res.status(400).json({ error: 'El cliente no existe' });
         }
 
+        // Obtener el último ID de pedido y generar uno nuevo
+        const ultimoPedidoId = pedidoService.obtenerUltimoPedidoId();
+        const nuevoPedidoId = ultimoPedidoId + 1;
+
         // Crear el nuevo pedido
         const nuevoPedido = {
-            id: Date.now(), // Generar un ID único basado en la marca de tiempo
+            id: nuevoPedidoId,
             clienteId,
             productos,
             estado: 'pendiente',
@@ -55,8 +60,9 @@ exports.crearPedido = (req, res) => {
                     };
                 });
 
+                const { isDeleted, ...productoSinIsDeleted } = producto;
                 const productoConNombresDeIngredientes = {
-                    ...producto,
+                    ...productoSinIsDeleted,
                     ingredientes: ingredientesConNombres
                 };
 
@@ -73,7 +79,7 @@ exports.crearPedido = (req, res) => {
         }).filter(item => item.producto !== null); // Filtrar los productos no encontrados
 
         // Obtener detalles completos del cliente
-        const clienteSinPasswordYRole = (({ password, role, ...rest }) => rest)(cliente);
+        const { password, role, ...clienteSinPasswordYRole } = cliente;
 
         res.status(201).json({
             ...pedidoCreado,
