@@ -14,7 +14,7 @@ export class PedidosService {
   // GET    | /pedidos/
   async getPedidos(): Promise<any[]> {
     try {
-      const response = await firstValueFrom(this.http.get<any[]>(`${this.apiUrl}/pedidos/all`));
+      const response = await firstValueFrom(this.http.post<any[]>(`${this.apiUrl}/pedidos/all`, {}));
       return response;
     } catch (error) {
       console.error('Error fetching pedidos', error);

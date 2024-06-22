@@ -1,52 +1,43 @@
-<div class="prose">
-  <h1>Insumos</h1>
-</div>
-<button class="btn btn-primary w-full mt-4" (click)="openModal()">Crear nuevo insumo</button>
-<div class="prose mt-4">
-  <h4>Listado</h4>
-</div>
-<div class="overflow-x-auto border rounded-lg">
-  <table class="table w-full">
-    <!-- head -->
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Nombre</th>
-        <th>Unidad</th>
-        <th class="w-1">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- row 1 -->
-      <tr>
-        <th>1</th>
-        <td>Harina</td>
-        <td>Kg</td>
-        <td><button class="btn btn-error text-white">Eliminar</button></td>
-      </tr>
-      <!-- row 2 -->
-      <tr>
-        <th>2</th>
-        <td>Leche</td>
-        <td>Ml</td>
-        <td><button class="btn btn-error text-white">Eliminar</button></td>
-      </tr>
-      <!-- row 3 -->
-      <tr>
-        <th>3</th>
-        <td>Huevos</td>
-        <td>Unidades</td>
-        <td><button class="btn btn-error text-white">Eliminar</button></td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-        <th>4</th>
-        <td>Levadura</td>
-        <td>Gr</td>
-        <td><button class="btn btn-error text-white">Eliminar</button></td>
-      </tr>
-    </tbody>
-  </table>
+<div class=" w-full flex justify-center">
+  <div class="w-[70%] mb-3">
+    <div class="prose">
+      <h1>Insumos</h1>
+    </div>
+    <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-2">
+      <div class="">
+        <button class="btn btn-primary w-full mt-4" (click)="openModal()">Crear nuevo insumo</button>
+
+      </div>
+      <div class="col-span-2 max-h-screen overflow-y-scroll">
+        <div class="overflow-x-auto border rounded-lg">
+          <table class="table w-full">
+            <!-- head -->
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th class="w-1">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- row 1 -->
+              <tr *ngFor="let insumo of insumos">
+                <th>{{insumo.id}}</th>
+                <td>{{insumo.nombre}}</td>
+                <td><button class="btn btn-error text-white" (click)="eliminar(insumo.id)" disabled>Eliminar</button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
 </div>
 
 <dialog #modalCrearInsumo id="modalCrearInsumo" class="modal">
