@@ -4,14 +4,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(403).json({ message: 'No token provided' });
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(403).json({ message: 'No tienes un token de autorización' });
     }
 
-    const tokenParts = token.split(' ');
+    const tokenParts = authHeader.split(' ');
     if (tokenParts[0] !== 'Bearer' || !tokenParts[1]) {
-        return res.status(403).json({ message: 'Invalid token format' });
+        return res.status(403).json({ message: 'Token inválido' });
     }
 
     jwt.verify(tokenParts[1], process.env.JWT_SECRET, (err, decoded) => {
