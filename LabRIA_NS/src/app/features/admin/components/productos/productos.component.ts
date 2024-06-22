@@ -6,9 +6,10 @@ import { ToastComponent } from '../../../../shared/toast/toast.component';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.scss']  // corregido el estilo 'styleUrl' a 'styleUrls'
+  styleUrls: ['./productos.component.scss']
 })
 export class ProductosComponent implements OnInit {
+  loaded: boolean = false;
   productos: any = [];
   @ViewChild('toast') toast!: ToastComponent;
 
@@ -17,7 +18,8 @@ export class ProductosComponent implements OnInit {
   async ngOnInit() {
     try {
       this.productos = await this.productoService.getProductos();
-      console.log(this.productos);
+      // console.log(this.productos);
+      this.loaded = true;
     } catch (error) {
       console.error('Error fetching products in component', error);
     }

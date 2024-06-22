@@ -1,4 +1,14 @@
-<div class="w-full flex justify-center">
+<div class="flex justify-center items-center flex-col w-full h-full gap-3" *ngIf="!loaded">
+  <div class="prose">
+    <h1>Cargando</h1>
+  </div>
+  <progress class="progress w-56"></progress>
+  <div class="prose">
+    <p>Por favor espere un momento</p>
+  </div>
+</div>
+
+<div class="w-full flex justify-center" *ngIf="loaded">
   <div class="w-[70%] mb-3">
     <div class="prose">
       <h1>Usuarios</h1>

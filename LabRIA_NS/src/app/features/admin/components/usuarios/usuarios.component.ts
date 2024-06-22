@@ -17,6 +17,7 @@ export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
   selectedUserId: number | null = null;
   selectedRole: string = '';
+  loaded: boolean = false;
 
   constructor(private usuariosService: UsuariosService) { }
 
@@ -24,6 +25,7 @@ export class UsuariosComponent implements OnInit {
 
   async ngOnInit() {
     this.usuarios = await this.usuariosService.getUsuarios();
+    this.loaded = true;
   }
 
   openModalRol(userId: number) {

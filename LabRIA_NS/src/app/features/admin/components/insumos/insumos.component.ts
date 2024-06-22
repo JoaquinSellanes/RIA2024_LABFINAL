@@ -18,6 +18,7 @@ export class InsumosComponent implements OnInit {
 
   insumos: Insumo[] = [];
   insumoForm: FormGroup;
+  loaded: boolean = false;
 
   constructor(private fb: FormBuilder, private insumosService: InsumosService) {
     this.insumoForm = this.fb.group({
@@ -30,6 +31,7 @@ export class InsumosComponent implements OnInit {
     this.insumosService.getInsumos().then((insumos: Insumo[]) => {
       this.insumos = insumos;
     });
+    this.loaded = true;
   }
 
   openModal() {

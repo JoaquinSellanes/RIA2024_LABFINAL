@@ -15,7 +15,7 @@ interface PedidoData {
   styleUrls: ['./pedidos.component.scss']
 })
 export class PedidosComponent implements OnInit {
-
+  loaded: boolean = false;
   pedidos: PedidoData[] = [];
   error: boolean = false;
   constructor(private pedidosService: PedidosService) { }
@@ -34,7 +34,8 @@ export class PedidosComponent implements OnInit {
       });
 
       this.error = false;
-      console.log("Pedidos", this.pedidos);
+      this.loaded = true;
+      // console.log("Pedidos", this.pedidos);
     } catch (error) {
       console.error('Error fetching pedidos', error);
       this.error = true;

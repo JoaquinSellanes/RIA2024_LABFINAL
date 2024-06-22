@@ -1,31 +1,44 @@
-<app-toast #toast></app-toast>
-
-<div class="w-[100%] flex justify-start items-center">
-  <button class="btn btn-neutral w-[100%]" routerLink="/administracion/crear-producto">Crear</button>
-</div>
-
-<div class="my-7 prose lg:prose-xl">
-  <h1>Productos</h1>
-  <p>Productos del sistema</p>
-</div>
-
-<div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
-  <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
-    <figure>
-      <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)" [src]="foo.imagen"
-        alt="Imagen del producto" />
-      <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
-        src="/assets/no-image.png" alt="Imagen del producto" />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title hover:text-primary cursor-pointer transition-all" (click)="consulta(foo.id)">{{foo.nombre}}
-      </h2>
-      <p>{{foo.descripcion}}</p>
-      <div class="card-actions justify-end">
-        <input (change)="cambiarEstado(foo)" type="checkbox" class="toggle toggle-info" [checked]="foo.isActive" />
-      </div>
-    </div>
+<div class="flex justify-center items-center flex-col w-full h-full gap-3" *ngIf="!loaded">
+  <div class="prose">
+    <h1>Cargando</h1>
+  </div>
+  <progress class="progress w-56"></progress>
+  <div class="prose">
+    <p>Por favor espere un momento</p>
   </div>
 </div>
 
-<app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>
+<div *ngIf="loaded">
+  <app-toast #toast></app-toast>
+
+  <div class="w-[100%] flex justify-start items-center">
+    <button class="btn btn-neutral w-[100%]" routerLink="/administracion/crear-producto">Crear</button>
+  </div>
+
+  <div class="my-7 prose lg:prose-xl">
+    <h1>Productos</h1>
+    <p>Productos del sistema</p>
+  </div>
+
+  <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
+    <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
+      <figure>
+        <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
+          [src]="foo.imagen" alt="Imagen del producto" />
+        <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
+          src="/assets/no-image.png" alt="Imagen del producto" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title hover:text-primary cursor-pointer transition-all" (click)="consulta(foo.id)">
+          {{foo.nombre}}
+        </h2>
+        <p>{{foo.descripcion}}</p>
+        <div class="card-actions justify-end">
+          <input (change)="cambiarEstado(foo)" type="checkbox" class="toggle toggle-info" [checked]="foo.isActive" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>
+</div>
