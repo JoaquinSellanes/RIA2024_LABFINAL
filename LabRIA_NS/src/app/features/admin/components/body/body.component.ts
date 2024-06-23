@@ -21,6 +21,10 @@ export class AdminBodyComponent implements AfterViewInit {
     });
   }
 
+  changeTheme(theme: string): void {
+    this.themeService.setTheme(theme);
+  }
+
 
   toggleTheme(): void {
     this.themeService.toggleTheme();

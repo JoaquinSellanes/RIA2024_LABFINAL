@@ -5,16 +5,19 @@ import { Injectable } from '@angular/core';
 })
 export class ThemeService {
   private readonly themeKey = 'selectedTheme';
+  private readonly validThemes = ['winter', 'lofi', 'black', 'dracula', 'dim'];
 
   constructor() {
     const savedTheme = localStorage.getItem(this.themeKey);
-    if (savedTheme) {
+    if (savedTheme && this.isValidTheme(savedTheme)) {
       this.setTheme(savedTheme);
+    } else {
+      this.setTheme('winter');
     }
   }
 
-  setTheme(theme: 'winter' | 'night' | string): void {
-    if (theme === 'winter' || theme === 'night') {
+  setTheme(theme: string): void {
+    if (this.isValidTheme(theme)) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem(this.themeKey, theme);
     } else {
@@ -22,17 +25,22 @@ export class ThemeService {
     }
   }
 
-  getTheme(): 'winter' | 'night' {
-    return (localStorage.getItem(this.themeKey) as 'winter' | 'night') || 'winter';
+  getTheme(): string {
+    return localStorage.getItem(this.themeKey) || 'winter';
   }
 
   toggleTheme(): void {
     const currentTheme = this.getTheme();
-    const newTheme = currentTheme === 'winter' ? 'night' : 'winter';
-    this.setTheme(newTheme);
+    const currentIndex = this.validThemes.indexOf(currentTheme);
+    const newIndex = (currentIndex + 1) % this.validThemes.length;
+    this.setTheme(this.validThemes[newIndex]);
   }
 
   isNightTheme(): boolean {
-    return this.getTheme() === 'night';
+    return this.getTheme() === 'black' || this.getTheme() === 'dracula' || this.getTheme() === 'dim';
+  }
+
+  private isValidTheme(theme: string): boolean {
+    return this.validThemes.includes(theme);
   }
 }

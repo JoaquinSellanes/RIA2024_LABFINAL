@@ -1,27 +1,57 @@
 [
   {
     "id": 1,
-    "email": "admin@panpan.uy",
-    "role": "ADMIN"
+    "productos": [],
+    "estado": "pendiente",
+    "fecha": "2024-06-15",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy",
+      "role": "CLIENTE"
+    }
   },
   {
     "id": 2,
-    "email": "panadero@panpan.uy",
-    "role": "PANADERO"
+    "productos": [],
+    "estado": "completado",
+    "fecha": "2024-06-10",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy",
+      "role": "CLIENTE"
+    }
   },
   {
     "id": 3,
-    "email": "cliente@panpan.uy",
-    "role": "CLIENTE"
+    "productos": [],
+    "estado": "cancelado",
+    "fecha": "2024-06-12",
+    "cliente": {
+      "id": 4,
+      "email": "cliente2@panpan.uy",
+      "role": "CLIENTE"
+    }
   },
   {
     "id": 4,
-    "email": "cliente2@panpan.uy",
-    "role": "CLIENTE"
+    "productos": [],
+    "estado": "pendiente",
+    "fecha": "2024-06-17",
+    "cliente": {
+      "id": 4,
+      "email": "cliente2@panpan.uy",
+      "role": "CLIENTE"
+    }
   },
   {
     "id": 5,
-    "email": "user@gmail.com",
-    "role": "USUARIO"
+    "productos": [],
+    "estado": "pendiente",
+    "fecha": "2024-06-16",
+    "cliente": {
+      "id": 3,
+      "email": "cliente@panpan.uy",
+      "role": "CLIENTE"
+    }
   }
 ]
