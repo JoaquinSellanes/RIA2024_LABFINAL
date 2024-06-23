@@ -99,8 +99,11 @@ exports.obtenerPedidoPorId = (req, res) => {
 
         // Obtener detalles completos de los productos
         pedido.productos = pedido.productos.map(item => {
-            const producto = productoService.obtenerProductoPorId(item.productoId);
-            if (producto) {
+            const productoConDeleted = productoService.obtenerProductoPorId(item.productoId);
+            
+            if (productoConDeleted) {
+                const { isDeleted, ...producto } = productoConDeleted;
+
                 // Mapear IDs de ingredientes a sus nombres
                 const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
                     const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);

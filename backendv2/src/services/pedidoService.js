@@ -1,5 +1,5 @@
 const deepClone = require('../utils/deepClone');
-const { pedidos, productos, usuarios } = require('../data/mockData');
+const { pedidos } = require('../data/mockData');
 
 exports.agregarPedido = (pedido) => {
     pedidos.push(pedido);
@@ -13,24 +13,7 @@ exports.obtenerUltimoPedidoId = () => {
 
 exports.obtenerPedidoPorId = (id) => {
     const pedido = pedidos.find(p => p.id == id);
-    if (pedido) {
-        pedido.productos = pedido.productos.map(item => {
-            const producto = productos.find(p => p.id == item.productoId);
-            if (producto) {
-                const { isDeleted, ...productoSinIsDeleted } = producto;
-                return { cantidad: item.cantidad, producto: productoSinIsDeleted };
-            }
-            return null;
-        }).filter(item => item !== null); // Filtrar los productos no encontrados
-        const cliente = usuarios.find(usuario => usuario.id == pedido.clienteId);
-        if (cliente) {
-            const { password, ...clienteSinPassword } = cliente;
-            pedido.cliente = clienteSinPassword;
-        }
-        delete pedido.clienteId; // Eliminar clienteId
-        return deepClone(pedido);
-    }
-    return null;
+    return pedido ? deepClone(pedido) : null;
 };
 
 exports.actualizarPedido = (id, datosPedido) => {
@@ -52,24 +35,7 @@ exports.eliminarPedido = (id) => {
 };
 
 exports.obtenerTodosLosPedidos = () => {
-    return pedidos.map(pedido => {
-        const pedidoClonado = deepClone(pedido);
-        pedidoClonado.productos = pedidoClonado.productos.map(item => {
-            const producto = productos.find(p => p.id == item.productoId);
-            if (producto) {
-                const { isDeleted, ...productoSinIsDeleted } = producto;
-                return { cantidad: item.cantidad, producto: productoSinIsDeleted };
-            }
-            return null;
-        }).filter(item => item !== null); // Filtrar los productos no encontrados
-        const cliente = usuarios.find(usuario => usuario.id == pedidoClonado.clienteId);
-        if (cliente) {
-            const { password, ...clienteSinPassword } = cliente;
-            pedidoClonado.cliente = clienteSinPassword;
-        }
-        delete pedidoClonado.clienteId; // Eliminar clienteId
-        return pedidoClonado;
-    });
+    return deepClone(pedidos);
 };
 
 exports.productoEnPedidoPendiente = (productoId) => {
