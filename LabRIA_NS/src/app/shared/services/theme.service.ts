@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ThemeService {
   private readonly themeKey = 'selectedTheme';
-  private readonly validThemes = ['winter', 'lofi', 'black', 'dracula', 'dim'];
+  private readonly validThemes = ['winter', 'lofi', 'acid', 'dracula', 'dim'];
 
   constructor() {
     const savedTheme = localStorage.getItem(this.themeKey);
@@ -37,7 +37,7 @@ export class ThemeService {
   }
 
   isNightTheme(): boolean {
-    return this.getTheme() === 'black' || this.getTheme() === 'dracula' || this.getTheme() === 'dim';
+    return this.getTheme() === 'acid' || this.getTheme() === 'dracula' || this.getTheme() === 'dim';
   }
 
   private isValidTheme(theme: string): boolean {

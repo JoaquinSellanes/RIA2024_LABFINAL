@@ -1,27 +1,59 @@
-<div class="hero">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <img
-      src="https://images.unsplash.com/photo-1567042661848-7161ce446f85?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      class="md:max-w-sm rounded-lg shadow-2xl " />
-    <div>
-      <div class="prose mb-5">
-        <h1 class="">Administracion</h1>
-        <p class="">
-          Bienvenido a PanPan, tu aplicación de administración de panadería. Con PanPan, gestiona tus productos,
-          controla
-          ingredientes, automatiza tareas diarias y mejora la atención al cliente. ¡Transforma tu panadería con PanPan
-          hoy
-          mismo!
-        </p>
-      </div>
-      <div class="flex gap-3 flex-wrap">
-        <button class="btn btn-neutral" routerLink="/administracion/informes">Informes</button>
-        <button class="btn btn-neutral" routerLink="/administracion/productos">Productos</button>
-        <button class="btn btn-neutral" routerLink="/administracion/insumos">Insumos</button>
-        <button class="btn btn-neutral" routerLink="/administracion/usuarios">Usuarios</button>
-        <button class="btn btn-neutral" routerLink="/administracion/pedidos">Pedidos</button>
+<div>
+  <div class="hero">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <img
+        src="https://images.unsplash.com/photo-1567042661848-7161ce446f85?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        class="md:max-w-sm rounded-lg shadow-2xl " />
+      <div>
+        <div class="prose mb-5">
+          <h1 class="">Administracion</h1>
+          <p class="">
+            Bienvenido a PanPan, tu aplicación de administración de panadería. Con PanPan, gestiona tus productos,
+            controla ingredientes, automatiza tareas diarias y mejora la atención al cliente. ¡Transforma tu panadería
+            con PanPan hoy mismo!
+          </p>
+        </div>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn btn-neutral" routerLink="/administracion/informes">Informes</button>
+          <button class="btn btn-neutral" routerLink="/administracion/productos">Productos</button>
+          <button class="btn btn-neutral" routerLink="/administracion/insumos">Insumos</button>
+          <button class="btn btn-neutral" routerLink="/administracion/usuarios">Usuarios</button>
+          <button class="btn btn-neutral" routerLink="/administracion/pedidos">Pedidos</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="divider divider-secondary mt-20">Estadisticas</div>
+
+  <div class="flex justify-center my-14">
+    <div class="stats shadow">
+      <div class="stat place-items-center">
+        <div class="stat-title">Pedidos Totales</div>
+        <div class="stat-value">{{ totalPedidos }}</div>
+        <div class="stat-desc">Desde el inicio del servicio</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Usuarios</div>
+        <div class="stat-value text-secondary">{{ totalUsuarios }}</div>
+        <div class="stat-desc text-secondary">Activos y registrados</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Productos Activos</div>
+        <div class="stat-value">{{ totalProductosActivos }}</div>
+        <div class="stat-desc">Actualmente en venta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid sm:grid-cols-1 md:grid-cols-2">
+    <div id="chartPedidos" style="width: 100%; height: 400px;"></div>
+    <div id="chartProductos" style="width: 100%; height: 400px;"></div>
+    <div id="chartUsuarios" style="width: 100%; height: 400px;"></div>
+    <div id="chartVentas" style="width: 100%; height: 400px;"></div>
+    <div id="chartClientes" style="width: 100%; height: 400px;"></div>
+    <div id="chartLine" style="width: 100%; height: 400px;"></div>
+  </div>
 </div>
-<div class="divider divider-secondary my-20">Estadisticas</div>

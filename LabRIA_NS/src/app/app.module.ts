@@ -8,6 +8,7 @@ import { AdminModule } from './features/admin/admin.module';
 import { PanaderoModule } from './features/panadero/panadero.module';
 import { ClienteModule } from './features/cliente/cliente.module';
 import { AuthModule } from './features/auth/auth.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import { AuthModule } from './features/auth/auth.module';
     AdminModule,
     PanaderoModule,
     ClienteModule,
-    AuthModule
+    AuthModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
