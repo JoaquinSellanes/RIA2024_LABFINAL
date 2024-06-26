@@ -46,9 +46,9 @@ const routes: Routes = [
   // CLIENTE
   {
     path: 'cliente', component: clienteBodyComponent, children: [
-      { path: '', redirectTo: 'pedidos', pathMatch: 'full' },
-      { path: 'pedidos', component: clienteDashboardComponent },
-      { path: '**', redirectTo: 'pedidos' }
+      { path: '', redirectTo: 'tienda', pathMatch: 'full' },
+      { path: 'tienda', component: clienteDashboardComponent },
+      { path: '**', redirectTo: 'tienda' }
     ], canActivate: [UserGuard]
   },
   // PANADERO

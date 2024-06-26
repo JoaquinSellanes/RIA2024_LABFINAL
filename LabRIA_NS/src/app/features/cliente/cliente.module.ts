@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { clienteBodyComponent } from './components/body/body.component';
 import { clienteDashboardComponent } from './components/dashboard/dashboard.component';
 import { CartModalComponent } from './components/cart-modal/cart-modal.component';
+import { ClienteFooterComponent } from './components/footer/footer.component';
 
 
 
@@ -13,7 +14,8 @@ import { CartModalComponent } from './components/cart-modal/cart-modal.component
   declarations: [
     clienteBodyComponent,
     clienteDashboardComponent,
-    CartModalComponent
+    CartModalComponent,
+    ClienteFooterComponent
   ],
   imports: [
     CommonModule,

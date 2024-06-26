@@ -1,7 +1,7 @@
 <div class="flex justify-end">
   <div class="indicator">
     <span class="indicator-item badge badge-secondary">{{ itemCount }}</span>
-    <button class="btn btn-primary" onclick="document.getElementById('my_modal_3').showModal()">
+    <button class="btn btn-primary" onclick="document.getElementById('cartModal').showModal()">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -10,4 +10,39 @@
     </button>
   </div>
 </div>
+
+<div class="prose mb-5">
+  <h1>Tienda</h1>
+</div>
+<div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
+  <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
+    <figure>
+      <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" [src]="foo.imagen"
+        alt="Imagen del producto" />
+      <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer" src="/assets/no-image.png"
+        alt="Imagen del producto" />
+    </figure>
+    <div class="card-body">
+      <div class="flex justify-between items-center">
+        <h2 class="card-title hover:text-primary cursor-pointer transition-all">
+          {{foo.nombre}}
+        </h2>
+        <span class="text-primary font-bold text-lg">
+          ${{foo.precio}} UYU
+        </span>
+      </div>
+      <p>{{foo.descripcion}}</p>
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary" (click)="addToCart(foo)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <app-cart-modal></app-cart-modal>

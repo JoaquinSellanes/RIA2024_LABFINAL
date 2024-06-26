@@ -47,7 +47,7 @@ export class LoginComponent {
           } else if (res.role === "ADMIN") {
             this.router.navigate(['/administracion/dashboard']);
           } else if (res.role === "CLIENTE") {
-            this.router.navigate(['/cliente/pedidos']);
+            this.router.navigate(['/cliente/tienda']);
           }
         }, (error) => {
           console.error('Error logging in', error);
