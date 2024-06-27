@@ -217,10 +217,13 @@ exports.activarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const producto = productoService.obtenerProductoPorId(id);
-        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+        let producto = productoService.obtenerProductoPorId(id);
+        if (!producto) { return res.status(404).json({ error: 'Producto no encontrado' }); }
 
         producto.isActive = true;
+        // console.log(`Producto encontrado y activado: ${JSON.stringify(producto, null, 2)}`);
+
+        producto = productoService.actualizarProducto(id, producto); // Actualizar el producto en el servicio
 
         // Mapear IDs de ingredientes a sus nombres
         const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
@@ -238,6 +241,7 @@ exports.activarProducto = (req, res) => {
 
         res.status(200).json(filterProductProperties(productoConNombresDeIngredientes));
     } catch (error) {
+        console.log(`Error: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
@@ -246,10 +250,11 @@ exports.desactivarProducto = (req, res) => {
     const { id } = req.params;
 
     try {
-        const producto = productoService.obtenerProductoPorId(id);
+        let producto = productoService.obtenerProductoPorId(id);
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
         producto.isActive = false;
+        producto = productoService.actualizarProducto(id, producto); // Actualizar el producto en el servicio
 
         // Mapear IDs de ingredientes a sus nombres
         const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
