@@ -1,4 +1,5 @@
 const usuarioService = require('../services/usuarioService');
+const pedidoService = require('../services/pedidoService');
 
 // Listar todos los usuarios con filtro opcional por rol
 exports.listarUsuarios = (req, res) => {
@@ -58,7 +59,21 @@ exports.obtenerMiCuenta = (req, res) => {
 
         // Eliminar la contraseña antes de devolver el usuario
         const { password, ...usuarioSinPassword } = usuario;
-        res.status(200).json(usuarioSinPassword);
+
+        // Obtener la cantidad de pedidos del usuario
+        const pedidos = pedidoService.obtenerPedidosPorClienteId(usuarioId);
+        const totalPedidos = pedidos.length;
+        const pedidosFinalizados = pedidos.filter(pedido => pedido.estado === 'completado').length;
+        const pedidosPendientes = pedidos.filter(pedido => pedido.estado === 'pendiente').length;
+
+        res.status(200).json({
+            ...usuarioSinPassword,
+            pedidos: {
+                total: totalPedidos,   
+                finalizados: pedidosFinalizados,
+                pendientes: pedidosPendientes
+            }
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
