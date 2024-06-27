@@ -4,9 +4,11 @@ const router = express.Router();
 const pedidoController = require('../controllers/pedidoController');
 
 router.post('/',                verifyToken, pedidoController.crearPedido);
+router.get('/mis-pedidos',      verifyToken, pedidoController.obtenerPedidosDelCliente);                // Nueva ruta para obtener pedidos del cliente logueado
 router.get('/:id',              verifyToken, isPanadero, pedidoController.obtenerPedidoPorId);
 router.post('/all',             verifyToken, isPanadero, pedidoController.obtenerTodosLosPedidos);
-router.post('/ingredientes',    verifyToken, isPanadero, pedidoController.calcularIngredientesTotales);  // Nueva ruta para calcular ingredientes totales
+router.post('/ingredientes',    verifyToken, isPanadero, pedidoController.calcularIngredientesTotales); // Nueva ruta para calcular ingredientes totales
+
 // router.post('/', pedidoController.crearPedido);
 // router.get('/:id', pedidoController.obtenerPedidoPorId);
 // router.put('/:id', pedidoController.actualizarPedido);
