@@ -25,6 +25,17 @@ export class PedidosService {
     }
   }
 
+  // GET      | /pedidos/mis-pedidos
+  async getMisPedidos(): Promise<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    try {
+      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/pedidos/mis-pedidos`, { headers }));
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
 
