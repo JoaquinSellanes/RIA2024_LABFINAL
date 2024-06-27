@@ -45,3 +45,21 @@ exports.modificarRolUsuario = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Obtener datos de la cuenta del usuario logueado
+exports.obtenerMiCuenta = (req, res) => {
+    const usuarioId = req.userId; // Obtener el ID del usuario desde el token
+
+    try {
+        const usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Eliminar la contraseña antes de devolver el usuario
+        const { password, ...usuarioSinPassword } = usuario;
+        res.status(200).json(usuarioSinPassword);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
