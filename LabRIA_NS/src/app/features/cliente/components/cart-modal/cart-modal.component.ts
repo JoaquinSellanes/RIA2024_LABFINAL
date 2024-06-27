@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { PedidosService } from '../../services/pedidos.service';
+import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 interface itemenv {
   productoId: number;
@@ -10,6 +11,7 @@ interface itemenv {
 @Component({
   selector: 'app-cart-modal',
   template: `
+    <app-toast #toast></app-toast>
     <dialog id="cartModal" class="modal">
       <div class="modal-box">
         <form method="dialog">
@@ -26,8 +28,6 @@ interface itemenv {
             </figure>
             <div class="col-span-2">
               <h4 class="font-bold">{{ item.product.nombre }}</h4>
-              <!-- <p>{{ item.product.descripcion }}</p> -->
-              <!-- <p>{{ item.product.precio }} x {{ item.quantity }}</p> -->
               <p>{{ item.quantity }} Unidades</p>
               <div class="flex justify-end">
                 <p class="text-primary font-bold"> &#36;{{item.product.precio * item.quantity}} UYU</p>
@@ -41,7 +41,17 @@ interface itemenv {
         <ng-template #emptyCart>
           <div class="my-7 prose lg:prose-xl">
             <h1>Parece que no tiene nada!</h1>
-            <p>No seas timido, compra algo!</p>
+            <p>No seas tímido, compra algo!</p>
+          </div>
+        </ng-template>
+        <ng-template #compro>
+          <div class="my-7 prose lg:prose-xl" *ngIf="compro">
+            <h1>Muchas gracias!</h1>
+            <p>Su pedido ya ha sido recibida y estamos trabajando en ello!</p>     
+          </div>
+          <div class="my-7 prose lg:prose-xl" *ngIf="!compro">
+            <h1>Parece que no tiene nada!</h1>
+            <p>No seas tímido, compra algo!</p>
           </div>
         </ng-template>
         <div class="flex justify-between items-center">
@@ -56,6 +66,8 @@ interface itemenv {
 export class CartModalComponent implements OnInit {
   cartItems: any[] = [];
   total: number = 0;
+  compro: boolean = false;
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(
     private cartService: CartService,
@@ -65,25 +77,29 @@ export class CartModalComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.getCartObservable().subscribe(cartItems => {
       this.cartItems = cartItems;
+      this.calculateTotal();
     });
+  }
 
-    for (const item of this.cartItems) {
-      this.total += item.product.precio * item.quantity;
-    }
-
-    console.log("cart items: ", this.cartItems);
-
+  calculateTotal(): void {
+    this.total = this.cartItems.reduce((sum, item) => sum + item.product.precio * item.quantity, 0);
   }
 
   clearCart(): void {
     this.cartService.clearCart();
+    this.toast.showToast("Carrito vaciado!");
   }
 
   comprar(): void {
     const productos: itemenv[] = this.cartItems.map(item => ({ productoId: item.product.id, cantidad: item.quantity }));
     this.pedidosService.createPedido(productos).then(response => {
       console.log("Pedido creado: ", response);
-      this.clearCart();
+      this.toast.showToast("Pedido realizado con éxito!");
+      this.cartService.clearCart();
+      this.compro = true;
+    }).catch(error => {
+      console.error("Error al crear pedido: ", error);
+      this.toast.showToast("Error al realizar el pedido. Inténtelo de nuevo.");
     });
   }
 }

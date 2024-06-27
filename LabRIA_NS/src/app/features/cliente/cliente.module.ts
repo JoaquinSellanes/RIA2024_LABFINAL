@@ -7,19 +7,24 @@ import { clienteBodyComponent } from './components/body/body.component';
 import { clienteDashboardComponent } from './components/dashboard/dashboard.component';
 import { CartModalComponent } from './components/cart-modal/cart-modal.component';
 import { ClienteFooterComponent } from './components/footer/footer.component';
+import { CuentaComponent } from './components/cuenta/cuenta.component';
+import { MispedidosComponent } from './components/mispedidos/mispedidos.component';
 
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     clienteBodyComponent,
     clienteDashboardComponent,
     CartModalComponent,
-    ClienteFooterComponent
+    ClienteFooterComponent,
+    CuentaComponent,
+    MispedidosComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ]
 })
 export class ClienteModule { }

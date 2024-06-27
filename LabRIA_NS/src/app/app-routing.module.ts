@@ -20,6 +20,8 @@ import { InformesComponent } from './features/admin/components/informes/informes
 // CLIENTE o USUARIO
 import { clienteBodyComponent } from './features/cliente/components/body/body.component';
 import { clienteDashboardComponent } from './features/cliente/components/dashboard/dashboard.component';
+import { MispedidosComponent } from './features/cliente/components/mispedidos/mispedidos.component';
+import { CuentaComponent } from './features/cliente/components/cuenta/cuenta.component';
 // PANADERO
 import { panaderoBodyComponent } from './features/panadero/components/body/body.component';
 import { panaderoDashboardComponent } from './features/panadero/components/dashboard/dashboard.component';
@@ -48,6 +50,8 @@ const routes: Routes = [
     path: 'cliente', component: clienteBodyComponent, children: [
       { path: '', redirectTo: 'tienda', pathMatch: 'full' },
       { path: 'tienda', component: clienteDashboardComponent },
+      { path: 'mispedidos', component: MispedidosComponent },
+      { path: 'cuenta', component: CuentaComponent },
       { path: '**', redirectTo: 'tienda' }
     ], canActivate: [UserGuard]
   },
