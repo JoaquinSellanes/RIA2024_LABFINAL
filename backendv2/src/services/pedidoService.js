@@ -1,6 +1,11 @@
 const deepClone = require('../utils/deepClone');
 const { pedidos } = require('../data/mockData');
 
+exports.obtenerPedidosPorClienteId = (clienteId) => {
+    const pedidosDelCliente = pedidos.filter(pedido => pedido.clienteId == clienteId);
+    return deepClone(pedidosDelCliente);
+};
+
 exports.agregarPedido = (pedido) => {
     pedidos.push(pedido);
     return deepClone(pedido);

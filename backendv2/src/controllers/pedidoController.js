@@ -4,6 +4,59 @@ const ingredienteService = require('../services/ingredienteService');
 const usuarioService = require('../services/usuarioService');
 const deepClone = require('../utils/deepClone');
 
+exports.obtenerPedidosDelCliente = (req, res) => {
+    const clienteId = req.userId; // Obtener el ID del usuario desde el token
+
+    try {
+        let pedidos = pedidoService.obtenerPedidosPorClienteId(clienteId);
+        
+        // Mapear productos y sus ingredientes a los nombres en lugar de IDs
+        pedidos = pedidos.map(pedido => {
+            pedido.productos = pedido.productos.map(item => {
+                const producto = productoService.obtenerProductoPorId(item.productoId);
+                if (producto) {
+                    // Mapear IDs de ingredientes a sus nombres
+                    const ingredientesConNombres = producto.ingredientes.map(ingrediente => {
+                        const ingredienteInfo = ingredienteService.obtenerIngredientePorId(ingrediente.id);
+                        return {
+                            nombre: ingredienteInfo.nombre,
+                            cantidad: ingrediente.cantidad
+                        };
+                    });
+
+                    const { isDeleted, ...productoSinIsDeleted } = producto;
+                    const productoConNombresDeIngredientes = {
+                        ...productoSinIsDeleted,
+                        ingredientes: ingredientesConNombres
+                    };
+
+                    return {
+                        cantidad: item.cantidad,
+                        producto: productoConNombresDeIngredientes
+                    };
+                } else {
+                    return {
+                        cantidad: item.cantidad,
+                        producto: null
+                    };
+                }
+            }).filter(item => item.producto !== null); // Filtrar los productos no encontrados
+
+            const cliente = usuarioService.obtenerUsuarioPorId(pedido.clienteId);
+            if (cliente) {
+                const { password, role, ...clienteSinPasswordYRole } = cliente;
+                pedido.cliente = clienteSinPasswordYRole;
+            }
+            delete pedido.clienteId;
+            return pedido;
+        });
+
+        res.status(200).json(pedidos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.crearPedido = (req, res) => {
     const { productos } = req.body;
     const clienteId = req.userId; // Obtener el ID del usuario desde el token
