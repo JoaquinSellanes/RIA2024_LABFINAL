@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../../../shared/services/theme.service';
 
 @Component({
   selector: 'app-body',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class panaderoBodyComponent implements AfterViewInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public themeService: ThemeService) { }
 
   ngAfterViewInit(): void {
     const button = document.querySelector('#menu-button');
@@ -19,6 +20,14 @@ export class panaderoBodyComponent implements AfterViewInit {
     });
   }
 
+  changeTheme(theme: string): void {
+    this.themeService.setTheme(theme);
+  }
+
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
 
   salir() {
     localStorage.removeItem('token');

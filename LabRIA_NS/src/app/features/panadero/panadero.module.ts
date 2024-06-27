@@ -5,12 +5,14 @@ import { RouterModule } from '@angular/router';
 
 import { panaderoBodyComponent } from './components/body/body.component';
 import { panaderoDashboardComponent } from './components/dashboard/dashboard.component';
+import { PanaderoFooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
   declarations: [
     panaderoBodyComponent,
-    panaderoDashboardComponent
+    panaderoDashboardComponent,
+    PanaderoFooterComponent
   ],
   imports: [
     CommonModule,
