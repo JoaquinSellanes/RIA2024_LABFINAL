@@ -12,8 +12,8 @@ exports.login = async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        // const isMatch = await bcrypt.compare(password, user.password);
-        const isMatch = (password === user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
+        // const isMatch = (password === user.password);
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
@@ -26,21 +26,26 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, telefono } = req.body;
+
+    // Validaciones
+    if (!email || !password || !telefono) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios: email, password, telefono' });
+    }
 
     try {
         if (usuarioService.findUserByEmail(email)) {
-            return res.status(400).json({ error: 'User already exists' });
+            return res.status(400).json({ error: 'El usuario ya existe' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10);
         const lastUserId = usuarioService.getLastUserId();
-        const newUser = new Usuario({ id: lastUserId + 1, email, password: hashedPassword, role: 'USUARIO' });
+        const newUser = new Usuario({ id: lastUserId + 1, email, password, telefono, role: 'CLIENTE' });
         usuarioService.addUser(newUser);
 
         const { password: userPassword, ...userWithoutPassword } = newUser;
         res.status(201).json({ user: userWithoutPassword });
     } catch (error) {
-        res.status(500).json({ error: 'Server error, please try again later' });
+        res.status(500).json({ error: 'Error del servidor, por favor intente nuevamente más tarde' });
     }
 };

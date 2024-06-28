@@ -4,10 +4,10 @@ const Pedido = require('../models/pedidoModel');
 const Ingrediente = require('../models/ingredienteModel');
 
 let usuarios = [
-    new Usuario({ id: 1, email: 'admin@panpan.uy',      password: 'asdasd123',  role: 'ADMIN' }),
-    new Usuario({ id: 2, email: 'panadero@panpan.uy',   password: 'panadero',   role: 'PANADERO' }),
-    new Usuario({ id: 3, email: 'cliente@panpan.uy',    password: 'cliente',    role: 'CLIENTE' }),
-    new Usuario({ id: 4, email: 'cliente2@panpan.uy',   password: 'cliente2',   role: 'CLIENTE' }),
+    new Usuario({ id: 1, email: 'admin@panpan.uy',      password: 'asdasd123', telefono: "099123456", role: 'ADMIN' }),
+    new Usuario({ id: 2, email: 'panadero@panpan.uy',   password: 'panadero',  telefono: "099123456", role: 'PANADERO' }),
+    new Usuario({ id: 3, email: 'cliente@panpan.uy',    password: 'cliente',   telefono: "099123456", role: 'CLIENTE' }),
+    new Usuario({ id: 4, email: 'cliente2@panpan.uy',   password: 'cliente2',  telefono: "099123456", role: 'CLIENTE' }),
 ];
 
 let ingredientes = [
