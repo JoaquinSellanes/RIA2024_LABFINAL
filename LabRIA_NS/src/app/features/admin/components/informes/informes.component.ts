@@ -49,9 +49,13 @@ export class InformesComponent implements OnInit {
   insumos: Insumo[] = [];
   productos: Producto[] = [];
   pedidos: Pedido[] = [];
+  pedidosFiltrados: Pedido[] = [];
+  insumosNecesarios: { nombre: string; cantidad: number }[] = [];
+  idList: number[] = [];
 
   dataProductos: any[] = [];
   dataPedidos: any[] = [];
+  dataPedidoPendientes: any[] = [];
 
   constructor(
     private insumosService: InsumosService,
@@ -90,10 +94,20 @@ export class InformesComponent implements OnInit {
         });
       }
 
+      // me guardo los ids de los pedidos pendientes
+      const pedidosPendientes = this.pedidos.filter(pedido => pedido.estado === 'pendiente');
+      this.idList = pedidosPendientes.map(pedido => pedido.id);
+
+      this.insumosNecesarios = await this.pedidosService.getIngredientes(this.idList) as { nombre: string; cantidad: number }[];
+
+
       console.log('Insumos:', this.insumos);
       console.log('Productos:', this.productos);
       console.log('Usuarios:', this.usuarios);
       console.log('Pedidos:', this.pedidos);
+      console.log('Insumos Necesarios:', this.insumosNecesarios);
+      console.log('Pedidos Pendientes:', pedidosPendientes);
+      console.log('Ids Pedidos Pendientes:', this.idList);
     } catch (error) {
       console.error('Error fetching data in InformesComponent', error);
     }
@@ -113,6 +127,10 @@ export class InformesComponent implements OnInit {
 
   exportPedidos() {
     this.generateReport(this.dataPedidos, 'Pedidos');
+  }
+
+  exportInsumosNecesarios() {
+    this.generateReport(this.insumosNecesarios, 'Insumos Necesarios');
   }
 
   private async generateReport(data: any[], fileName: string) {

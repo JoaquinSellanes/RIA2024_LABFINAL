@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center flex-col w-full h-full gap-3" *ngIf="!loaded">
+<div class="flex flex-col justify-center items-center w-full h-full gap-3" *ngIf="!loaded">
   <div class="prose">
     <h1>Cargando</h1>
   </div>
@@ -8,13 +8,44 @@
   </div>
 </div>
 
-<div *ngIf="loaded">
-  <div class="prose">
+<div *ngIf="loaded" class="p-4">
+  <div class="prose mb-4">
     <h1>Pedidos</h1>
     <p>Lista de los pedidos del sistema</p>
   </div>
-  <div class="overflow-x-auto border rounded-lg mt-2">
-    <table class="table">
+  <div class="flex flex-col lg:flex-row lg:justify-center gap-4 mb-4">
+    <form [formGroup]="filtrosForm" class="flex flex-col lg:flex-row gap-2" (submit)="aplicarFiltros()">
+      <div>
+        <label for="estado" class="block mb-2 text-sm font-medium text-gray-700">Estado</label>
+        <select id="estado" formControlName="estado" class="select select-bordered">
+          <option value="" disabled selected>Estado</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="completado">Completado</option>
+          <option value="cancelado">Cancelado</option>
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div>
+        <label for="fechaInicio" class="block mb-2 text-sm font-medium text-gray-700">Fecha Inicio</label>
+        <input id="fechaInicio" type="date" formControlName="fechaInicio" class="input input-bordered"
+          placeholder="Fecha Inicio">
+      </div>
+      <div>
+        <label for="fechaFin" class="block mb-2 text-sm font-medium text-gray-700">Fecha Fin</label>
+        <input id="fechaFin" type="date" formControlName="fechaFin" class="input input-bordered"
+          placeholder="Fecha Fin">
+      </div>
+      <div class="flex items-end h-full">
+        <button type="submit" class="btn btn-primary mt-4 lg:mt-0">Aplicar</button>
+      </div>
+    </form>
+
+  </div>
+  <div class="prose mb-4">
+    <h2>Pedidos del sistema</h2>
+  </div>
+  <div class="overflow-x-auto border rounded-lg mt-2" *ngIf="pedidos.length > 0">
+    <table class="table w-full">
       <thead>
         <tr>
           <th>Id</th>
@@ -25,7 +56,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover" *ngFor="let pedido of pedidos">
+        <tr class="hover" *ngFor="let pedido of pedidosPaginados">
           <th>{{ pedido.id }}</th>
           <td>{{ pedido.cliente }}</td>
           <td>{{ pedido.fecha }}</td>
@@ -34,5 +65,53 @@
         </tr>
       </tbody>
     </table>
+    <div class="flex items-center justify-end mt-4 p-1 gap-1">
+      <span class="mx-2">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+      <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          class="inline-block h-5 w-5 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+        </svg>
+      </button>
+      <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          class="inline-block h-5 w-5 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="flex flex-col justify-center items-center text-center my-8 gap-5" *ngIf="pedidos.length == 0">
+    <h2 class="text-2xl lg:text-5xl">Parece que no se encuentra ningún registro con estas condiciones</h2>
+    <p>Recarga o aplica otros filtros para ver más!</p>
+  </div>
+  <div class="flex justify-end pt-3">
+    <button class="btn btn-primary" [disabled]="pedidos.length == 0" (click)="mostrarInsumos()">Insumos
+      necesarios</button>
+  </div>
+
+  <div *ngIf="mostrarInsumosTabla" class="mt-8">
+    <div class="prose mb-4">
+      <h2>Insumos Necesarios</h2>
+    </div>
+    <div class="overflow-x-auto border rounded-lg mt-2">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cantidad Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover" *ngFor="let insumo of insumosNecesarios">
+            <td>{{ insumo.nombre }}</td>
+            <td>{{ insumo.cantidad }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex justify-end mt-4">
+      <button class="btn btn-secondary" (click)="exportInsumosNecesarios()">Generar Informe</button>
+    </div>
   </div>
 </div>

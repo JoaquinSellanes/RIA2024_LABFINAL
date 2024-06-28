@@ -20,9 +20,10 @@
     <figure><img src="/assets/informeInsumos.jpg" alt="Insumos foto" /></figure>
     <div class="card-body">
       <h2 class="card-title">Insumos</h2>
-      <p>Genera informes de los insumos del sistema</p>
+      <p>Genera informes de los insumos del sistema y los insumos necesarios para los pedidos pendientes</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary" (click)="exportInsumos()">Generar informe</button>
+        <button class="btn btn-primary" (click)="exportInsumos()">Insumos del sistema</button>
+        <button class="btn btn-primary" (click)="exportInsumosNecesarios()">Insumos necesarios</button>
       </div>
     </div>
   </div>

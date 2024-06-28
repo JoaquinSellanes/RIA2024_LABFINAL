@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -17,6 +18,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     CoreModule,
     SharedModule,
     AdminModule,
@@ -25,7 +27,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AuthModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    }),
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
