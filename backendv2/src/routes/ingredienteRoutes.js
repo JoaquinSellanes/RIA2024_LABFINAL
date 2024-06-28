@@ -1,19 +1,17 @@
 const express = require('express');
-const {
-    crearIngrediente,
-    obtenerIngredientePorId,
-    actualizarIngrediente,
-    eliminarIngrediente,
-    obtenerTodosLosIngredientes,
-} = require('../controllers/ingredienteController');
+const { verifyToken, isAdmin, isPanadero } = require('../middlewares/authMiddleware');
+const ingredienteController = require('../controllers/ingredienteController');
 
 const router = express.Router();
 
-router.post('/', crearIngrediente);
-router.get('/:id', obtenerIngredientePorId);
-router.put('/:id', actualizarIngrediente);
-router.delete('/:id', eliminarIngrediente);
-router.get('/', obtenerTodosLosIngredientes);
+router.post('/',                verifyToken, isAdmin, ingredienteController.crearIngrediente);
+router.get('/:id',              verifyToken,          ingredienteController.obtenerIngredientePorId);
+router.put('/:id',              verifyToken, isAdmin, ingredienteController.actualizarIngrediente);
+router.delete('/:id',           verifyToken, isAdmin, ingredienteController.eliminarIngrediente);
+router.get('/',                 verifyToken,          ingredienteController.obtenerTodosLosIngredientes);
+router.put('/:id/activar',      verifyToken, isAdmin, ingredienteController.activarIngrediente);
+router.put('/:id/desactivar',   verifyToken, isAdmin, ingredienteController.desactivarIngrediente);
+
 
 module.exports = {
     route: '/ingredientes',
