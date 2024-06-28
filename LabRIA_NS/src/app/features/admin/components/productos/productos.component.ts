@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
-import { Producto } from '../../../shared/models/producto';
 import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 @Component({
@@ -10,7 +9,13 @@ import { ToastComponent } from '../../../../shared/toast/toast.component';
 })
 export class ProductosComponent implements OnInit {
   loaded: boolean = false;
-  productos: any = [];
+  productos: any[] = [];
+  productosPaginados: any[] = [];
+  paginaActual: number = 1;
+  elementosPorPagina: number = 16;
+  totalPaginas: number = 1;
+  filtro: string = 'todos';
+
   @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private productoService: ProductoService) { }
@@ -18,15 +23,47 @@ export class ProductosComponent implements OnInit {
   async ngOnInit() {
     try {
       this.productos = await this.productoService.getProductos();
-      // console.log(this.productos);
+      this.aplicarFiltros();
       this.loaded = true;
     } catch (error) {
       console.error('Error fetching products in component', error);
     }
   }
 
-  cambiarEstado(producto: Producto) {
-    this.productos.map((p: Producto) => {
+  aplicarFiltros() {
+    let productosFiltrados = this.productos;
+
+    if (this.filtro === 'activos') {
+      productosFiltrados = this.productos.filter(p => p.isActive);
+    } else if (this.filtro === 'inactivos') {
+      productosFiltrados = this.productos.filter(p => !p.isActive);
+    }
+
+    this.totalPaginas = Math.ceil(productosFiltrados.length / this.elementosPorPagina);
+    this.actualizarPagina(productosFiltrados);
+  }
+
+  actualizarPagina(productosFiltrados: any[]) {
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    const fin = inicio + this.elementosPorPagina;
+    this.productosPaginados = productosFiltrados.slice(inicio, fin);
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    if (nuevaPagina > 0 && nuevaPagina <= this.totalPaginas) {
+      this.paginaActual = nuevaPagina;
+      this.aplicarFiltros();
+    }
+  }
+
+  cambiarFiltro(filtro: string) {
+    this.filtro = filtro;
+    this.paginaActual = 1;
+    this.aplicarFiltros();
+  }
+
+  cambiarEstado(producto: any) {
+    this.productos.map((p: any) => {
       if (p.id === producto.id) {
         p.isActive = !p.isActive;
 
@@ -39,7 +76,6 @@ export class ProductosComponent implements OnInit {
         }
 
         console.log('Producto actualizado', p.isActive);
-
       }
     });
   }

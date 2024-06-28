@@ -32,11 +32,10 @@ export class ProductoService {
   }
 
   // traer productos /productos
-  async getProductos() {
+  async getProductos(): Promise<any[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
-
     try {
-      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/productos`, { headers }));
+      const response = await firstValueFrom(this.http.get<any[]>(`${this.apiUrl}/productos`, { headers }));
       return response;
     } catch (error) {
       console.error('Error fetching products', error);

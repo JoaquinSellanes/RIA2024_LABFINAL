@@ -17,8 +17,12 @@ export class InsumosComponent implements OnInit {
   @ViewChild('modalCrearInsumo') modalCrearInsumo!: ElementRef<HTMLDialogElement>;
 
   insumos: Insumo[] = [];
+  insumosPaginados: Insumo[] = [];
   insumoForm: FormGroup;
   loaded: boolean = false;
+  paginaActual: number = 1;
+  elementosPorPagina: number = 10;
+  totalPaginas: number = 1;
 
   constructor(private fb: FormBuilder, private insumosService: InsumosService) {
     this.insumoForm = this.fb.group({
@@ -28,37 +32,46 @@ export class InsumosComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.insumosService.getInsumos().then((insumos: Insumo[]) => {
-      this.insumos = insumos;
-    });
-    console.log("Insumos: ", this.insumos);
-
+    await this.cargarInsumos();
     this.loaded = true;
+  }
+
+  async cargarInsumos() {
+    const insumos = await this.insumosService.getInsumos();
+    this.insumos = insumos;
+    this.totalPaginas = Math.ceil(this.insumos.length / this.elementosPorPagina);
+    this.actualizarPagina();
+  }
+
+  actualizarPagina() {
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    const fin = inicio + this.elementosPorPagina;
+    this.insumosPaginados = this.insumos.slice(inicio, fin);
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    if (nuevaPagina > 0 && nuevaPagina <= this.totalPaginas) {
+      this.paginaActual = nuevaPagina;
+      this.actualizarPagina();
+    }
   }
 
   openModal() {
     this.modalCrearInsumo.nativeElement?.showModal();
   }
 
-  crearInsumo() {
+  async crearInsumo() {
     if (this.insumoForm.valid) {
       const nsend = this.insumoForm.value.nombre + ' (' + this.insumoForm.value.unidad + ')';
-      this.insumosService.createInsumo(nsend).then(() => {
-        this.insumosService.getInsumos().then((insumos: Insumo[]) => {
-          this.insumos = insumos;
-        });
-      });
+      await this.insumosService.createInsumo(nsend);
+      await this.cargarInsumos();
       this.insumoForm.reset();
       this.modalCrearInsumo.nativeElement?.close();
     }
   }
 
-  eliminar(id: number) {
-    this.insumosService.deleteInsumo(id).then(() => {
-      this.insumosService.getInsumos().then((insumos: Insumo[]) => {
-        this.insumos = insumos;
-      });
-    });
+  async eliminar(id: number) {
+    await this.insumosService.deleteInsumo(id);
+    await this.cargarInsumos();
   }
-
 }

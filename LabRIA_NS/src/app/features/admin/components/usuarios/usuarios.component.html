@@ -10,9 +10,27 @@
 
 <div class="w-full flex justify-center" *ngIf="loaded">
   <div class="w-[70%] mb-3">
-    <div class="prose">
+    <div class="prose mb-4">
       <h1>Usuarios</h1>
       <p>Lista los usuarios y administra los roles eficientemente.</p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row lg:justify-start gap-4 mb-4">
+      <form [formGroup]="filtrosForm" class="flex flex-col lg:flex-row gap-2" (submit)="aplicarFiltros()">
+        <div>
+          <label for="role" class="block mb-2 text-sm font-medium text-gray-700">Rol</label>
+          <select id="role" formControlName="role" class="select select-bordered">
+            <option value="" disabled selected>Rol</option>
+            <option value="ADMIN">Administrador</option>
+            <option value="PANADERO">Panadero</option>
+            <option value="CLIENTE">Cliente</option>
+            <option value="">Todos</option>
+          </select>
+        </div>
+        <div class="flex items-end h-full">
+          <button type="submit" class="btn btn-primary mt-4 lg:mt-0">Aplicar</button>
+        </div>
+      </form>
     </div>
 
     <div class="overflow-x-auto border rounded-lg mt-2">
@@ -26,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="hover" *ngFor="let usuario of usuarios">
+          <tr class="hover" *ngFor="let usuario of usuariosPaginados">
             <th>{{ usuario.id }}</th>
             <td>{{ usuario.email }}</td>
             <td>{{ usuario.role }}</td>
@@ -41,6 +59,22 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="flex items-center justify-end mt-4 p-1 gap-1">
+        <span class="mx-2">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+        <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            class="inline-block h-5 w-5 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+          </svg>
+        </button>
+        <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            class="inline-block h-5 w-5 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -55,15 +89,3 @@
         <label for="role-select" class="block text-sm font-medium text-gray-700">Selecciona un nuevo rol</label>
         <select id="role-select" [(ngModel)]="selectedRole" name="role" class="mt-1 block w-full border-b">
           <option value=""></option>
-          <option value="ADMIN">Administrador</option>
-          <option value="PANADERO">Panadero</option>
-          <option value="CLIENTE">Cliente</option>
-        </select>
-      </div>
-      <div class="modal-action">
-        <button type="button" class="btn btn-primary" (click)="cambiarRol()"
-          [disabled]="selectedRole == ''">Guardar</button>
-      </div>
-    </form>
-  </div>
-</dialog>

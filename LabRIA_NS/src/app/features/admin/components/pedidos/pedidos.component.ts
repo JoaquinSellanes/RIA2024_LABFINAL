@@ -28,7 +28,7 @@ export class PedidosComponent implements OnInit {
   pedidosPaginados: PedidoData[] = [];
   error: boolean = false;
   paginaActual: number = 1;
-  elementosPorPagina: number = 5;
+  elementosPorPagina: number = 10;
   totalPaginas: number = 1;
   mostrarInsumosTabla: boolean = false;
   insumosNecesarios: InsumoNecesario[] = [];

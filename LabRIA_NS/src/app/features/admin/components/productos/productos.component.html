@@ -20,8 +20,19 @@
     <p>Productos del sistema</p>
   </div>
 
+  <div class="flex justify-center mb-4">
+    <div class="join">
+      <button class="btn join-item" [class.btn-primary]="filtro === 'todos'"
+        (click)="cambiarFiltro('todos')">Todos</button>
+      <button class="btn join-item" [class.btn-primary]="filtro === 'activos'"
+        (click)="cambiarFiltro('activos')">Activos</button>
+      <button class="btn join-item" [class.btn-primary]="filtro === 'inactivos'"
+        (click)="cambiarFiltro('inactivos')">Inactivos</button>
+    </div>
+  </div>
+
   <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
-    <div *ngFor="let foo of productos" class="card card-compact w-[100%] bg-base-100 shadow-xl">
+    <div *ngFor="let foo of productosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
       <figure>
         <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
           [src]="foo.imagen" alt="Imagen del producto" />
@@ -38,6 +49,22 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="flex items-center justify-center mt-4 p-1 gap-1">
+    <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+        class="inline-block h-5 w-5 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+      </svg>
+    </button>
+    <span class="mx-2">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+        class="inline-block h-5 w-5 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
   </div>
 
   <app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>

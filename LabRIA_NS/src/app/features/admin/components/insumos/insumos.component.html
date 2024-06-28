@@ -16,12 +16,10 @@
     <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-2">
       <div class="">
         <button class="btn btn-primary w-full mt-4" (click)="openModal()">Crear nuevo insumo</button>
-
       </div>
       <div class="col-span-2 max-h-screen overflow-y-scroll">
         <div class="overflow-x-auto border rounded-lg">
           <table class="table w-full">
-            <!-- head -->
             <thead>
               <tr>
                 <th>Id</th>
@@ -30,30 +28,43 @@
               </tr>
             </thead>
             <tbody>
-              <!-- row 1 -->
-              <tr *ngFor="let insumo of insumos">
+              <tr *ngFor="let insumo of insumosPaginados">
                 <th>{{insumo.id}}</th>
                 <td>{{insumo.nombre}}</td>
                 <td><button class="btn btn-error text-white" (click)="eliminar(insumo.id)" disabled>Eliminar</button>
                 </td>
               </tr>
-
             </tbody>
           </table>
         </div>
 
+        <div class="flex items-center justify-end mt-4 p-1 gap-1">
+          <span class="mx-2">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+          <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              class="inline-block h-5 w-5 stroke-current">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+            </svg>
+          </button>
+          <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas"
+            (click)="cambiarPagina(paginaActual + 1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              class="inline-block h-5 w-5 stroke-current">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-
-
   </div>
-
 </div>
 
 <dialog #modalCrearInsumo id="modalCrearInsumo" class="modal">
   <div class="modal-box">
     <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        (click)="modalCrearInsumo.close()">✕</button>
     </form>
     <h3 class="font-bold text-lg">Crear nuevo insumo</h3>
     <form [formGroup]="insumoForm" (ngSubmit)="crearInsumo()">
