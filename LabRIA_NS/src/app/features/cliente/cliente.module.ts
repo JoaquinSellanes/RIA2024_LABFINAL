@@ -12,6 +12,8 @@ import { MispedidosComponent } from './components/mispedidos/mispedidos.componen
 
 import { SharedModule } from '../../shared/shared.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     clienteBodyComponent,
@@ -24,7 +26,8 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class ClienteModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { PedidosService } from '../../services/pedidos.service';
 import { ToastComponent } from '../../../../shared/toast/toast.component';
@@ -13,7 +14,7 @@ interface itemenv {
   template: `
     <app-toast #toast></app-toast>
     <dialog id="cartModal" class="modal">
-      <div class="modal-box">
+      <div class="modal-box xl:w-[60vw] lg:w-[70vw] md:w-[80vw] sm:w-[90vw]">
         <form method="dialog">
           <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
@@ -38,41 +39,63 @@ interface itemenv {
             <p class="text-primary font-bold text-lg">Total: &#36;{{total}} UYU</p>
           </div>
         </ul>
+        <form [formGroup]="cartForm" *ngIf="cartItems.length > 0">
+          <div class="form-control my-4">
+            <label class="label">
+              <span class="label-text">Fecha de Entrega</span>
+            </label>
+            <input type="date" class="input input-bordered" formControlName="fechaEntrega">
+            <p *ngIf="cartForm.get('fechaEntrega')?.errors?.['required'] && cartForm.get('fechaEntrega')?.touched"
+               class="text-red-500 text-xs mt-1">La fecha de entrega es requerida.</p>
+            <p *ngIf="cartForm.get('fechaEntrega')?.errors?.['dateInvalid']"
+               class="text-red-500 text-xs mt-1">La fecha debe ser al menos dos días después de hoy.</p>
+          </div>
+          <div class="flex justify-between items-center">
+            <button class="btn btn-error" *ngIf="cartItems.length > 0" (click)="clearCart()">Vaciar Carrito</button>
+            <button class="btn btn-success" *ngIf="cartItems.length > 0" (click)="comprar()">Comprar</button>
+          </div>
+        </form>
+
         <ng-template #emptyCart>
           <div class="my-7 prose lg:prose-xl">
             <h1>Parece que no tiene nada!</h1>
             <p>No seas tímido, compra algo!</p>
           </div>
         </ng-template>
-        <ng-template #compro>
-          <div class="my-7 prose lg:prose-xl" *ngIf="compro">
-            <h1>Muchas gracias!</h1>
-            <p>Su pedido ya ha sido recibida y estamos trabajando en ello!</p>     
-          </div>
-          <div class="my-7 prose lg:prose-xl" *ngIf="!compro">
-            <h1>Parece que no tiene nada!</h1>
-            <p>No seas tímido, compra algo!</p>
-          </div>
-        </ng-template>
-        <div class="flex justify-between items-center">
-          <button class="btn btn-error" *ngIf="cartItems.length > 0" (click)="clearCart()">Vaciar Carrito</button>
-          <button class="btn btn-success" *ngIf="cartItems.length > 0" (click)="comprar()">Comprar</button>
-        </div>
+        
       </div>
     </dialog>
   `,
-  styles: []
+  styles: [`
+    dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    dialog {
+      border-radius: 8px;
+    }
+
+    .modal-box {
+      // max-width: 60vw;
+      min-width: 320px;
+    }
+  `]
 })
 export class CartModalComponent implements OnInit {
+  @ViewChild('toast') toast!: ToastComponent;
+  cartForm: FormGroup;
   cartItems: any[] = [];
   total: number = 0;
-  compro: boolean = false;
-  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(
+    private fb: FormBuilder,
     private cartService: CartService,
     private pedidosService: PedidosService
-  ) { }
+  ) {
+    this.cartForm = this.fb.group({
+      fechaEntrega: ['', [Validators.required, this.dateValidator]]
+    });
+  }
 
   ngOnInit(): void {
     this.cartService.getCartObservable().subscribe(cartItems => {
@@ -91,15 +114,31 @@ export class CartModalComponent implements OnInit {
   }
 
   comprar(): void {
+    if (this.cartForm.invalid) {
+      this.toast.showToast("Por favor, complete correctamente la fecha de entrega.");
+      return;
+    }
     const productos: itemenv[] = this.cartItems.map(item => ({ productoId: item.product.id, cantidad: item.quantity }));
     this.pedidosService.createPedido(productos).then(response => {
       console.log("Pedido creado: ", response);
       this.toast.showToast("Pedido realizado con éxito!");
       this.cartService.clearCart();
-      this.compro = true;
     }).catch(error => {
       console.error("Error al crear pedido: ", error);
       this.toast.showToast("Error al realizar el pedido. Inténtelo de nuevo.");
     });
+  }
+
+  dateValidator(control: AbstractControl): { [key: string]: any } | null {
+    if (!control.value) {
+      return null;
+    }
+    const selectedDate = new Date(control.value);
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 2);
+    if (selectedDate < minDate) {
+      return { 'dateInvalid': true };
+    }
+    return null;
   }
 }
