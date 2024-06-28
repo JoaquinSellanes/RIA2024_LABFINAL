@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PedidosService } from '../../services/pedidos.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 interface PedidoData {
   id: number;
@@ -34,6 +35,8 @@ export class PedidosComponent implements OnInit {
   insumosNecesarios: InsumoNecesario[] = [];
 
   filtrosForm: FormGroup;
+
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(
     private pedidosService: PedidosService,
@@ -78,6 +81,11 @@ export class PedidosComponent implements OnInit {
     const fechaInicio = filtros.fechaInicio;
     const fechaFin = filtros.fechaFin;
     const estado = filtros.estado;
+
+    if (fechaInicio && fechaFin && new Date(fechaInicio) > new Date(fechaFin)) {
+      this.toast.showToast('La fecha de inicio no puede ser mayor que la fecha de fin', 'alert alert-error');
+      return;
+    }
 
     this.pedidosService.getPedidosFiltrados(fechaInicio, fechaFin, estado)
       .then(response => {
