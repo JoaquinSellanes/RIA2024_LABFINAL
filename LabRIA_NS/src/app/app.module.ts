@@ -10,6 +10,7 @@ import { PanaderoModule } from './features/panadero/panadero.module';
 import { ClienteModule } from './features/cliente/cliente.module';
 import { AuthModule } from './features/auth/auth.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AuthModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withFetch())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

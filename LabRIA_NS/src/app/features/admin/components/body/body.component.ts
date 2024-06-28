@@ -12,6 +12,8 @@ export class AdminBodyComponent implements AfterViewInit {
 
   constructor(private router: Router, public themeService: ThemeService) { }
 
+  email = localStorage.getItem('email');
+
   ngAfterViewInit(): void {
     const button = document.querySelector('#menu-button');
     const menu = document.querySelector('#menu');

@@ -35,10 +35,12 @@ export class LoginComponent {
 
       this.authService.loginUsuario(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe((res: any) => {
-          console.log(res);
+          // console.log(res);
+          // console.log("email: " + res.email);
+
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.role);
-          localStorage.setItem('email', res.nombre);
+          localStorage.setItem('email', res.email);
 
           console.log(res.role);
 

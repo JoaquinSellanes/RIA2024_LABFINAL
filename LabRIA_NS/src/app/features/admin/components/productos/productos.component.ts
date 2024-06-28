@@ -74,14 +74,16 @@ export class ProductosComponent implements OnInit {
         if (p.isActive) {
           this.productoService.activarProducto(p.id);
           this.toast.showToast(`Producto ${p.nombre} Activado, Este ahora se listara a los clientes`, 'alert alert-info');
+          this.aplicarFiltros();
         } else {
           this.productoService.desactivarProducto(p.id);
           this.toast.showToast(`Producto ${p.nombre} Desactivado, Este ahora no sera visto por los clientes`, 'alert alert-info');
+          this.aplicarFiltros();
         }
-
         console.log('Producto actualizado', p.isActive);
       }
     });
+
   }
 
   consulta(id: string) {
