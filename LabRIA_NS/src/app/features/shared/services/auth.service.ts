@@ -17,6 +17,8 @@ export class AuthService {
   }
 
   registerUsuario(usuario: Usuario) {
+    console.log("registerUsuario", usuario);
+
     return this.http.post(`${this.apiUrl}/auth/register`, usuario);
   }
 }
