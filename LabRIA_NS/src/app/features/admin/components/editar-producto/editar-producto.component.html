@@ -3,12 +3,6 @@
     <app-toast #toast></app-toast>
 
     <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="flex-1 md:mr-4">
-      <!-- <div class="form-control mb-4">
-        <label class="label">
-          <span class="label-text">ID</span>
-        </label>
-        <input type="number" formControlName="id" class="input input-bordered" />
-      </div> -->
       <div class="form-control mb-4">
         <label class="label">
           <span class="label-text">Nombre</span>
@@ -40,10 +34,7 @@
         <div formArrayName="ingredientes">
           <div *ngFor="let ingrediente of ingredientes.controls; let i = index" [formGroupName]="i" class="mb-2">
             <div class="flex join w-full">
-              <select formControlName="id" class="select select-bordered join-item w-full">
-                <!-- <option value="ml">ml</option> -->
-                <option *ngFor="let ing of ingredientesList" [value]="ing.id">{{ ing.nombre }}</option>
-              </select>
+              <input type="text" formControlName="nombre" class="input input-bordered join-item w-full" />
               <input type="number" formControlName="cantidad" placeholder="Cantidad"
                 class="input input-bordered join-item w-full" />
               <button type="button" (click)="removerIngrediente(i)" class="btn btn-error w-12 join-item">✕</button>
@@ -53,7 +44,8 @@
         <button type="button" (click)="agregarIngrediente()" class="btn btn-primary mt-2">Agregar Ingrediente</button>
       </div>
       <div class="flex justify-end">
-        <button type="submit" class="btn btn-success mt-4">Crear Producto</button>
+        <a routerLink="/administracion/productos" class="btn btn-error mt-4 mr-2">Cancelar</a>
+        <button type="submit" class="btn btn-success mt-4">Guardar Cambios</button>
       </div>
     </form>
   </div>

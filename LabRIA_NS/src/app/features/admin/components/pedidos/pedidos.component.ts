@@ -125,6 +125,11 @@ export class PedidosComponent implements OnInit {
     this.obtenerInsumosNecesarios();
   }
 
+  limpiarFiltros() {
+    this.filtrosForm.reset();
+    this.aplicarFiltros();
+  }
+
   async obtenerInsumosNecesarios() {
     try {
       const pedidoIds = this.pedidos.map(pedido => pedido.id);

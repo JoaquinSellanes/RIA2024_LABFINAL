@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { ToastComponent } from '../../../../shared/toast/toast.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productos',
@@ -18,7 +19,10 @@ export class ProductosComponent implements OnInit {
 
   @ViewChild('toast') toast!: ToastComponent;
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     try {
@@ -85,5 +89,10 @@ export class ProductosComponent implements OnInit {
     if (modal) {
       modal.showModal();
     }
+  }
+
+  editar(id: number) {
+    console.log('Editar producto', id);
+    this.router.navigate([`/administracion/editar-producto/${id}`]);
   }
 }

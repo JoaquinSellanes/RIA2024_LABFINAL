@@ -16,6 +16,7 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { InsumosComponent } from './components/insumos/insumos.component';
+import { EditarProductoComponent } from './components/editar-producto/editar-producto.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { InsumosComponent } from './components/insumos/insumos.component';
     PedidosComponent,
     UsuariosComponent,
     InformesComponent,
-    InsumosComponent
+    InsumosComponent,
+    EditarProductoComponent
   ],
   imports: [
     CommonModule,

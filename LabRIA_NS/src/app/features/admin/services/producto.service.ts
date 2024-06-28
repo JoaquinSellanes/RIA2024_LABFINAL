@@ -13,17 +13,11 @@ export class ProductoService {
 
   constructor(private http: HttpClient) { }
 
-  // crear producto post /productos
   async createProducto(producto: Producto) {
     const token = this.getToken();
-    console.log('Token:', token); // Depuración: Verificar el token
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log('Headers:', headers); // Depuración: Verificar los headers
-
     try {
       const response = await firstValueFrom(this.http.post(`${this.apiUrl}/productos`, producto, { headers }));
-      console.log('Response:', response); // Depuración: Verificar la respuesta
       return response;
     } catch (error) {
       console.error('Error creating product', error);
@@ -31,7 +25,6 @@ export class ProductoService {
     }
   }
 
-  // traer productos /productos
   async getProductos(): Promise<any[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     try {
@@ -43,10 +36,8 @@ export class ProductoService {
     }
   }
 
-  // PUT    | /productos/:id/activar
   async activarProducto(id: number) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
-
     try {
       const response = await firstValueFrom(this.http.put(`${this.apiUrl}/productos/${id}/activar`, {}, { headers }));
       return response;
@@ -58,7 +49,6 @@ export class ProductoService {
 
   async desactivarProducto(id: number) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
-
     try {
       const response = await firstValueFrom(this.http.put(`${this.apiUrl}/productos/${id}/desactivar`, {}, { headers }));
       return response;
@@ -68,11 +58,10 @@ export class ProductoService {
     }
   }
 
-  // GET    | /productos/:id
   async getProductoById(id: number) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     try {
-      const response = await firstValueFrom(this.http.get(`${this.apiUrl}/productos/${id}`, { headers }));
+      const response = await firstValueFrom(this.http.get<Producto>(`${this.apiUrl}/productos/${id}`, { headers }));
       return response;
     } catch (error) {
       console.error('Error fetching product by id', error);
@@ -80,15 +69,26 @@ export class ProductoService {
     }
   }
 
+  async updateProducto(producto: Producto, id: number) {
+    console.log("ProductoService -> updateProducto -> producto", producto);
+
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    try {
+      const response = await firstValueFrom(this.http.put(`${this.apiUrl}/productos/${id}`, producto, { headers }));
+      return response;
+    } catch (error) {
+      console.error('Error updating product', error);
+      throw error;
+    }
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
-
     if (!token) {
       throw new Error('No token found in localStorage');
     } else {
       return token;
     }
   }
-
-
 }

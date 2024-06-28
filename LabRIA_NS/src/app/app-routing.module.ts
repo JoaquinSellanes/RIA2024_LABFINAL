@@ -17,6 +17,7 @@ import { PedidosComponent } from './features/admin/components/pedidos/pedidos.co
 import { InsumosComponent } from './features/admin/components/insumos/insumos.component';
 import { UsuariosComponent } from './features/admin/components/usuarios/usuarios.component';
 import { InformesComponent } from './features/admin/components/informes/informes.component';
+import { EditarProductoComponent } from './features/admin/components/editar-producto/editar-producto.component';
 // CLIENTE o USUARIO
 import { clienteBodyComponent } from './features/cliente/components/body/body.component';
 import { clienteDashboardComponent } from './features/cliente/components/dashboard/dashboard.component';
@@ -42,6 +43,7 @@ const routes: Routes = [
       { path: 'insumos', component: InsumosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'informes', component: InformesComponent },
+      { path: 'editar-producto/:id', component: EditarProductoComponent },
       { path: '**', redirectTo: 'dashboard' }
     ]
   },
