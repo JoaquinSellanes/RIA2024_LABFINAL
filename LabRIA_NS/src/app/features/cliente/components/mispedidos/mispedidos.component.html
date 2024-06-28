@@ -12,26 +12,83 @@
   <div class="prose">
     <h1>Mis pedidos</h1>
   </div>
-  <div class="overflow-x-auto border rounded-lg mt-2">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <!-- <th>Cliente</th> -->
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th>Cant. Productos</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover" *ngFor="let pedido of pedidos">
-          <th>{{ pedido.id }}</th>
-          <!-- <td>{{ pedido.cliente }}</td> -->
-          <td>{{ pedido.fecha }}</td>
-          <td>{{ pedido.estado }}</td>
-          <td>{{ pedido.cantProductos }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- <div *ngIf="true" class="mt-4 flex justify-center items-center h-screen"> -->
+  <div *ngIf="pedidos.length === 0" class="mt-4 flex justify-center items-center h-screen">
+    <div class="prose text-center">
+      <h2 class="text-5xl">No se encontraron pedidos</h2>
+      <p>Ve a la tienda y empieza a hacer tus primeros pedidos</p>
+    </div>
+  </div>
+  <!-- <div *ngIf="false"> -->
+  <div *ngIf="pedidos.length > 0">
+    <div class="overflow-x-auto border rounded-lg mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Cant. Productos</th>
+            <th>Precio Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover" *ngFor="let pedido of pedidosPaginados">
+            <td>{{ pedido.fecha }}</td>
+            <td>{{ pedido.estado }}</td>
+            <td>{{ pedido.cantProductos }}</td>
+            <td>{{ pedido.precioTotal | currency }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="verPedido(pedido)">Ver Pedido</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex items-center justify-end mt-4 p-1 gap-1">
+      <span class="mx-2">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+      <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          class="inline-block h-5 w-5 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+        </svg>
+      </button>
+      <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          class="inline-block h-5 w-5 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para ver los detalles del pedido -->
+<div class="modal" [ngClass]="{ 'modal-open': modalOpen }">
+  <div class="modal-box bg-white rounded-lg p-6 max-w-3xl w-full">
+    <h2 class="text-2xl font-semibold mb-4">Detalles del Pedido</h2>
+    <div *ngIf="pedidoSeleccionado">
+      <p class="mb-2"><strong>Fecha:</strong> {{ pedidoSeleccionado.fecha }}</p>
+      <p class="mb-2"><strong>Estado:</strong> {{ pedidoSeleccionado.estado }}</p>
+      <p class="mb-2"><strong>Productos:</strong></p>
+      <div *ngFor="let producto of pedidoSeleccionado.productos" class="mb-4">
+        <div class="flex items-center">
+          <img [src]="producto.producto.imagen || '/assets/no-image.png'" alt="{{ producto.producto.nombre }}"
+            class="w-16 h-16 mr-4 rounded">
+          <div>
+            <p class="font-semibold">{{ producto.producto.nombre }}</p>
+            <p>Cantidad: {{ producto.cantidad }}</p>
+            <p>Precio: {{ producto.producto.precio | currency }}</p>
+            <p>Ingredientes: {{ getIngredientes(producto.producto.ingredientes) }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <p class="font-semibold text-primary text-lg">Total: {{ pedidoSeleccionado.precioTotal | currency }}</p>
+      </div>
+    </div>
+    <div class="modal-action mt-4">
+      <button class="btn btn-primary" (click)="cerrarModal()">Cerrar</button>
+    </div>
   </div>
 </div>

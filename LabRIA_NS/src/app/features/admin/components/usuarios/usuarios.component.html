@@ -89,3 +89,15 @@
         <label for="role-select" class="block text-sm font-medium text-gray-700">Selecciona un nuevo rol</label>
         <select id="role-select" [(ngModel)]="selectedRole" name="role" class="mt-1 block w-full border-b">
           <option value=""></option>
+          <option value="ADMIN">Administrador</option>
+          <option value="PANADERO">Panadero</option>
+          <option value="CLIENTE">Cliente</option>
+        </select>
+      </div>
+      <div class="modal-action">
+        <button type="button" class="btn btn-primary" (click)="cambiarRol()"
+          [disabled]="selectedRole == ''">Guardar</button>
+      </div>
+    </form>
+  </div>
+</dialog>

@@ -128,8 +128,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             },
             data: [
               { value: this.pedidos.filter(p => p.estado === 'pendiente').length, name: 'Pendiente' },
-              { value: this.pedidos.filter(p => p.estado === 'completado').length, name: 'Completado' },
-              { value: this.pedidos.filter(p => p.estado === 'cancelado').length, name: 'Cancelado' }
+              { value: this.pedidos.filter(p => p.estado === 'listo para recoger').length, name: 'Listo para recoger' },
+              { value: this.pedidos.filter(p => p.estado === 'en preparación').length, name: 'En preparación' }
             ]
           }
         ]
