@@ -5,6 +5,7 @@ import { InsumosService } from '../../services/insumos.service';
 interface Insumo {
   id: number;
   nombre: string;
+  isActive: boolean;
 }
 
 @Component({
@@ -70,8 +71,16 @@ export class InsumosComponent implements OnInit {
     }
   }
 
-  async eliminar(id: number) {
-    await this.insumosService.deleteInsumo(id);
-    await this.cargarInsumos();
+  async cambiarEstado(insumo: Insumo) {
+    try {
+      if (insumo.isActive) {
+        await this.insumosService.desactivarInsumo(insumo.id);
+      } else {
+        await this.insumosService.activarInsumo(insumo.id);
+      }
+      insumo.isActive = !insumo.isActive;
+    } catch (error) {
+      console.error('Error changing state of insumo', error);
+    }
   }
 }

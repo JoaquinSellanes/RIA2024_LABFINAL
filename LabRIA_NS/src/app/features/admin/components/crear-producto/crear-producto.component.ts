@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 interface Insumo {
   id: number;
   nombre: string;
+  isActive: boolean;
 }
 
 @Component({
@@ -47,7 +48,7 @@ export class CrearProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.insumosService.getInsumos().then((insumos: Insumo[]) => {
-      this.ingredientesList = insumos;
+      this.ingredientesList = insumos.filter((insumo) => insumo.isActive);
     });
   }
 

@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 interface Insumo {
   id: number;
   nombre: string;
+  isActive: boolean;
 }
 
 @Injectable({
@@ -58,6 +59,26 @@ export class InsumosService {
     } catch (error) {
       console.error("Error deleting insumo: ", error);
       throw new Error('Error deleting insumo');
+    }
+  }
+
+  async activarInsumo(id: number): Promise<void> {
+    try {
+      const headers = this.getHeaders();
+      await firstValueFrom(this.http.put(`${this.apiUrl}/ingredientes/${id}/activar`, {}, { headers }));
+    } catch (error) {
+      console.error("Error activating insumo: ", error);
+      throw new Error('Error activating insumo');
+    }
+  }
+
+  async desactivarInsumo(id: number): Promise<void> {
+    try {
+      const headers = this.getHeaders();
+      await firstValueFrom(this.http.put(`${this.apiUrl}/ingredientes/${id}/desactivar`, {}, { headers }));
+    } catch (error) {
+      console.error("Error deactivating insumo: ", error);
+      throw new Error('Error deactivating insumo');
     }
   }
 }

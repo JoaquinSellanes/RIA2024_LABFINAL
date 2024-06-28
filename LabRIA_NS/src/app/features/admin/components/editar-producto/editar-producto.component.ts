@@ -13,6 +13,7 @@ interface Ingrediente {
 interface Insumo {
   id: number;
   nombre: string;
+  isActive: boolean;
 }
 
 @Component({
@@ -24,6 +25,7 @@ export class EditarProductoComponent implements OnInit {
   productoForm: FormGroup;
   id: number = 0;
   insumos: Insumo[] = [];
+  insumosActivos: Insumo[] = [];
   @ViewChild('toast') toast!: ToastComponent;
 
   constructor(
@@ -86,6 +88,24 @@ export class EditarProductoComponent implements OnInit {
   async cargarInsumos() {
     try {
       this.insumos = await this.insumosService.getInsumos();
+
+      this.insumosActivos = this.insumos.filter(i => i.isActive === true);
+
+      // agregar los isumos del produto a insumos activos
+      const producto = await this.productoService.getProductoById(this.id);
+      producto.ingredientes.forEach((ingrediente: Ingrediente) => {
+        const insumo = this.insumos.find(i => i.nombre === ingrediente.nombre);
+        if (insumo) {
+          // fijarse que no exista ya
+          const existe = this.insumosActivos.find(i => i.id === insumo.id);
+          if (!existe) {
+            this.insumosActivos.push(insumo);
+          }
+        }
+      });
+
+      console.log('insumos activos: ', this.insumosActivos);
+
     } catch (error) {
       console.error('Error fetching insumos', error);
       this.toast.showToast('Error cargando los insumos 😩', 'alert alert-error');
@@ -116,14 +136,30 @@ export class EditarProductoComponent implements OnInit {
 
   async onSubmit() {
     if (this.productoForm.valid) {
-      const productoEditado = this.productoForm.value;
-      productoEditado.ingredientes = productoEditado.ingredientes.map((ingrediente: any) => {
-        const insumo = this.insumos.find(i => i.nombre === ingrediente.nombre);
-        if (insumo) {
-          return { id: insumo.id, cantidad: ingrediente.cantidad };
-        }
-        return ingrediente;
-      });
+      let productoEditado = this.productoForm.value;
+
+      // Convertir nombres de ingredientes a IDs y revisar por inactivos o duplicados
+      let ingredientesIds = new Set(); // Almacena IDs para verificar duplicados
+      let ingredientesInvalidos = false; // Bandera para detectar ingredientes inactivos o duplicados
+
+      productoEditado.ingredientes = productoEditado.ingredientes
+        .map((ingrediente: any) => {
+          const insumo = this.insumos.find(i => i.nombre === ingrediente.nombre);
+          if (!insumo || !insumo.isActive) {
+            ingredientesInvalidos = true; // Marcar como invalido si no está activo
+          }
+          if (ingredientesIds.has(insumo!.id)) {
+            ingredientesInvalidos = true; // Marcar como invalido si es duplicado
+          }
+          ingredientesIds.add(insumo!.id);
+          return insumo ? { id: insumo.id, cantidad: ingrediente.cantidad } : null;
+        })
+        .filter((ingrediente: any) => ingrediente !== null); // Eliminar ingredientes no encontrados
+
+      if (ingredientesInvalidos) {
+        this.toast.showToast('Error: Los ingredientes no pueden estar inactivos o duplicados.', 'alert alert-error');
+        return; // Cortar la ejecución si hay ingredientes inválidos
+      }
 
       try {
         await this.productoService.updateProducto(productoEditado, this.id);
@@ -137,4 +173,5 @@ export class EditarProductoComponent implements OnInit {
       this.toast.showToast('Formulario no válido 😩', 'alert alert-error');
     }
   }
+
 }

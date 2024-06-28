@@ -31,7 +31,9 @@
               <tr *ngFor="let insumo of insumosPaginados">
                 <th>{{insumo.id}}</th>
                 <td>{{insumo.nombre}}</td>
-                <td><button class="btn btn-error text-white" (click)="eliminar(insumo.id)" disabled>Eliminar</button>
+                <td>
+                  <input type="checkbox" class="toggle toggle-info" [checked]="insumo.isActive"
+                    (change)="cambiarEstado(insumo)" />
                 </td>
               </tr>
             </tbody>
