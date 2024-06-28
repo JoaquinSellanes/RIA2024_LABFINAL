@@ -123,6 +123,7 @@ exports.obtenerProductoPorId = (req, res) => {
 };
 
 exports.actualizarProducto = (req, res) => {
+    // FALTA VALIDAR INGREDIENTES 
     const { id } = req.params;
     const { nombre, descripcion, imagen, precio, ingredientes } = req.body;
 
