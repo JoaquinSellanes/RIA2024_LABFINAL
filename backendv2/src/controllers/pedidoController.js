@@ -316,3 +316,65 @@ exports.calcularIngredientesTotales = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.cambiarEstadoPedido = (req, res) => {
+    // VALIDAR FECHA
+    const { id, estado } = req.body;
+
+    const estadosValidos = ['pendiente', 'en preparación', 'listo para recoger'];
+
+    if (!estadosValidos.includes(estado)) {
+        return res.status(400).json({ error: 'Estado inválido. Debe ser uno de: pendiente, en preparación, listo para recoger' });
+    }
+
+    try {
+        const pedido = pedidoService.obtenerPedidoPorId(id);
+        console.log(pedido);
+        if (!pedido) {
+            return res.status(404).json({ error: 'Pedido no encontrado' });
+        }
+
+        pedido.estado = estado;
+        const pedidoActualizado = pedidoService.actualizarPedido(id, pedido);
+
+        res.status(200).json(pedidoActualizado);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.pasarAEnPreparacion = (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const pedido = pedidoService.obtenerPedidoPorId(id);
+        if (!pedido) {
+            return res.status(404).json({ error: 'Pedido no encontrado' });
+        }
+
+        pedido.estado = 'en preparación';
+        const pedidoActualizado = pedidoService.actualizarPedido(id, pedido);
+
+        res.status(200).json(pedidoActualizado);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.pasarAListoParaRecoger = (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const pedido = pedidoService.obtenerPedidoPorId(id);
+        if (!pedido) {
+            return res.status(404).json({ error: 'Pedido no encontrado' });
+        }
+
+        pedido.estado = 'listo para recoger';
+        const pedidoActualizado = pedidoService.actualizarPedido(id, pedido);
+
+        res.status(200).json(pedidoActualizado);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

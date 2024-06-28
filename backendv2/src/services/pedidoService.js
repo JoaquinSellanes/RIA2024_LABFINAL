@@ -49,3 +49,7 @@ exports.productoEnPedidoPendiente = (productoId) => {
         pedido.productos.some(item => item.productoId == productoId)
     );
 };
+
+exports.cambiarEstadoPedido = (id, nuevoEstado) => {
+    return this.actualizarPedido(id, { estado: nuevoEstado });
+};

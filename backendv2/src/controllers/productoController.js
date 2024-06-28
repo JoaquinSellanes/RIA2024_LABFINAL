@@ -31,7 +31,10 @@ exports.crearProducto = async (req, res) => {
         }
         const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
         if (!ingredienteValido) {
-            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
+            return res.status(400).json({ error: `El ingrediente '${ingredienteValido.nombre}' no existe` });
+        }
+        if (!ingredienteValido.isActive) {
+            return res.status(400).json({ error: `El ingrediente '${ingredienteValido.nombre}' no está activo` });
         }
     }
 
@@ -143,6 +146,9 @@ exports.actualizarProducto = (req, res) => {
         const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
         if (!ingredienteValido) {
             return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
+        }
+        if (!ingredienteValido.isActive) {
+            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no está activo` });
         }
     }
 
