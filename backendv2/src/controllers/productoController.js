@@ -31,7 +31,10 @@ exports.crearProducto = async (req, res) => {
         }
         const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
         if (!ingredienteValido) {
-            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
+            return res.status(400).json({ error: `El ingrediente '${ingredienteValido.nombre}' no existe` });
+        }
+        if (!ingredienteValido.isActive) {
+            return res.status(400).json({ error: `El ingrediente '${ingredienteValido.nombre}' no está activo` });
         }
     }
 
@@ -123,7 +126,6 @@ exports.obtenerProductoPorId = (req, res) => {
 };
 
 exports.actualizarProducto = (req, res) => {
-    // FALTA VALIDAR INGREDIENTES 
     const { id } = req.params;
     const { nombre, descripcion, imagen, precio, ingredientes } = req.body;
 
@@ -144,6 +146,9 @@ exports.actualizarProducto = (req, res) => {
         const ingredienteValido = ingredienteService.obtenerIngredientePorId(ingrediente.id);
         if (!ingredienteValido) {
             return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no existe` });
+        }
+        if (!ingredienteValido.isActive) {
+            return res.status(400).json({ error: `El ingrediente con ID ${ingrediente.id} no está activo` });
         }
     }
 
