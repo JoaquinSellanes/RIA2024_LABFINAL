@@ -82,10 +82,10 @@ let productos = [
 
 let pedidos = [
     new Pedido({ id: 1, clienteId: 3, productos: [{ productoId: 1, cantidad: 2 }], estado: 'pendiente', fecha: '2024-06-15' }),
-    new Pedido({ id: 2, clienteId: 3, productos: [{ productoId: 2, cantidad: 1 }, { productoId: 3, cantidad: 3 }], estado: 'completado', fecha: '2024-06-10' }),
-    new Pedido({ id: 3, clienteId: 4, productos: [{ productoId: 1, cantidad: 1 }, { productoId: 4, cantidad: 2 }], estado: 'cancelado', fecha: '2024-06-12' }),
+    new Pedido({ id: 2, clienteId: 3, productos: [{ productoId: 2, cantidad: 1 }, { productoId: 3, cantidad: 3 }], estado: 'en preparación', fecha: '2024-06-10' }),
+    new Pedido({ id: 3, clienteId: 4, productos: [{ productoId: 1, cantidad: 1 }, { productoId: 4, cantidad: 2 }], estado: 'en preparación', fecha: '2024-06-12' }),
     new Pedido({ id: 4, clienteId: 4, productos: [{ productoId: 3, cantidad: 5 }], estado: 'pendiente', fecha: '2024-06-17' }),
-    new Pedido({ id: 5, clienteId: 3, productos: [{ productoId: 4, cantidad: 3 }, { productoId: 2, cantidad: 2 }], estado: 'pendiente', fecha: '2024-06-16' }),
+    new Pedido({ id: 5, clienteId: 3, productos: [{ productoId: 4, cantidad: 3 }, { productoId: 2, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-06-16' }),
 ];
 
 module.exports = {
