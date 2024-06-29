@@ -1,41 +1,74 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CartService } from '../services/cart.service';
 import { ProductoService } from '../services/producto.service';
 
 @Component({
   selector: 'app-tienda',
   templateUrl: './tienda.component.html',
-  styleUrl: './tienda.component.scss'
+  styleUrls: ['./tienda.component.scss']
 })
 export class TiendaComponent implements OnInit {
-  itemCount: number = 0;
+  contadorItems: number = 0;
   productos: any[] = [];
+  productosFiltrados: any[] = [];
+  filtrosForm: FormGroup;
+  paginaActual: number = 1;
+  itemsPorPagina: number = 10;
 
   constructor(
+    private fb: FormBuilder,
     private cartService: CartService,
     private productoService: ProductoService
-  ) { }
+  ) {
+    this.filtrosForm = this.fb.group({
+      filtroNombre: '',
+      filtroPrecio: null
+    });
+  }
 
   ngOnInit(): void {
     this.cartService.getCartObservable().subscribe(cartItems => {
-      this.itemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+      this.contadorItems = cartItems.reduce((count, item) => count + item.quantity, 0);
     });
     this.productoService.getProductosDisponibles().then((response: any) => {
       this.productos = response;
+      this.aplicarFiltros();
     });
   }
 
-
-  updateItemCount(): void {
-    this.itemCount = this.cartService.getCartItemCount();
+  aplicarFiltros(): void {
+    this.productosFiltrados = this.productos.filter(producto =>
+      producto.nombre.toLowerCase().includes(this.filtrosForm.get('filtroNombre')!.value.toLowerCase()) &&
+      (producto.precio <= this.filtrosForm.get('filtroPrecio')!.value || this.filtrosForm.get('filtroPrecio')!.value == 0 || this.filtrosForm.get('filtroPrecio')!.value == null) &&
+      producto.isActive
+    );
+    this.paginaActual = 1;
   }
 
-  openCartModal(): void {
-    (document.getElementById('cartModal') as HTMLDialogElement).showModal();
+  limpiarFiltros(): void {
+    this.filtrosForm.reset({ filtroNombre: '', filtroPrecio: null });
+    this.aplicarFiltros();
   }
 
-  addToCart(product: any): void {
-    this.cartService.addToCart(product, 1);
-    this.updateItemCount();
+  obtenerTotalPaginas(): number {
+    return Math.ceil(this.productosFiltrados.length / this.itemsPorPagina);
+  }
+
+  proximaPagina(): void {
+    if (this.paginaActual < this.obtenerTotalPaginas()) {
+      this.paginaActual++;
+    }
+  }
+
+  paginaAnterior(): void {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+    }
+  }
+
+  agregarAlCarrito(producto: any): void {
+    this.cartService.addToCart(producto, 1);
+    this.contadorItems = this.cartService.getCartItemCount();
   }
 }
