@@ -78,9 +78,8 @@
           <td>{{ pedido.cliente }}</td>
           <td>{{ pedido.fecha }}</td>
           <td>{{ pedido.estado }}</td>
-          <td>{{ pedido.cantProductos }}</td>
+          <!-- <td>{{ pedido.cantProductos }}</td> -->
           <td>{{ calcularPrecioTotal(pedido) | currency }}</td>
-          <!-- Select conlas opciones 1 2 y 3 -->
           <td *ngIf="pedido">
             <select class="select select-bordered" (change)="cambiarEstado(pedido, $event)">
               <!-- <option value="" [selected]="pedido.estado === 'pendiente'">Estado</option> -->

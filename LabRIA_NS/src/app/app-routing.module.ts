@@ -26,6 +26,8 @@ import { CuentaComponent } from './features/cliente/components/cuenta/cuenta.com
 // PANADERO
 import { panaderoBodyComponent } from './features/panadero/components/body/body.component';
 import { panaderoDashboardComponent } from './features/panadero/components/dashboard/dashboard.component';
+// SHARED
+import { TiendaComponent } from './shared/tienda/tienda.component';
 
 const routes: Routes = [
   // { path: '', component: LandingComponent }
@@ -43,6 +45,7 @@ const routes: Routes = [
       { path: 'insumos', component: InsumosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'informes', component: InformesComponent },
+      { path: 'tienda', component: TiendaComponent },
       { path: 'editar-producto/:id', component: EditarProductoComponent },
       { path: '**', redirectTo: 'dashboard' }
     ]
@@ -51,7 +54,7 @@ const routes: Routes = [
   {
     path: 'cliente', component: clienteBodyComponent, children: [
       { path: '', redirectTo: 'tienda', pathMatch: 'full' },
-      { path: 'tienda', component: clienteDashboardComponent },
+      { path: 'tienda', component: TiendaComponent },
       { path: 'mispedidos', component: MispedidosComponent },
       { path: 'cuenta', component: CuentaComponent },
       { path: '**', redirectTo: 'tienda' }
