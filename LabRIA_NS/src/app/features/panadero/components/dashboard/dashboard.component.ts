@@ -38,7 +38,11 @@ interface PedidoData {
 export class panaderoDashboardComponent implements OnInit {
   pedidos: PedidoData[] = [];
   pedidosFiltrados: PedidoData[] = [];
+  pedidosPaginados: PedidoData[] = [];
   filtro: string = 'pendiente'; // Selección por defecto
+  paginaActual: number = 1;
+  elementosPorPagina: number = 16;
+  totalPaginas: number = 1;
 
   constructor(
     private pedidosService: PedidosService,
@@ -70,6 +74,22 @@ export class panaderoDashboardComponent implements OnInit {
       this.pedidosFiltrados = this.pedidos;
     } else {
       this.pedidosFiltrados = this.pedidos.filter(p => p.estado === this.filtro);
+    }
+    this.paginaActual = 1;
+    this.totalPaginas = Math.ceil(this.pedidosFiltrados.length / this.elementosPorPagina);
+    this.actualizarPagina();
+  }
+
+  actualizarPagina() {
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    const fin = inicio + this.elementosPorPagina;
+    this.pedidosPaginados = this.pedidosFiltrados.slice(inicio, fin);
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    if (nuevaPagina > 0 && nuevaPagina <= this.totalPaginas) {
+      this.paginaActual = nuevaPagina;
+      this.actualizarPagina();
     }
   }
 
