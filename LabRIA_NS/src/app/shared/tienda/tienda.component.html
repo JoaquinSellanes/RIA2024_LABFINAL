@@ -61,3 +61,5 @@
   <span>Página {{ paginaActual }} de {{ obtenerTotalPaginas() }}</span>
   <button class="btn" (click)="proximaPagina()" [disabled]="paginaActual >= obtenerTotalPaginas()">Siguiente</button>
 </div>
+
+<app-cart-modal></app-cart-modal>
