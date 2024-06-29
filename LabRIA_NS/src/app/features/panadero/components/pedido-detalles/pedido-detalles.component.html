@@ -1,0 +1,43 @@
+<div *ngIf="pedido" class="flex justify-center mt-8">
+    <div class="card card-compact w-[90%] bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="card-title text-2xl">Detalles del Pedido: {{pedido.id}}</h2>
+          <span class="text-primary font-bold text-lg"
+            [ngClass]="{
+              'text-yellow-500': pedido.estado === 'pendiente',
+              'text-blue-500': pedido.estado === 'en preparación',
+              'text-green-500': pedido.estado === 'listo para recoger'
+            }">{{pedido.estado | titlecase}}</span>
+        </div>
+        <p class="mb-2"><strong>Cliente:</strong> {{pedido.cliente.email}}</p>
+        <p class="mb-2"><strong>Fecha:</strong> {{pedido.fecha}}</p>
+        <p class="mb-4"><strong>Estado:</strong> {{pedido.estado | titlecase}}</p>
+        <h3 class="text-xl mb-4">Productos:</h3>
+        <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
+          <div *ngFor="let item of pedido.productos" class="card bg-base-200 shadow-md p-4">
+            <h4 class="card-title text-lg">{{item.producto.nombre}}</h4>
+            <p><strong>Cantidad:</strong> {{item.cantidad}}</p>
+            <div *ngIf="item.producto.imagen" class="mt-2">
+              <img [src]="item.producto.imagen" alt="{{item.producto.nombre}}" class="w-24 h-auto rounded-lg"/>
+            </div>
+            <div class="mt-2">
+              <h5 class="font-semibold">Ingredientes:</h5>
+              <ul class="list-disc pl-5">
+                <li *ngFor="let ingrediente of item.ingredientesNecesarios">
+                  {{ingrediente.nombre}}: {{ingrediente.cantidad}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions justify-end mt-4">
+          <button class="btn btn-primary" (click)="volver()">Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!pedido" class="flex justify-center items-center h-screen">
+    <p class="text-lg">Cargando detalles del pedido...</p>
+  </div>
+  
