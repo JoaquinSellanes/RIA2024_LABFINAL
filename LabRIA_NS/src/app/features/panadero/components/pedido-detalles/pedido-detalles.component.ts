@@ -1,4 +1,3 @@
-// pedido-detalles.component.ts
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
@@ -23,6 +22,11 @@ export class PedidoDetallesComponent implements OnInit {
     try {
       const response = await this.pedidosService.getPedido(this.pedidoId);
       this.pedido = response;
+      this.pedido.productos.forEach((item: any) => {
+        item.producto.ingredientes.forEach((ingrediente: any) => {
+          ingrediente.totalCantidad = ingrediente.cantidad * item.cantidad;
+        });
+      });
       console.log("Pedido", this.pedido);
     } catch (error) {
       console.error("Error fetching pedido details:", error);

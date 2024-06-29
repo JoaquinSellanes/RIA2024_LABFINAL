@@ -24,8 +24,8 @@
             <div class="mt-2">
               <h5 class="font-semibold">Ingredientes:</h5>
               <ul class="list-disc pl-5">
-                <li *ngFor="let ingrediente of item.ingredientesNecesarios">
-                  {{ingrediente.nombre}}: {{ingrediente.cantidad}}
+                <li *ngFor="let ingrediente of item.producto.ingredientes">
+                  {{ingrediente.nombre}}: {{ingrediente.totalCantidad}}
                 </li>
               </ul>
             </div>
@@ -40,4 +40,4 @@
   <div *ngIf="!pedido" class="flex justify-center items-center h-screen">
     <p class="text-lg">Cargando detalles del pedido...</p>
   </div>
-  
+      
