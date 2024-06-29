@@ -235,4 +235,23 @@ export class PedidosComponent implements OnInit {
     this.filteredCorreos = [];
     this.aplicarFiltros();
   }
+
+  cambiarEstado(pedido: any, event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const nuevoEstado = selectElement.value;
+    if (nuevoEstado === pedido.estado || nuevoEstado === '') {
+      return;
+    } else {
+      pedido.estado = nuevoEstado;
+      console.log('Nuevo estado', nuevoEstado);
+      this.pedidosService.cambiarEstadoPedido(pedido.id, nuevoEstado)
+        .then(response => {
+          console.log('Estado cambiado', response);
+        })
+        .catch(error => {
+          console.error('Error cambiando estado', error);
+        });
+    }
+
+  }
 }

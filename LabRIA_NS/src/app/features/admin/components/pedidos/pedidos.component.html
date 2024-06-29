@@ -69,6 +69,7 @@
           <th>Estado</th>
           <th>Cant. Productos</th>
           <th>Precio Total</th>
+          <th>Estado</th>
         </tr>
       </thead>
       <tbody>
@@ -79,6 +80,17 @@
           <td>{{ pedido.estado }}</td>
           <td>{{ pedido.cantProductos }}</td>
           <td>{{ calcularPrecioTotal(pedido) | currency }}</td>
+          <!-- Select conlas opciones 1 2 y 3 -->
+          <td *ngIf="pedido">
+            <select class="select select-bordered" (change)="cambiarEstado(pedido, $event)">
+              <!-- <option value="" [selected]="pedido.estado === 'pendiente'">Estado</option> -->
+              <option value="pendiente" [selected]="pedido.estado === 'pendiente'">Pendiente</option>
+              <option value="en preparación" [selected]="pedido.estado === 'en preparación'">En preparación</option>
+              <option value="listo para recoger" [selected]="pedido.estado === 'listo para recoger'">Listo para recoger
+              </option>
+            </select>
+          </td>
+
         </tr>
       </tbody>
     </table>
