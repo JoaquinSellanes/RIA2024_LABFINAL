@@ -12,15 +12,14 @@
 </div>
 
 <div class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
-  <div *ngFor="let pedido of pedidosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
+  <div *ngFor="let pedido of pedidosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl relative">
+    <div 
+      class="badge absolute top-2 right-2 badge-warning">{{pedido.estado | titlecase}}</div>
     <div class="card-body">
       <div class="flex justify-between items-center">
         <h2 class="card-title hover:text-primary cursor-pointer transition-all">
           Pedido: {{pedido.id}}
         </h2>
-        <span class="text-primary font-bold text-lg">
-           {{pedido.estado | titlecase}}
-        </span>
       </div>
       <p class="mb-2">
         Cliente: {{pedido.cliente}} <br>
