@@ -6,13 +6,17 @@ import { RouterModule } from '@angular/router';
 import { panaderoBodyComponent } from './components/body/body.component';
 import { panaderoDashboardComponent } from './components/dashboard/dashboard.component';
 import { PanaderoFooterComponent } from './components/footer/footer.component';
+import { InsumosPanaderoComponent } from './components/insumos/insumos.component';
+import { PedidoDetallesComponent } from './components/pedido-detalles/pedido-detalles.component';
 
 
 @NgModule({
   declarations: [
     panaderoBodyComponent,
     panaderoDashboardComponent,
-    PanaderoFooterComponent
+    PanaderoFooterComponent,
+    InsumosPanaderoComponent,
+    PedidoDetallesComponent
   ],
   imports: [
     CommonModule,

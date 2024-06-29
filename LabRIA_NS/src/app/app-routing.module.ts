@@ -28,6 +28,8 @@ import { panaderoBodyComponent } from './features/panadero/components/body/body.
 import { panaderoDashboardComponent } from './features/panadero/components/dashboard/dashboard.component';
 // SHARED
 import { TiendaComponent } from './shared/tienda/tienda.component';
+import { InsumosPanaderoComponent } from './features/panadero/components/insumos/insumos.component';
+import { PedidoDetallesComponent } from './features/panadero/components/pedido-detalles/pedido-detalles.component';
 
 const routes: Routes = [
   // { path: '', component: LandingComponent }
@@ -65,6 +67,8 @@ const routes: Routes = [
     path: 'panaderia', component: panaderoBodyComponent, children: [
       { path: '', redirectTo: 'pedidos', pathMatch: 'full' },
       { path: 'pedidos', component: panaderoDashboardComponent },
+      { path: 'pedidos/:id', component: PedidoDetallesComponent },
+      { path: 'insumos', component: InsumosPanaderoComponent },
       { path: '**', redirectTo: 'pedidos' }
     ], canActivate: [PanaderiaGuard]
   },

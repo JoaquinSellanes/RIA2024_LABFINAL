@@ -4,10 +4,10 @@ const Pedido = require('../models/pedidoModel');
 const Ingrediente = require('../models/ingredienteModel');
 
 let usuarios = [
-    new Usuario({ id: 1, email: 'admin@panpan.uy',      password: 'asdasd123',  role: 'ADMIN' }),
-    new Usuario({ id: 2, email: 'panadero@panpan.uy',   password: 'panadero',   role: 'PANADERO' }),
-    new Usuario({ id: 3, email: 'cliente@panpan.uy',    password: 'cliente',    role: 'CLIENTE' }),
-    new Usuario({ id: 4, email: 'cliente2@panpan.uy',   password: 'cliente2',   role: 'CLIENTE' }),
+    new Usuario({ id: 1, email: 'admin@panpan.uy',      password: 'asdasd123', telefono: "099123456", role: 'ADMIN' }),
+    new Usuario({ id: 2, email: 'panadero@panpan.uy',   password: 'panadero',  telefono: "099123456", role: 'PANADERO' }),
+    new Usuario({ id: 3, email: 'cliente@panpan.uy',    password: 'cliente',   telefono: "099123456", role: 'CLIENTE' }),
+    new Usuario({ id: 4, email: 'cliente2@panpan.uy',   password: 'cliente2',  telefono: "099123456", role: 'CLIENTE' }),
 ];
 
 let ingredientes = [
@@ -22,6 +22,15 @@ let ingredientes = [
     new Ingrediente({ id: 9, nombre: 'Agua (mililitros)' }),
     new Ingrediente({ id: 10, nombre: 'Levadura (gramos)' }),
     new Ingrediente({ id: 11, nombre: 'Huevos (c/u)' }),
+    new Ingrediente({ id: 12, nombre: 'Tomate (kilogramos)' }),
+    new Ingrediente({ id: 13, nombre: 'Jamón (gramos)' }),
+    new Ingrediente({ id: 14, nombre: 'Lechuga (gramos)' }),
+    new Ingrediente({ id: 15, nombre: 'Queso (gramos)' }),
+    new Ingrediente({ id: 16, nombre: 'Pollo (gramos)' }),
+    new Ingrediente({ id: 17, nombre: 'Café (gramos)' }),
+    new Ingrediente({ id: 18, nombre: 'Manzana (kilogramos)' }),
+    new Ingrediente({ id: 19, nombre: 'Limón (unidad)' }),
+    new Ingrediente({ id: 20, nombre: 'Aceite de Oliva (mililitros)' }),
 ];
 
 let productos = [
@@ -32,11 +41,12 @@ let productos = [
         imagen: '',
         precio: 1.00,
         ingredientes: [
-            { id: 1, cantidad: 500 },  // Harina (gramos)
-            { id: 9, cantidad: 300 },  // Agua (mililitros)
-            { id: 3, cantidad: 10 },   // Sal (gramos)
-            { id: 10, cantidad: 5 },   // Levadura (gramos)
+            { id: 1, cantidad: 500 },
+            { id: 9, cantidad: 300 },
+            { id: 3, cantidad: 10 },
+            { id: 10, cantidad: 5 },
         ],
+        panaderia: 'Panadería El Buen Pan',
     }),
     new Producto({
         id: 2,
@@ -45,12 +55,13 @@ let productos = [
         imagen: '',
         precio: 5.00,
         ingredientes: [
-            { id: 8, cantidad: 500 },  // Harina integral (gramos)
-            { id: 9, cantidad: 300 },  // Agua (mililitros)
-            { id: 3, cantidad: 10 },   // Sal (gramos)
-            { id: 10, cantidad: 5 },   // Levadura (gramos)
+            { id: 8, cantidad: 500 },
+            { id: 9, cantidad: 300 },
+            { id: 3, cantidad: 10 },
+            { id: 10, cantidad: 5 },
         ],
         isActive: false,
+        panaderia: 'Panadería El Buen Pan',
     }),
     new Producto({
         id: 3,
@@ -59,24 +70,320 @@ let productos = [
         imagen: '',
         precio: 2.50,
         ingredientes: [
-            { id: 1, cantidad: 250 },  // Harina (gramos)
-            { id: 5, cantidad: 150 },  // Mantequilla (gramos)
-            { id: 6, cantidad: 100 },  // Leche (mililitros)
-            { id: 7, cantidad: 30 },   // Azúcar (gramos)
+            { id: 1, cantidad: 250 },
+            { id: 5, cantidad: 150 },
+            { id: 6, cantidad: 100 },
+            { id: 7, cantidad: 30 },
         ],
+        panaderia: 'Panadería La Delicia',
     }),
     new Producto({
         id: 4,
         nombre: 'Baguette',
         descripcion: 'Baguette francesa crujiente',
-        imagen: '', 
+        imagen: '',
         precio: 3.00,
         ingredientes: [
-            { id: 1, cantidad: 400 },  // Harina (gramos)
-            { id: 9, cantidad: 250 },  // Agua (mililitros)
-            { id: 3, cantidad: 8 },    // Sal (gramos)
-            { id: 10, cantidad: 6 },   // Levadura (gramos)
+            { id: 1, cantidad: 400 },
+            { id: 9, cantidad: 250 },
+            { id: 3, cantidad: 8 },
+            { id: 10, cantidad: 6 },
         ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 5,
+        nombre: 'Muffin de Arándanos',
+        descripcion: 'Muffin con arándanos frescos',
+        imagen: '',
+        precio: 1.50,
+        ingredientes: [
+            { id: 1, cantidad: 200 },
+            { id: 7, cantidad: 100 },
+            { id: 11, cantidad: 2 },
+            { id: 6, cantidad: 150 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 6,
+        nombre: 'Donut',
+        descripcion: 'Donut glaseada',
+        imagen: '',
+        precio: 1.20,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 7, cantidad: 150 },
+            { id: 11, cantidad: 2 },
+            { id: 6, cantidad: 100 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 7,
+        nombre: 'Pastel de Chocolate',
+        descripcion: 'Pastel con chocolate amargo',
+        imagen: '',
+        precio: 4.00,
+        ingredientes: [
+            { id: 1, cantidad: 500 },
+            { id: 7, cantidad: 200 },
+            { id: 11, cantidad: 3 },
+            { id: 6, cantidad: 200 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 8,
+        nombre: 'Empanada de Carne',
+        descripcion: 'Empanada rellena de carne',
+        imagen: '',
+        precio: 2.00,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 16, cantidad: 200 },
+            { id: 4, cantidad: 100 },
+            { id: 3, cantidad: 10 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 9,
+        nombre: 'Empanada de Pollo',
+        descripcion: 'Empanada rellena de pollo',
+        imagen: '',
+        precio: 2.00,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 16, cantidad: 200 },
+            { id: 4, cantidad: 100 },
+            { id: 3, cantidad: 10 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 10,
+        nombre: 'Pizza Margarita',
+        descripcion: 'Pizza con salsa de tomate y mozzarella',
+        imagen: '',
+        precio: 3.50,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 12, cantidad: 200 },
+            { id: 15, cantidad: 150 },
+            { id: 3, cantidad: 5 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 11,
+        nombre: 'Pizza Pepperoni',
+        descripcion: 'Pizza con salsa de tomate, mozzarella y pepperoni',
+        imagen: '',
+        precio: 4.00,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 12, cantidad: 200 },
+            { id: 15, cantidad: 150 },
+            { id: 13, cantidad: 100 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 12,
+        nombre: 'Bagel',
+        descripcion: 'Bagel con queso crema',
+        imagen: '',
+        precio: 1.50,
+        ingredientes: [
+            { id: 1, cantidad: 200 },
+            { id: 9, cantidad: 100 },
+            { id: 15, cantidad: 50 },
+            { id: 10, cantidad: 5 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 13,
+        nombre: 'Scone',
+        descripcion: 'Scone con pasas',
+        imagen: '',
+        precio: 1.80,
+        ingredientes: [
+            { id: 1, cantidad: 200 },
+            { id: 7, cantidad: 100 },
+            { id: 11, cantidad: 2 },
+            { id: 6, cantidad: 150 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 14,
+        nombre: 'Galleta de Avena',
+        descripcion: 'Galleta con avena y pasas',
+        imagen: '',
+        precio: 0.80,
+        ingredientes: [
+            { id: 1, cantidad: 100 },
+            { id: 7, cantidad: 50 },
+            { id: 11, cantidad: 1 },
+            { id: 6, cantidad: 75 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 15,
+        nombre: 'Torta de Manzana',
+        descripcion: 'Torta con manzanas frescas',
+        imagen: '',
+        precio: 3.50,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 18, cantidad: 200 },
+            { id: 7, cantidad: 100 },
+            { id: 11, cantidad: 2 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 16,
+        nombre: 'Cheesecake',
+        descripcion: 'Cheesecake clásico',
+        imagen: '',
+        precio: 4.50,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 7, cantidad: 150 },
+            { id: 11, cantidad: 2 },
+            { id: 15, cantidad: 200 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 17,
+        nombre: 'Pan de Molde',
+        descripcion: 'Pan de molde blanco',
+        imagen: '',
+        precio: 2.00,
+        ingredientes: [
+            { id: 1, cantidad: 500 },
+            { id: 9, cantidad: 300 },
+            { id: 3, cantidad: 10 },
+            { id: 10, cantidad: 5 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 18,
+        nombre: 'Pan de Ajo',
+        descripcion: 'Pan con ajo y hierbas',
+        imagen: '',
+        precio: 2.20,
+        ingredientes: [
+            { id: 1, cantidad: 400 },
+            { id: 9, cantidad: 250 },
+            { id: 3, cantidad: 8 },
+            { id: 20, cantidad: 50 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 19,
+        nombre: 'Pan de Queso',
+        descripcion: 'Pan relleno de queso',
+        imagen: '',
+        precio: 2.50,
+        ingredientes: [
+            { id: 1, cantidad: 400 },
+            { id: 9, cantidad: 250 },
+            { id: 15, cantidad: 200 },
+            { id: 11, cantidad: 2 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 20,
+        nombre: 'Churro',
+        descripcion: 'Churro frito con azúcar',
+        imagen: '',
+        precio: 1.00,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 7, cantidad: 150 },
+            { id: 11, cantidad: 2 },
+            { id: 6, cantidad: 100 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 21,
+        nombre: 'Rosca de Reyes',
+        descripcion: 'Rosca tradicional de Reyes',
+        imagen: '',
+        precio: 3.00,
+        ingredientes: [
+            { id: 1, cantidad: 500 },
+            { id: 7, cantidad: 200 },
+            { id: 11, cantidad: 3 },
+            { id: 19, cantidad: 2 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 22,
+        nombre: 'Tarta de Limón',
+        descripcion: 'Tarta con crema de limón',
+        imagen: '',
+        precio: 3.50,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 7, cantidad: 150 },
+            { id: 19, cantidad: 3 },
+            { id: 15, cantidad: 200 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 23,
+        nombre: 'Brownie',
+        descripcion: 'Brownie de chocolate',
+        imagen: '',
+        precio: 2.50,
+        ingredientes: [
+            { id: 1, cantidad: 250 },
+            { id: 7, cantidad: 100 },
+            { id: 11, cantidad: 2 },
+            { id: 6, cantidad: 150 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
+    }),
+    new Producto({
+        id: 24,
+        nombre: 'Tarta de Fresa',
+        descripcion: 'Tarta con fresas frescas',
+        imagen: '',
+        precio: 3.50,
+        ingredientes: [
+            { id: 1, cantidad: 300 },
+            { id: 7, cantidad: 150 },
+            { id: 11, cantidad: 2 },
+            { id: 18, cantidad: 200 },
+        ],
+        panaderia: 'Panadería La Delicia',
+    }),
+    new Producto({
+        id: 25,
+        nombre: 'Quiche Lorraine',
+        descripcion: 'Quiche con jamón y queso',
+        imagen: '',
+        precio: 4.00,
+        ingredientes: [
+            { id: 1, cantidad: 400 },
+            { id: 13, cantidad: 200 },
+            { id: 15, cantidad: 150 },
+            { id: 11, cantidad: 3 },
+        ],
+        panaderia: 'Panadería El Buen Pan',
     }),
 ];
 
@@ -86,6 +393,27 @@ let pedidos = [
     new Pedido({ id: 3, clienteId: 4, productos: [{ productoId: 1, cantidad: 1 }, { productoId: 4, cantidad: 2 }], estado: 'en preparación', fecha: '2024-06-12' }),
     new Pedido({ id: 4, clienteId: 4, productos: [{ productoId: 3, cantidad: 5 }], estado: 'pendiente', fecha: '2024-06-17' }),
     new Pedido({ id: 5, clienteId: 3, productos: [{ productoId: 4, cantidad: 3 }, { productoId: 2, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-06-16' }),
+    new Pedido({ id: 6, clienteId: 3, productos: [{ productoId: 5, cantidad: 4 }], estado: 'pendiente', fecha: '2024-06-18' }),
+    new Pedido({ id: 7, clienteId: 4, productos: [{ productoId: 6, cantidad: 3 }, { productoId: 7, cantidad: 1 }], estado: 'en preparación', fecha: '2024-06-19' }),
+    new Pedido({ id: 8, clienteId: 4, productos: [{ productoId: 8, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-06-20' }),
+    new Pedido({ id: 9, clienteId: 3, productos: [{ productoId: 9, cantidad: 1 }, { productoId: 10, cantidad: 2 }], estado: 'pendiente', fecha: '2024-06-21' }),
+    new Pedido({ id: 10, clienteId: 3, productos: [{ productoId: 11, cantidad: 3 }], estado: 'en preparación', fecha: '2024-06-22' }),
+    new Pedido({ id: 11, clienteId: 4, productos: [{ productoId: 12, cantidad: 2 }, { productoId: 13, cantidad: 1 }], estado: 'listo para recoger', fecha: '2024-06-23' }),
+    new Pedido({ id: 12, clienteId: 4, productos: [{ productoId: 14, cantidad: 4 }], estado: 'pendiente', fecha: '2024-06-24' }),
+    new Pedido({ id: 13, clienteId: 3, productos: [{ productoId: 15, cantidad: 2 }, { productoId: 16, cantidad: 1 }], estado: 'en preparación', fecha: '2024-06-25' }),
+    new Pedido({ id: 14, clienteId: 3, productos: [{ productoId: 17, cantidad: 3 }, { productoId: 18, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-06-26' }),
+    new Pedido({ id: 15, clienteId: 4, productos: [{ productoId: 19, cantidad: 2 }, { productoId: 20, cantidad: 3 }], estado: 'pendiente', fecha: '2024-06-27' }),
+    new Pedido({ id: 16, clienteId: 4, productos: [{ productoId: 21, cantidad: 4 }], estado: 'en preparación', fecha: '2024-06-28' }),
+    new Pedido({ id: 17, clienteId: 3, productos: [{ productoId: 22, cantidad: 1 }, { productoId: 23, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-06-29' }),
+    new Pedido({ id: 18, clienteId: 3, productos: [{ productoId: 24, cantidad: 3 }, { productoId: 25, cantidad: 2 }], estado: 'pendiente', fecha: '2024-06-30' }),
+    new Pedido({ id: 19, clienteId: 4, productos: [{ productoId: 1, cantidad: 2 }, { productoId: 2, cantidad: 3 }], estado: 'en preparación', fecha: '2024-07-01' }),
+    new Pedido({ id: 20, clienteId: 4, productos: [{ productoId: 3, cantidad: 1 }, { productoId: 4, cantidad: 2 }], estado: 'listo para recoger', fecha: '2024-07-02' }),
+    new Pedido({ id: 21, clienteId: 3, productos: [{ productoId: 5, cantidad: 4 }, { productoId: 6, cantidad: 1 }], estado: 'pendiente', fecha: '2024-07-03' }),
+    new Pedido({ id: 22, clienteId: 3, productos: [{ productoId: 7, cantidad: 2 }, { productoId: 8, cantidad: 3 }], estado: 'en preparación', fecha: '2024-07-04' }),
+    new Pedido({ id: 23, clienteId: 4, productos: [{ productoId: 9, cantidad: 1 }, { productoId: 10, cantidad: 4 }], estado: 'listo para recoger', fecha: '2024-07-05' }),
+    new Pedido({ id: 24, clienteId: 4, productos: [{ productoId: 11, cantidad: 3 }, { productoId: 12, cantidad: 2 }], estado: 'pendiente', fecha: '2024-07-06' }),
+    new Pedido({ id: 25, clienteId: 3, productos: [{ productoId: 13, cantidad: 2 }, { productoId: 14, cantidad: 3 }], estado: 'en preparación', fecha: '2024-07-07' }),
+    new Pedido({ id: 26, clienteId: 3, productos: [{ productoId: 1, cantidad: 2 }, { productoId: 2, cantidad: 1 }, { productoId: 3, cantidad: 3 }], estado: 'pendiente', fecha: '2024-07-08' })
 ];
 
 module.exports = {
@@ -94,3 +422,4 @@ module.exports = {
     pedidos,
     ingredientes,
 };
+
