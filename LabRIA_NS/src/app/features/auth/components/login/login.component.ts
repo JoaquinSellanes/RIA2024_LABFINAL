@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -52,8 +54,14 @@ export class LoginComponent {
             this.router.navigate(['/cliente/tienda']);
           }
         }, (error) => {
-          console.error('Error logging in', error);
+          if (error.error.error == "Invalid credentials") {
+            this.toast.showToast('Credenciales inválidas', 'alert alert-error');
+          } else {
+            this.toast.showToast(error.error.error, 'alert alert-error');
+          }
         });
+    } else {
+      this.toast.showToast('Por favor, rellene todos los campos', 'alert alert-error');
     }
   }
 }
