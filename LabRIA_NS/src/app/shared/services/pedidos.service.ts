@@ -15,10 +15,10 @@ export class PedidosService {
   ) { }
 
   // POST     | /pedidos/
-  async createPedido(productos: any[]): Promise<any> {
+  async createPedido(productos: any[], fechaEntrega: string): Promise<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     try {
-      const response = await firstValueFrom(this.http.post(`${this.apiUrl}/pedidos/`, { productos }, { headers }));
+      const response = await firstValueFrom(this.http.post(`${this.apiUrl}/pedidos/`, { productos, fechaEntrega }, { headers }));
       return response;
     } catch (error) {
       return error;

@@ -119,7 +119,10 @@ export class CartModalComponent implements OnInit {
       return;
     }
     const productos: itemenv[] = this.cartItems.map(item => ({ productoId: item.product.id, cantidad: item.quantity }));
-    this.pedidosService.createPedido(productos).then(response => {
+    const fechaEntrega = this.cartForm.get('fechaEntrega')?.value;
+    console.log("Productos: ", productos);
+    console.log("FechaEntrega: ", fechaEntrega);
+    this.pedidosService.createPedido(productos, fechaEntrega).then(response => {
       console.log("Pedido creado: ", response);
       this.toast.showToast("Pedido realizado con éxito!");
       this.cartService.clearCart();
