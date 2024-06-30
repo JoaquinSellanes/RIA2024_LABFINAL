@@ -9,16 +9,53 @@
 </div>
 
 <div *ngIf="loaded">
-  <div class="prose">
+  <div class="prose mb-4">
     <h1>Mis pedidos</h1>
   </div>
-  <div *ngIf="pedidos.length === 0" class="mt-4 flex justify-center items-center h-screen">
+
+  <div class="mb-4">
+    <form [formGroup]="filtrosForm" (ngSubmit)="aplicarFiltros()" class="flex flex-col lg:flex-row gap-2 lg:items-end">
+      <div>
+        <label for="estado" class="block mb-2 text-sm font-medium text-gray-700">Estado</label>
+        <select id="estado" formControlName="estado" class="select select-bordered">
+          <option value="">Todos</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="en preparación">En preparación</option>
+          <option value="listo para recoger">Listo para recoger</option>
+        </select>
+      </div>
+      <div>
+        <label for="fechaInicio" class="block mb-2 text-sm font-medium text-gray-700">Fecha Inicio</label>
+        <input id="fechaInicio" type="date" formControlName="fechaInicio" class="input input-bordered">
+      </div>
+      <div>
+        <label for="fechaFin" class="block mb-2 text-sm font-medium text-gray-700">Fecha Fin</label>
+        <input id="fechaFin" type="date" formControlName="fechaFin" class="input input-bordered">
+      </div>
+      <div>
+        <label for="fechaFiltro" class="block mb-2 text-sm font-medium text-gray-700">Filtrar por</label>
+        <select id="fechaFiltro" formControlName="fechaFiltro" class="select select-bordered">
+          <option value="fecha">Fecha de Pedido</option>
+          <option value="fechaEntrega">Fecha de Entrega</option>
+        </select>
+      </div>
+      <div class="flex items-end h-full">
+        <button type="submit" class="btn btn-primary mt-4 lg:mt-0">Aplicar</button>
+      </div>
+      <div class="flex items-end h-full">
+        <button type="button" class="btn btn-secondary mt-4 lg:mt-0" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="pedidosFiltrados.length === 0" class="mt-4 flex justify-center items-center h-screen">
     <div class="prose text-center">
       <h2 class="text-5xl">No se encontraron pedidos</h2>
       <p>Ve a la tienda y empieza a hacer tus primeros pedidos</p>
     </div>
   </div>
-  <div *ngIf="pedidos.length > 0">
+
+  <div *ngIf="pedidosFiltrados.length > 0">
     <div class="overflow-x-auto border rounded-lg mt-2">
       <table class="table">
         <thead>

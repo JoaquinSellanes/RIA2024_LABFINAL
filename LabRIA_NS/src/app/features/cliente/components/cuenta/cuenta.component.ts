@@ -29,6 +29,10 @@ export class CuentaComponent implements OnInit {
       this.porcentajeFinalizadas = (this.totalpeticionesfinaliazdas * 100) / this.totalpeticiones;
       // redondear un numero despues de la coma
       this.porcentajeFinalizadas = Math.round(this.porcentajeFinalizadas * 100) / 100;
+      // Validar si el porcentaje es NaN
+      if (isNaN(this.porcentajeFinalizadas)) {
+        this.porcentajeFinalizadas = 0;
+      }
     }).catch((error) => {
       console.log(error);
     });
