@@ -63,15 +63,17 @@ exports.obtenerMiCuenta = (req, res) => {
         // Obtener la cantidad de pedidos del usuario
         const pedidos = pedidoService.obtenerPedidosPorClienteId(usuarioId);
         const totalPedidos = pedidos.length;
-        const pedidosFinalizados = pedidos.filter(pedido => pedido.estado === 'completado').length;
         const pedidosPendientes = pedidos.filter(pedido => pedido.estado === 'pendiente').length;
+        const pedidosEnPreparacion = pedidos.filter(pedido => pedido.estado === 'en preparación').length;
+        const pedidosListosParaRecoger = pedidos.filter(pedido => pedido.estado === 'listo para recoger').length;
 
         res.status(200).json({
             ...usuarioSinPassword,
             pedidos: {
-                total: totalPedidos,   
-                finalizados: pedidosFinalizados,
-                pendientes: pedidosPendientes
+                total: totalPedidos,
+                pendientes: pedidosPendientes,
+                enPreparacion: pedidosEnPreparacion,
+                listosParaRecoger: pedidosListosParaRecoger
             }
         });
     } catch (error) {
