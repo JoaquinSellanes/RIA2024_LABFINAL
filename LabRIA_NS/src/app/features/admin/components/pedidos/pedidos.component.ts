@@ -29,6 +29,7 @@ export class PedidosComponent implements OnInit {
   loaded: boolean = false;
   pedidos: PedidoData[] = [];
   pedidosPaginados: PedidoData[] = [];
+  pedidosFiltrados: PedidoData[] = [];
   error: boolean = false;
   paginaActual: number = 1;
   elementosPorPagina: number = 10;
@@ -134,6 +135,9 @@ export class PedidosComponent implements OnInit {
     }
 
     this.pedidos = pedidosFiltrados;
+    this.pedidosFiltrados = pedidosFiltrados;
+    console.log('Pedidos filtrados', this.pedidosFiltrados);
+
     this.totalPaginas = Math.ceil(this.pedidos.length / this.elementosPorPagina);
     this.paginaActual = 1;
     this.actualizarPagina();
@@ -168,7 +172,7 @@ export class PedidosComponent implements OnInit {
 
   async obtenerInsumosNecesarios() {
     try {
-      const pedidoIds = this.pedidosPaginados.map(pedido => pedido.id);
+      const pedidoIds = this.pedidosFiltrados.map(pedido => pedido.id);
       console.log('Pedido IDs', pedidoIds);
       const response = await this.pedidosService.getIngredientes(pedidoIds);
       this.insumosNecesarios = response;
