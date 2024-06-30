@@ -20,7 +20,6 @@ interface Insumo {
 })
 export class CrearProductoComponent implements OnInit {
   productoForm: FormGroup;
-  productoPreview: Producto;
   ingredientesList: Insumo[] = [];
   @ViewChild('toast') toast!: ToastComponent;
 
@@ -37,12 +36,6 @@ export class CrearProductoComponent implements OnInit {
       imagen: ['', Validators.required],
       precio: [0, [Validators.required, Validators.min(0)]],
       ingredientes: this.fb.array([])
-    });
-
-    this.productoPreview = new Producto(0, '', '', '', 0, []);
-
-    this.productoForm.valueChanges.subscribe((val) => {
-      this.productoPreview = val;
     });
   }
 

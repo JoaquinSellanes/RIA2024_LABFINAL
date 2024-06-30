@@ -48,7 +48,7 @@ interface itemenv {
             <p *ngIf="cartForm.get('fechaEntrega')?.errors?.['required'] && cartForm.get('fechaEntrega')?.touched"
                class="text-red-500 text-xs mt-1">La fecha de entrega es requerida.</p>
             <p *ngIf="cartForm.get('fechaEntrega')?.errors?.['dateInvalid']"
-               class="text-red-500 text-xs mt-1">La fecha debe ser al menos dos días después de hoy.</p>
+               class="text-red-500 text-xs mt-1">La fecha debe ser al menos el dia siguiente al actual.</p>
           </div>
           <div class="flex justify-between items-center">
             <button class="btn btn-error" *ngIf="cartItems.length > 0" (click)="clearCart()">Vaciar Carrito</button>
@@ -138,7 +138,7 @@ export class CartModalComponent implements OnInit {
     }
     const selectedDate = new Date(control.value);
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 2);
+    minDate.setDate(minDate.getDate());
     if (selectedDate < minDate) {
       return { 'dateInvalid': true };
     }

@@ -65,8 +65,8 @@
         <tr>
           <th>Id</th>
           <th>Cliente</th>
-          <th>Fecha</th>
-          <th>Estado</th>
+          <th>Fecha de entrega</th>
+          <th>Telefono</th>
           <th>Cant. Productos</th>
           <th>Precio Total</th>
           <th>Estado</th>
@@ -75,9 +75,10 @@
       <tbody>
         <tr class="hover" *ngFor="let pedido of pedidosPaginados">
           <th>{{ pedido.id }}</th>
-          <td>{{ pedido.cliente }}</td>
-          <td>{{ pedido.fecha }}</td>
-          <td>{{ pedido.estado }}</td>
+          <td>{{ pedido.cliente.email }}</td>
+          <td>{{ pedido.fechaEntrega }}</td>
+          <td>{{ pedido.cliente.telefono }}</td>
+          <td>{{ pedido.productos.length }}</td>
           <!-- <td>{{ pedido.cantProductos }}</td> -->
           <td>{{ calcularPrecioTotal(pedido) | currency }}</td>
           <td *ngIf="pedido">

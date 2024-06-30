@@ -25,9 +25,9 @@
   <button class="btn btn-secondary" type="button" (click)="limpiarFiltros()">Limpiar Filtros</button>
 </form>
 
-<div *ngIf="productosFiltrados.length > 0; else noProductos"
+<div *ngIf="productosPaginados.length > 0; else noProductos"
   class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
-  <div *ngFor="let producto of productosFiltrados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
+  <div *ngFor="let producto of productosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
     <figure>
       <img *ngIf="producto.imagen !== ''" class="transition-all cursor-pointer" [src]="producto.imagen"
         alt="Imagen del producto" />
@@ -56,7 +56,7 @@
   </div>
 </ng-template>
 
-<div class="flex justify-between my-4" *ngIf="productosFiltrados.length > 0">
+<div class="flex justify-between my-4" *ngIf="productosPaginados.length > 0">
   <button class="btn" (click)="paginaAnterior()" [disabled]="paginaActual <= 1">Anterior</button>
   <span>Página {{ paginaActual }} de {{ obtenerTotalPaginas() }}</span>
   <button class="btn" (click)="proximaPagina()" [disabled]="paginaActual >= obtenerTotalPaginas()">Siguiente</button>
