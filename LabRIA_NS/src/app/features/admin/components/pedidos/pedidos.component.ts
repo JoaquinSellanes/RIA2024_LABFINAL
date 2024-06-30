@@ -9,6 +9,7 @@ interface PedidoData {
   id: number;
   cliente: string;
   fecha: string;
+  fechaEntrega: string;
   estado: string;
   cantProductos: number;
   productos: any[];
@@ -64,6 +65,7 @@ export class PedidosComponent implements OnInit {
         id: pedido.id,
         cliente: pedido.cliente.email,
         fecha: pedido.fecha,
+        fechaEntrega: pedido.fechaEntrega,
         estado: pedido.estado,
         cantProductos: pedido.productos.length,
         productos: pedido.productos
@@ -81,6 +83,7 @@ export class PedidosComponent implements OnInit {
         id: pedido.id,
         cliente: pedido.cliente.email,
         fecha: pedido.fecha,
+        fechaEntrega: pedido.fechaEntrega,
         estado: pedido.estado,
         cantProductos: pedido.productos.length,
         productos: pedido.productos
