@@ -187,6 +187,9 @@ export class PedidosComponent implements OnInit {
 
   async obtenerInsumosNecesarios() {
     try {
+      if (this.pedidosFiltrados.length === 0) {
+        this.pedidosFiltrados = this.pedidos;
+      }
       const pedidoIds = this.pedidosFiltrados.map(pedido => pedido.id);
       console.log('Pedido IDs', pedidoIds);
       const response = await this.pedidosService.getIngredientes(pedidoIds);
