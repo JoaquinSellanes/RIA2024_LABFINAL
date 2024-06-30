@@ -4,11 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { InsumosService } from '../../services/insumos.service';
 import { ToastComponent } from '../../../../shared/toast/toast.component';
-
-interface Ingrediente {
-  nombre: string;
-  cantidad: number;
-}
+import { Ingrediente } from '../../../shared/models/ingrediente';
 
 interface Insumo {
   id: number;
@@ -91,7 +87,7 @@ export class EditarProductoComponent implements OnInit {
 
       this.insumosActivos = this.insumos.filter(i => i.isActive === true);
 
-      // agregar los isumos del produto a insumos activos
+      // agregar los insumos del producto a insumos activos
       const producto = await this.productoService.getProductoById(this.id);
       producto.ingredientes.forEach((ingrediente: Ingrediente) => {
         const insumo = this.insumos.find(i => i.nombre === ingrediente.nombre);
