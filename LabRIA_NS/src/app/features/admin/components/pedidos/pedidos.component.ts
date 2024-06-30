@@ -7,12 +7,37 @@ import { ToastComponent } from '../../../../shared/toast/toast.component';
 
 interface PedidoData {
   id: number;
-  cliente: string;
+  cliente: ClienteData;
   fecha: string;
   fechaEntrega: string;
   estado: string;
   cantProductos: number;
-  productos: any[];
+  productos: ProductoData[];
+}
+
+interface ClienteData {
+  id: number;
+  email: string;
+  telefono: string;
+}
+
+interface ProductoData {
+  cantidad: number;
+  producto: {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    imagen: string;
+    precio: number;
+    ingredientes: Ingrediente[];
+    isActive: boolean;
+  };
+  ingredientesNecesarios: Ingrediente[];
+}
+
+interface Ingrediente {
+  nombre: string;
+  cantidad: number;
 }
 
 interface InsumoNecesario {
@@ -62,14 +87,9 @@ export class PedidosComponent implements OnInit {
   async reiniciarPedidos() {
     try {
       const response = await this.pedidosService.getPedidos();
-      this.pedidos = response.map(pedido => ({
-        id: pedido.id,
-        cliente: pedido.cliente.email,
-        fecha: pedido.fecha,
-        fechaEntrega: pedido.fechaEntrega,
-        estado: pedido.estado,
+      this.pedidos = response.map((pedido: PedidoData) => ({
+        ...pedido,
         cantProductos: pedido.productos.length,
-        productos: pedido.productos
       }));
     } catch (error) {
       console.error('Error fetching pedidos', error);
@@ -80,16 +100,11 @@ export class PedidosComponent implements OnInit {
   async cargarPedidos() {
     try {
       const response = await this.pedidosService.getPedidos();
-      this.pedidos = response.map(pedido => ({
-        id: pedido.id,
-        cliente: pedido.cliente.email,
-        fecha: pedido.fecha,
-        fechaEntrega: pedido.fechaEntrega,
-        estado: pedido.estado,
+      this.pedidos = response.map((pedido: PedidoData) => ({
+        ...pedido,
         cantProductos: pedido.productos.length,
-        productos: pedido.productos
       }));
-      this.correos = [...new Set(this.pedidos.map(pedido => pedido.cliente))];
+      this.correos = [...new Set(this.pedidos.map(pedido => pedido.cliente.email))];
       this.totalPaginas = Math.ceil(this.pedidos.length / this.elementosPorPagina);
       this.actualizarPagina();
       this.error = false;
@@ -123,15 +138,15 @@ export class PedidosComponent implements OnInit {
     }
 
     if (fechaInicio) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fecha) >= new Date(fechaInicio));
+      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) >= new Date(fechaInicio));
     }
 
     if (fechaFin) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fecha) <= new Date(fechaFin));
+      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) <= new Date(fechaFin));
     }
 
     if (correo) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => pedido.cliente.includes(correo));
+      pedidosFiltrados = pedidosFiltrados.filter(pedido => pedido.cliente.email.includes(correo));
     }
 
     this.pedidos = pedidosFiltrados;
@@ -243,7 +258,7 @@ export class PedidosComponent implements OnInit {
     this.aplicarFiltros();
   }
 
-  cambiarEstado(pedido: any, event: Event): void {
+  cambiarEstado(pedido: PedidoData, event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const nuevoEstado = selectElement.value;
     if (nuevoEstado === pedido.estado || nuevoEstado === '') {
@@ -259,6 +274,5 @@ export class PedidosComponent implements OnInit {
           console.error('Error cambiando estado', error);
         });
     }
-
   }
 }
