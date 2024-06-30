@@ -24,6 +24,7 @@ interface PedidoProducto {
 interface PedidoData {
   id: number;
   cliente: string;
+  clienteTelefono: string;
   fecha: string;
   fechaEntrega: string;
   estado: string;
@@ -54,9 +55,11 @@ export class panaderoDashboardComponent implements OnInit {
     try {
       const response = await this.pedidosService.getPedidos();
       this.pedidos = response.map(pedido => {
+        // console.log(pedido);
         return {
           id: pedido.id,
           cliente: pedido.cliente.email,
+          clienteTelefono: pedido.cliente.telefono,
           fecha: pedido.fecha,
           fechaEntrega: pedido.fechaEntrega,
           estado: pedido.estado,
