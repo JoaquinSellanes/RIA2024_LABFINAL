@@ -12,9 +12,10 @@ export class TiendaComponent implements OnInit {
   contadorItems: number = 0;
   productos: any[] = [];
   productosFiltrados: any[] = [];
+  productosPaginados: any[] = [];
   filtrosForm: FormGroup;
   paginaActual: number = 1;
-  itemsPorPagina: number = 10;
+  itemsPorPagina: number = 12;
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +45,7 @@ export class TiendaComponent implements OnInit {
       producto.isActive
     );
     this.paginaActual = 1;
+    this.actualizarPagina();
   }
 
   limpiarFiltros(): void {
@@ -58,13 +60,21 @@ export class TiendaComponent implements OnInit {
   proximaPagina(): void {
     if (this.paginaActual < this.obtenerTotalPaginas()) {
       this.paginaActual++;
+      this.actualizarPagina();
     }
   }
 
   paginaAnterior(): void {
     if (this.paginaActual > 1) {
       this.paginaActual--;
+      this.actualizarPagina();
     }
+  }
+
+  actualizarPagina(): void {
+    const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+    const fin = inicio + this.itemsPorPagina;
+    this.productosPaginados = this.productosFiltrados.slice(inicio, fin);
   }
 
   agregarAlCarrito(producto: any): void {
