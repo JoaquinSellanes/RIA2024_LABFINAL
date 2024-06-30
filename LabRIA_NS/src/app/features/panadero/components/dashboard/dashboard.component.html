@@ -13,7 +13,7 @@
 
 <div class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let pedido of pedidosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl relative">
-    <div class="badge absolute top-2 right-2 badge-warning">{{pedido.estado | titlecase}}</div>
+    <div class="badge absolute top-2 right-2 badge-info">{{pedido.estado | titlecase}}</div>
     <div class="card-body">
       <div class="flex justify-between items-center">
         <h2 class="card-title hover:text-primary cursor-pointer transition-all">
@@ -22,7 +22,8 @@
       </div>
       <p class="mb-2">
         Cliente: {{pedido.cliente}} <br>
-        Fecha: {{pedido.fecha}}
+        Fecha de Pedido: {{pedido.fecha}} <br>
+        Fecha de Entrega: {{pedido.fechaEntrega}}
       </p>
       <p class="font-semibold">
         Cantidad de productos: {{pedido.cantProductos}}

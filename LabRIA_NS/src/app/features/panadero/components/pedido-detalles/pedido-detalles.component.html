@@ -3,11 +3,11 @@
     <div class="card-body">
       <div class="flex justify-between items-center mb-4">
         <h2 class="card-title text-2xl">Detalles del Pedido: {{pedido.id}}</h2>
-        <!-- <span class="text-primary font-bold text-lg" -->
         <div class="badge absolute top-2 right-2 badge-lg badge-warning">{{pedido.estado | titlecase}}</div>
       </div>
       <p class="mb-2"><strong>Cliente:</strong> {{pedido.cliente.email}}</p>
-      <p class="mb-2"><strong>Fecha:</strong> {{pedido.fecha}}</p>
+      <p class="mb-2"><strong>Fecha de Pedido:</strong> {{pedido.fecha}}</p>
+      <p class="mb-2"><strong>Fecha de Entrega:</strong> {{pedido.fechaEntrega}}</p>
       <p class="mb-4"><strong>Estado:</strong> {{pedido.estado | titlecase}}</p>
       <h3 class="text-xl mb-4">Productos:</h3>
       <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
@@ -41,10 +41,9 @@
     </div>
   </div>
 
-  <div class="card-actions justify-end mt-4">
+  <div class="card-actions justify-end mt-4 w-[90%]">
     <button class="btn btn-primary w-full" (click)="volver()">Volver</button>
   </div>
-  
 </div>
 <div *ngIf="!pedido" class="flex justify-center items-center h-screen">
   <p class="text-lg">Cargando detalles del pedido...</p>

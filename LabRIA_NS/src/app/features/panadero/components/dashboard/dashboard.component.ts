@@ -25,6 +25,7 @@ interface PedidoData {
   id: number;
   cliente: string;
   fecha: string;
+  fechaEntrega: string;
   estado: string;
   cantProductos: number;
   productos: PedidoProducto[]; // Definimos correctamente la estructura de productos
@@ -57,6 +58,7 @@ export class panaderoDashboardComponent implements OnInit {
           id: pedido.id,
           cliente: pedido.cliente.email,
           fecha: pedido.fecha,
+          fechaEntrega: pedido.fechaEntrega,
           estado: pedido.estado,
           productos: pedido.productos,
           cantProductos: pedido.productos.length

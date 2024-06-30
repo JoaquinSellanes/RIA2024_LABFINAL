@@ -58,7 +58,7 @@ exports.obtenerPedidosDelCliente = (req, res) => {
 };
 
 exports.crearPedido = (req, res) => {
-    const { productos } = req.body;
+    const { productos, fechaEntrega } = req.body;  // Incluir fechaEntrega en la destructuración
     const clienteId = req.userId; // Obtener el ID del usuario desde el token
 
     // Validaciones
@@ -76,6 +76,11 @@ exports.crearPedido = (req, res) => {
         if (!producto || !producto.isActive) {
             return res.status(400).json({ error: `El producto con ID ${item.productoId} no existe o está inactivo` });
         }
+    }
+
+    // Validar fecha de entrega
+    if (!fechaEntrega) {
+        return res.status(400).json({ error: 'Debe proporcionar una fecha de entrega' });
     }
 
     try {
@@ -96,6 +101,7 @@ exports.crearPedido = (req, res) => {
             productos,
             estado: 'pendiente',
             fecha: new Date().toISOString(),
+            fechaEntrega  // Incluir fechaEntrega
         };
 
         const pedidoCreado = pedidoService.agregarPedido(nuevoPedido);

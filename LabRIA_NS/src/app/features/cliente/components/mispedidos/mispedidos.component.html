@@ -12,20 +12,19 @@
   <div class="prose">
     <h1>Mis pedidos</h1>
   </div>
-  <!-- <div *ngIf="true" class="mt-4 flex justify-center items-center h-screen"> -->
   <div *ngIf="pedidos.length === 0" class="mt-4 flex justify-center items-center h-screen">
     <div class="prose text-center">
       <h2 class="text-5xl">No se encontraron pedidos</h2>
       <p>Ve a la tienda y empieza a hacer tus primeros pedidos</p>
     </div>
   </div>
-  <!-- <div *ngIf="false"> -->
   <div *ngIf="pedidos.length > 0">
     <div class="overflow-x-auto border rounded-lg mt-2">
       <table class="table">
         <thead>
           <tr>
-            <th>Fecha</th>
+            <th>Fecha de Pedido</th>
+            <th>Fecha de Entrega</th>
             <th>Estado</th>
             <th>Cant. Productos</th>
             <th>Precio Total</th>
@@ -35,6 +34,7 @@
         <tbody>
           <tr class="hover" *ngFor="let pedido of pedidosPaginados">
             <td>{{ pedido.fecha }}</td>
+            <td>{{ pedido.fechaEntrega }}</td>
             <td>{{ pedido.estado }}</td>
             <td>{{ pedido.cantProductos }}</td>
             <td>{{ pedido.precioTotal | currency }}</td>
@@ -65,10 +65,11 @@
 
 <!-- Modal para ver los detalles del pedido -->
 <div class="modal" [ngClass]="{ 'modal-open': modalOpen }">
-  <div class="modal-box bg-white rounded-lg p-6 max-w-3xl w-full">
+  <div class="modal-box bg-base-100 rounded-lg p-6 max-w-3xl w-full">
     <h2 class="text-2xl font-semibold mb-4">Detalles del Pedido</h2>
     <div *ngIf="pedidoSeleccionado">
-      <p class="mb-2"><strong>Fecha:</strong> {{ pedidoSeleccionado.fecha }}</p>
+      <p class="mb-2"><strong>Fecha de Pedido:</strong> {{ pedidoSeleccionado.fecha }}</p>
+      <p class="mb-2"><strong>Fecha de Entrega:</strong> {{ pedidoSeleccionado.fechaEntrega }}</p>
       <p class="mb-2"><strong>Estado:</strong> {{ pedidoSeleccionado.estado }}</p>
       <p class="mb-2"><strong>Productos:</strong></p>
       <div *ngFor="let producto of pedidoSeleccionado.productos" class="mb-4">

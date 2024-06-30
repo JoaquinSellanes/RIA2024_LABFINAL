@@ -5,6 +5,7 @@ interface PedidoData {
   id: number;
   cliente: string;
   fecha: string;
+  fechaEntrega: string;
   estado: string;
   cantProductos: number;
   precioTotal: number;
@@ -38,6 +39,7 @@ export class MispedidosComponent implements OnInit {
           id: pedido.id,
           cliente: pedido.cliente.email,
           fecha: pedido.fecha,
+          fechaEntrega: pedido.fechaEntrega,
           estado: pedido.estado,
           cantProductos: pedido.productos.length,
           precioTotal: precioTotal,
