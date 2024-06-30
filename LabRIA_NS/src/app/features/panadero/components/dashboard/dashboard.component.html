@@ -11,6 +11,15 @@
   </div>
 </div>
 
+<div class="flex justify-center mb-4">
+  <select class="select select-bordered w-full max-w-xs" (change)="cambiarOrden($event)">
+    <option value="fechaAsc">Fecha de Pedido Ascendente</option>
+    <option value="fechaDesc">Fecha de Pedido Descendente</option>
+    <option value="fechaEntregaAsc">Fecha de Entrega Ascendente</option>
+    <option value="fechaEntregaDesc">Fecha de Entrega Descendente</option>
+  </select>
+</div>
+
 <div class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let pedido of pedidosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl relative">
     <div class="badge absolute top-2 right-2 badge-info">{{pedido.estado | titlecase}}</div>
@@ -47,7 +56,7 @@
   <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
       class="inline-block h-5 w-5 stroke-current">
-      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5" />
     </svg>
   </button>
 </div>

@@ -29,7 +29,7 @@ interface PedidoData {
   fechaEntrega: string;
   estado: string;
   cantProductos: number;
-  productos: PedidoProducto[]; // Definimos correctamente la estructura de productos
+  productos: PedidoProducto[];
 }
 
 @Component({
@@ -45,6 +45,7 @@ export class panaderoDashboardComponent implements OnInit {
   paginaActual: number = 1;
   elementosPorPagina: number = 16;
   totalPaginas: number = 1;
+  orden: string = 'fechaAsc'; // Orden por defecto
 
   constructor(
     private pedidosService: PedidosService,
@@ -55,7 +56,6 @@ export class panaderoDashboardComponent implements OnInit {
     try {
       const response = await this.pedidosService.getPedidos();
       this.pedidos = response.map(pedido => {
-        // console.log(pedido);
         return {
           id: pedido.id,
           cliente: pedido.cliente.email,
@@ -75,11 +75,28 @@ export class panaderoDashboardComponent implements OnInit {
   }
 
   aplicarFiltros() {
-    if (this.filtro === 'todos') {
-      this.pedidosFiltrados = this.pedidos;
-    } else {
-      this.pedidosFiltrados = this.pedidos.filter(p => p.estado === this.filtro);
+    let pedidos = this.pedidos;
+
+    if (this.filtro !== 'todos') {
+      pedidos = pedidos.filter(p => p.estado === this.filtro);
     }
+
+    switch (this.orden) {
+      case 'fechaAsc':
+        pedidos.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+        break;
+      case 'fechaDesc':
+        pedidos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        break;
+      case 'fechaEntregaAsc':
+        pedidos.sort((a, b) => new Date(a.fechaEntrega).getTime() - new Date(b.fechaEntrega).getTime());
+        break;
+      case 'fechaEntregaDesc':
+        pedidos.sort((a, b) => new Date(b.fechaEntrega).getTime() - new Date(a.fechaEntrega).getTime());
+        break;
+    }
+
+    this.pedidosFiltrados = pedidos;
     this.paginaActual = 1;
     this.totalPaginas = Math.ceil(this.pedidosFiltrados.length / this.elementosPorPagina);
     this.actualizarPagina();
@@ -100,6 +117,11 @@ export class panaderoDashboardComponent implements OnInit {
 
   cambiarFiltro(filtro: string) {
     this.filtro = filtro;
+    this.aplicarFiltros();
+  }
+
+  cambiarOrden(event: any) {
+    this.orden = event.target.value;
     this.aplicarFiltros();
   }
 
