@@ -9,7 +9,7 @@
 </div>
 
 <div class="w-full flex justify-center" *ngIf="loaded">
-  <div class="w-[70%] mb-3">
+  <div class="w-[95%] sm:w-[75%] lg:w-[70%] mb-3">
     <div class="prose mb-4">
       <h1>Usuarios</h1>
       <p>Lista los usuarios y administra los roles eficientemente.</p>
@@ -49,7 +49,7 @@
             <td>{{ usuario.email }}</td>
             <td>{{ usuario.role }}</td>
             <td>
-              <div class="join flex justify-end">
+              <div class="join flex justify-start  xl:justify-end">
                 <button class="btn btn-outline btn-primary join-item" (click)="roleUsuario(usuario.id)">Cambiar
                   Rol</button>
                 <button class="btn btn-outline btn-danger join-item" (click)="eliminarUsuario(usuario.id)">Dar de

@@ -16,27 +16,28 @@
   <h1>Tienda</h1>
 </div>
 
-<form [formGroup]="filtrosForm" (ngSubmit)="aplicarFiltros()" class="flex gap-3">
-  <input type="text" placeholder="Buscar por nombre" class="input input-bordered w-full mb-4"
+<form [formGroup]="filtrosForm" (ngSubmit)="aplicarFiltros()" class="my-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+  <input type="text" placeholder="Buscar por nombre" class="input input-bordered w-full sm:w-auto mb-4 sm:mb-0"
     formControlName="filtroNombre">
-  <input type="number" placeholder="Precio Máximo" class="input input-bordered w-full mb-4"
+  <input type="number" placeholder="Precio Máximo" class="input input-bordered w-full sm:w-auto mb-4 sm:mb-0"
     formControlName="filtroPrecio">
-  <button class="btn btn-primary" type="submit">Aplicar Filtros</button>
-  <button class="btn btn-secondary" type="button" (click)="limpiarFiltros()">Limpiar Filtros</button>
+  <button class="btn btn-primary w-full sm:w-auto mb-4 sm:mb-0" type="submit">Aplicar Filtros</button>
+  <button class="btn btn-secondary w-full sm:w-auto" type="button" (click)="limpiarFiltros()">Limpiar Filtros</button>
 </form>
+
 
 <div *ngIf="productosPaginados.length > 0; else noProductos"
   class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let producto of productosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
     <figure>
-      <img *ngIf="producto.imagen !== ''" class="transition-all cursor-pointer max-h-72 image-full"
-        [src]="producto.imagen" alt="Imagen del producto" />
-      <img *ngIf="producto.imagen == ''" class="transition-all cursor-pointer max-h-72 image-full"
-        src="/assets/no-image.png" alt="Imagen del producto" />
+      <img *ngIf="producto.imagen !== ''" class="transition-all max-h-72 image-full" [src]="producto.imagen"
+        alt="Imagen del producto" />
+      <img *ngIf="producto.imagen == ''" class="transition-all max-h-72 image-full" src="/assets/no-image.png"
+        alt="Imagen del producto" />
     </figure>
     <div class="card-body">
       <div class="flex justify-between items-center">
-        <h2 class="card-title hover:text-primary cursor-pointer transition-all">{{ producto.nombre }}</h2>
+        <h2 class="card-title transition-all">{{ producto.nombre }}</h2>
         <span class="text-primary font-bold text-lg">${{ producto.precio }} UYU</span>
       </div>
       <p>{{ producto.descripcion }}</p>

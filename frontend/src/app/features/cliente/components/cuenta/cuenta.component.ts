@@ -11,8 +11,9 @@ export class CuentaComponent implements OnInit {
   role: string = '';
   totalpeticiones: number = 0;
   totalpeticionespendientes: number = 0;
-  totalpeticionesfinaliazdas: number = 0;
-  porcentajeFinalizadas: number = 0;
+  totalpeticionesenPreparacion: number = 0;
+  totalpeticioneslistosParaRecoger: number = 0;
+  porcentajeListosParaRecoger: number = 0;
 
   constructor(
     private cuentaService: CuentaService
@@ -25,17 +26,15 @@ export class CuentaComponent implements OnInit {
       this.role = response.role;
       this.totalpeticiones = response.pedidos.total;
       this.totalpeticionespendientes = response.pedidos.pendientes;
-      this.totalpeticionesfinaliazdas = response.pedidos.finalizados;
-      this.porcentajeFinalizadas = (this.totalpeticionesfinaliazdas * 100) / this.totalpeticiones;
-      // redondear un numero despues de la coma
-      this.porcentajeFinalizadas = Math.round(this.porcentajeFinalizadas * 100) / 100;
-      // Validar si el porcentaje es NaN
-      if (isNaN(this.porcentajeFinalizadas)) {
-        this.porcentajeFinalizadas = 0;
+      this.totalpeticionesenPreparacion = response.pedidos.enPreparacion;
+      this.totalpeticioneslistosParaRecoger = response.pedidos.listosParaRecoger;
+      this.porcentajeListosParaRecoger = (this.totalpeticioneslistosParaRecoger * 100) / this.totalpeticiones;
+      this.porcentajeListosParaRecoger = Math.round(this.porcentajeListosParaRecoger * 100) / 100;
+      if (isNaN(this.porcentajeListosParaRecoger)) {
+        this.porcentajeListosParaRecoger = 0;
       }
     }).catch((error) => {
       console.log(error);
     });
   }
-
 }
