@@ -7,6 +7,7 @@ class Usuario {
         this.telefono = telefono;
         this.role = role;
         this.password = this.hashPassword(password);
+        // this.isDeleted = false;
     }
 
     hashPassword(password) {

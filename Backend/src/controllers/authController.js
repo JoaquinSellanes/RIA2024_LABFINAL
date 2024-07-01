@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ token, email: user.email, role: user.role });
     } catch (error) {
-        res.status(500).json({ error: 'Server error, please try again later' });
+        res.status(500).json({ error: 'Server error, please try again later' + error});
     }
 };
 
@@ -35,6 +35,11 @@ exports.register = async (req, res) => {
 
     try {
         if (usuarioService.findUserByEmail(email)) {
+
+            if (usuarioService.findUserByEmail(email).isDeleted) {
+                return res.status(400).json({ error: 'El usuario ya existe y se encuentra deshabilitado.' });
+            }
+
             return res.status(400).json({ error: 'El usuario ya existe' });
         }
 

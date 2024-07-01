@@ -17,11 +17,20 @@ const getLastUserId = () => {
 };
 
 const obtenerUsuarioPorId = (id) => {
-    return usuarios.find(u => u.id === id);
+    return usuarios.find(u => u.id == id);
 };
 
 const obtenerTodosLosUsuarios = () => {
     return usuarios;
+};
+
+const actualizarUsuario = (id, usuarioActualizado) => {
+    const index = usuarios.findIndex(u => u.id == id);
+    if (index !== -1) {
+        usuarios[index] = { ...usuarios[index], ...usuarioActualizado };
+        return usuarios[index];
+    }
+    return null;
 };
 
 module.exports = {
@@ -29,5 +38,6 @@ module.exports = {
     addUser,
     getLastUserId,
     obtenerUsuarioPorId,
-    obtenerTodosLosUsuarios
+    obtenerTodosLosUsuarios,
+    actualizarUsuario // Exportar la nueva función
 };

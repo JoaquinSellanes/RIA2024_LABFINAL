@@ -80,3 +80,28 @@ exports.obtenerMiCuenta = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Dar de baja a un usuario
+exports.darDeBajaUsuario = (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const usuario = usuarioService.obtenerUsuarioPorId(id);
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        if (usuario.isDeleted) {
+            res.status(400).json({ error: 'El usuario ya se encuentra dado de baja' });
+        }
+
+        usuario.isDeleted = true;
+        const usuarioActualizado = usuarioService.actualizarUsuario(id, usuario);
+
+        const {isDeleted, ...usuarioSinPasswd} = usuarioActualizado
+
+        res.status(200).json({ message: 'Usuario dado de baja exitosamente', usuario: usuarioSinPasswd });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
