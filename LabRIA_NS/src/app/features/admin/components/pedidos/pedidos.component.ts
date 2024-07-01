@@ -82,6 +82,7 @@ export class PedidosComponent implements OnInit {
 
   async ngOnInit() {
     await this.cargarPedidos();
+    this.aplicarFiltros();
   }
 
   async reiniciarPedidos() {
@@ -116,7 +117,6 @@ export class PedidosComponent implements OnInit {
   }
 
   aplicarFiltros() {
-    this.reiniciarPedidos();
     console.log('Aplicando filtros');
     this.mostrarInsumosTabla = false;
 
@@ -131,29 +131,25 @@ export class PedidosComponent implements OnInit {
       return;
     }
 
-    let pedidosFiltrados = this.pedidos;
+    this.pedidosFiltrados = this.pedidos;
 
     if (estado) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => pedido.estado === estado);
+      this.pedidosFiltrados = this.pedidosFiltrados.filter(pedido => pedido.estado === estado);
     }
 
     if (fechaInicio) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) >= new Date(fechaInicio));
+      this.pedidosFiltrados = this.pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) >= new Date(fechaInicio));
     }
 
     if (fechaFin) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) <= new Date(fechaFin));
+      this.pedidosFiltrados = this.pedidosFiltrados.filter(pedido => new Date(pedido.fechaEntrega) <= new Date(fechaFin));
     }
 
     if (correo) {
-      pedidosFiltrados = pedidosFiltrados.filter(pedido => pedido.cliente.email.includes(correo));
+      this.pedidosFiltrados = this.pedidosFiltrados.filter(pedido => pedido.cliente.email.includes(correo));
     }
 
-    this.pedidos = pedidosFiltrados;
-    this.pedidosFiltrados = pedidosFiltrados;
-    console.log('Pedidos filtrados', this.pedidosFiltrados);
-
-    this.totalPaginas = Math.ceil(this.pedidos.length / this.elementosPorPagina);
+    this.totalPaginas = Math.ceil(this.pedidosFiltrados.length / this.elementosPorPagina);
     this.paginaActual = 1;
     this.actualizarPagina();
     this.error = false;
@@ -170,20 +166,28 @@ export class PedidosComponent implements OnInit {
   actualizarPagina() {
     const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
     const fin = inicio + this.elementosPorPagina;
-    this.pedidosPaginados = this.pedidos.slice(inicio, fin);
+    this.pedidosPaginados = this.pedidosFiltrados.slice(inicio, fin);
   }
+
 
   mostrarInsumos() {
     this.obtenerInsumosNecesarios();
   }
 
   limpiarFiltros() {
-    this.cargarPedidos();
-    this.filtrosForm.reset();
-    this.filteredCorreos = this.correos;
-    this.aplicarFiltros();
+    this.filtrosForm.reset({
+      estado: '',
+      fechaInicio: '',
+      fechaFin: '',
+      correo: ''
+    });
+    this.pedidosFiltrados = this.pedidos;
+    this.totalPaginas = Math.ceil(this.pedidos.length / this.elementosPorPagina);
+    this.paginaActual = 1;
+    this.actualizarPagina();
     this.filteredCorreos = [];
   }
+
 
   async obtenerInsumosNecesarios() {
     try {

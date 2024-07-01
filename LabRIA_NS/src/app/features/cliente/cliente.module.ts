@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { clienteBodyComponent } from './components/body/body.component';
-import { clienteDashboardComponent } from './components/dashboard/dashboard.component';
-import { CartModalComponent } from './components/cart-modal/cart-modal.component';
 import { ClienteFooterComponent } from './components/footer/footer.component';
 import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { MispedidosComponent } from './components/mispedidos/mispedidos.component';
@@ -17,8 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     clienteBodyComponent,
-    clienteDashboardComponent,
-    CartModalComponent,
     ClienteFooterComponent,
     CuentaComponent,
     MispedidosComponent
