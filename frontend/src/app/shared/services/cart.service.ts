@@ -58,6 +58,14 @@ export class CartService {
     return this.cartItems.reduce((count, item) => count + item.quantity, 0);
   }
 
+  updateCartItemQuantity(productId: number, quantity: number): void {
+    const index = this.cartItems.findIndex(cartItem => cartItem.product.id === productId);
+    if (index !== -1) {
+      this.cartItems[index].quantity = quantity;
+      this.updateCart();
+    }
+  }
+
   private updateCart(): void {
     localStorage.setItem(this.storageKey, JSON.stringify(this.cartItems));
     this.cartSubject.next(this.cartItems);
