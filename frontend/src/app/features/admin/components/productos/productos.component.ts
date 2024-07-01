@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { ToastComponent } from '../../../../shared/toast/toast.component';
 import { Router } from '@angular/router';
+import { ProductoModalComponent } from '../producto-modal/producto-modal.component';
 
 @Component({
   selector: 'app-productos',
@@ -16,8 +17,10 @@ export class ProductosComponent implements OnInit {
   elementosPorPagina: number = 16;
   totalPaginas: number = 1;
   filtro: string = 'todos';
+  productoSeleccionado: any = null;
 
   @ViewChild('toast') toast!: ToastComponent;
+  @ViewChild('productoModal') productoModal!: ProductoModalComponent;
 
   constructor(
     private productoService: ProductoService,
@@ -83,13 +86,14 @@ export class ProductosComponent implements OnInit {
         console.log('Producto actualizado', p.isActive);
       }
     });
-
   }
 
-  consulta(id: string) {
-    const modal: any = document.getElementById(id);
-    if (modal) {
-      modal.showModal();
+  async consulta(id: string) {
+    try {
+      this.productoSeleccionado = await this.productoService.getProductoById(parseInt(id));
+      this.productoModal.showModal();
+    } catch (error) {
+      console.error('Error fetching product details', error);
     }
   }
 

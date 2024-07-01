@@ -1,5 +1,6 @@
 <div *ngIf="loaded">
   <app-toast #toast></app-toast>
+  <app-producto-modal #productoModal [producto]="productoSeleccionado"></app-producto-modal>
 
   <div class="w-[100%] flex justify-start items-center">
     <button class="btn btn-neutral w-[100%]" routerLink="/administracion/crear-producto">Crear</button>
@@ -73,6 +74,4 @@
       </svg>
     </button>
   </div>
-
-  <app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>
 </div>
