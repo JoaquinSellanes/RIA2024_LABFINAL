@@ -29,10 +29,10 @@
   class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
   <div *ngFor="let producto of productosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
     <figure>
-      <img *ngIf="producto.imagen !== ''" class="transition-all cursor-pointer" [src]="producto.imagen"
-        alt="Imagen del producto" />
-      <img *ngIf="producto.imagen == ''" class="transition-all cursor-pointer" src="/assets/no-image.png"
-        alt="Imagen del producto" />
+      <img *ngIf="producto.imagen !== ''" class="transition-all cursor-pointer max-h-72 image-full"
+        [src]="producto.imagen" alt="Imagen del producto" />
+      <img *ngIf="producto.imagen == ''" class="transition-all cursor-pointer max-h-72 image-full"
+        src="/assets/no-image.png" alt="Imagen del producto" />
     </figure>
     <div class="card-body">
       <div class="flex justify-between items-center">

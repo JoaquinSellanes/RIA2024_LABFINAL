@@ -20,11 +20,11 @@ interface itemenv {
         </form>
         <h3 class="font-bold text-lg">Carrito de Compras</h3>
         <ul class="py-4" *ngIf="cartItems.length > 0; else emptyCart">
-          <li *ngFor="let item of cartItems; let i = index" class="grid grid-cols-3 gap-3 mb-3">
+          <li *ngFor="let item of cartItems; let i = index" class="grid grid-cols-3 gap-3 mb-3 border-b">
             <figure class="col-span-1">
-              <img *ngIf="item.product.imagen !== ''" class="transition-all cursor-pointer" [src]="item.product.imagen"
+              <img *ngIf="item.product.imagen !== ''" class="transition-all cursor-pointer max-h-24" [src]="item.product.imagen"
                 alt="Imagen del producto" />
-              <img *ngIf="item.product.imagen == ''" class="transition-all cursor-pointer" src="/assets/no-image.png"
+              <img *ngIf="item.product.imagen == ''" class="transition-all cursor-pointer max-h-24" src="/assets/no-image.png"
                 alt="Imagen del producto" />
             </figure>
             <div class="col-span-2 flex w-full gap-2">
