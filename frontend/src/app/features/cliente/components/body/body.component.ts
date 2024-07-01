@@ -10,6 +10,8 @@ import { ThemeService } from '../../../../shared/services/theme.service';
 })
 export class clienteBodyComponent implements AfterViewInit {
 
+  email = localStorage.getItem('email');
+
   constructor(private router: Router, public themeService: ThemeService) { }
 
   ngAfterViewInit(): void {
