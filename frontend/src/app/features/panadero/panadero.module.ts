@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { panaderoBodyComponent } from './components/body/body.component';
 import { panaderoDashboardComponent } from './components/dashboard/dashboard.component';
 import { PanaderoFooterComponent } from './components/footer/footer.component';
-import { InsumosPanaderoComponent } from './components/insumos/insumos.component';
 import { PedidoDetallesComponent } from './components/pedido-detalles/pedido-detalles.component';
 
 
@@ -15,7 +14,6 @@ import { PedidoDetallesComponent } from './components/pedido-detalles/pedido-det
     panaderoBodyComponent,
     panaderoDashboardComponent,
     PanaderoFooterComponent,
-    InsumosPanaderoComponent,
     PedidoDetallesComponent
   ],
   imports: [
