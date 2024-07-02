@@ -88,3 +88,28 @@
     <p>Puede que no hayan pedidos en el sistema o tengas que ajustar los filtros para poder verlos!</p>
   </div>
 </div>
+
+<div *ngIf="mostrarInsumosTabla" class="mt-8">
+  <div class="prose mb-4">
+    <h2>Insumos Necesarios</h2>
+  </div>
+  <div class="overflow-x-auto border rounded-lg mt-2">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cantidad Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover" *ngFor="let insumo of insumosNecesarios">
+          <td>{{ insumo.nombre }}</td>
+          <td>{{ insumo.cantidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex justify-end mt-4">
+    <button class="btn btn-secondary" (click)="exportInsumosNecesarios()">Generar Informe</button>
+  </div>
+</div>

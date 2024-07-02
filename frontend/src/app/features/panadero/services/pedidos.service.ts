@@ -68,6 +68,17 @@ export class PedidosService {
     }
   }
 
+  async getIngredientes(pedidoIds: number[]): Promise<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    try {
+      const response = await firstValueFrom(this.http.post<any>(`${this.apiUrl}/pedidos/ingredientes`, { pedidoIds }, { headers }));
+      return response;
+    } catch (error) {
+      console.error('Error fetching ingredientes necesarios', error);
+      throw error;
+    }
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
     if (!token) {

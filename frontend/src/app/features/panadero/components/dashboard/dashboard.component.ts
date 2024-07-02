@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PedidosService } from '../../services/pedidos.service';
 import { Router } from '@angular/router';
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 interface Producto {
   id: number;
@@ -32,6 +34,11 @@ interface PedidoData {
   productos: PedidoProducto[];
 }
 
+interface InsumoNecesario {
+  nombre: string;
+  cantidad: number;
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -48,6 +55,8 @@ export class panaderoDashboardComponent implements OnInit {
   orden: string = 'fechaAsc'; // Orden por defecto
   pedidoSeleccionado: PedidoData | null = null;
   mensajeModal: string = '';
+  mostrarInsumosTabla: boolean = false;
+  insumosNecesarios: InsumoNecesario[] = [];
 
   @ViewChild('modalConfirmarCambioEstado') modalConfirmarCambioEstado!: ElementRef<HTMLDialogElement>;
 
@@ -59,18 +68,16 @@ export class panaderoDashboardComponent implements OnInit {
   async ngOnInit() {
     try {
       const response = await this.pedidosService.getPedidos();
-      this.pedidos = response.map(pedido => {
-        return {
-          id: pedido.id,
-          cliente: pedido.cliente.email,
-          clienteTelefono: pedido.cliente.telefono,
-          fecha: pedido.fecha,
-          fechaEntrega: pedido.fechaEntrega,
-          estado: pedido.estado,
-          productos: pedido.productos,
-          cantProductos: pedido.productos.length
-        };
-      });
+      this.pedidos = response.map(pedido => ({
+        id: pedido.id,
+        cliente: pedido.cliente.email,
+        clienteTelefono: pedido.cliente.telefono,
+        fecha: pedido.fecha,
+        fechaEntrega: pedido.fechaEntrega,
+        estado: pedido.estado,
+        productos: pedido.productos,
+        cantProductos: pedido.productos.length
+      }));
       this.aplicarFiltros();
       console.log("Pedidos", this.pedidos);
     } catch (error) {
@@ -161,8 +168,52 @@ export class panaderoDashboardComponent implements OnInit {
     this.closeModalCambioEstado();
   }
 
-  calcularInsumos() {
+  async calcularInsumos() {
     console.log("Calculando insumos necesarios...");
-    // Lógica para calcular los insumos necesarios
+    try {
+      const pedidoIds = this.pedidosFiltrados.map(pedido => pedido.id);
+      const response = await this.pedidosService.getIngredientes(pedidoIds);
+      this.insumosNecesarios = response;
+      this.mostrarInsumosTabla = true;
+    } catch (error) {
+      console.error('Error fetching insumos necesarios', error);
+    }
+  }
+
+  async exportInsumosNecesarios() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('InsumosNecesarios');
+
+    worksheet.columns = [
+      { header: 'Nombre', key: 'nombre', width: 30 },
+      { header: 'Cantidad Total', key: 'cantidad', width: 20 }
+    ];
+
+    this.insumosNecesarios.forEach((insumo, index) => {
+      const row = worksheet.addRow(insumo);
+
+      if (index % 2 === 0) {
+        row.eachCell((cell) => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFE3F2FD' }
+          };
+        });
+      }
+    });
+
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF1E88E5' }
+      };
+    });
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), 'InsumosNecesariosReport.xlsx');
   }
 }
