@@ -18,7 +18,7 @@
     <option value="fechaEntregaAsc">Fecha de Entrega Ascendente</option>
     <option value="fechaEntregaDesc">Fecha de Entrega Descendente</option>
   </select>
-  <button class="btn btn-secondary w-full sm:w-auto" (click)="calcularInsumos()">Calcular insumos necesarios</button>
+  <button class="btn btn-secondary w-full sm:w-auto" [disabled]="pedidosFiltrados.length === 0" (click)="calcularInsumos()">Calcular insumos necesarios</button>
 </div>
 
 <div class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
@@ -89,7 +89,7 @@
   </div>
 </div>
 
-<div *ngIf="mostrarInsumosTabla" class="mt-8">
+<div *ngIf="mostrarInsumosTabla" id="insumosTabla" class="mt-8">
   <div class="prose mb-4">
     <h2>Insumos Necesarios</h2>
   </div>
@@ -109,7 +109,7 @@
       </tbody>
     </table>
   </div>
-  <div class="flex justify-end mt-4">
+  <div class="flex justify-end my-4">
     <button class="btn btn-secondary" (click)="exportInsumosNecesarios()">Generar Informe</button>
   </div>
 </div>

@@ -86,12 +86,13 @@ export class panaderoDashboardComponent implements OnInit {
   }
 
   aplicarFiltros() {
+    this.mostrarInsumosTabla = false; // Asegurarse de que los insumos desaparezcan
     let pedidos = this.pedidos;
-
+  
     if (this.filtro !== 'todos') {
       pedidos = pedidos.filter(p => p.estado === this.filtro);
     }
-
+  
     switch (this.orden) {
       case 'fechaAsc':
         pedidos.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
@@ -106,7 +107,7 @@ export class panaderoDashboardComponent implements OnInit {
         pedidos.sort((a, b) => new Date(b.fechaEntrega).getTime() - new Date(a.fechaEntrega).getTime());
         break;
     }
-
+  
     this.pedidosFiltrados = pedidos;
     this.paginaActual = 1;
     this.totalPaginas = Math.ceil(this.pedidosFiltrados.length / this.elementosPorPagina);
@@ -114,6 +115,7 @@ export class panaderoDashboardComponent implements OnInit {
   }
 
   actualizarPagina() {
+    this.mostrarInsumosTabla = false; // Asegurarse de que los insumos desaparezcan
     const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
     const fin = inicio + this.elementosPorPagina;
     this.pedidosPaginados = this.pedidosFiltrados.slice(inicio, fin);
@@ -168,13 +170,34 @@ export class panaderoDashboardComponent implements OnInit {
     this.closeModalCambioEstado();
   }
 
-  async calcularInsumos() {
+  calcularInsumos() {
     console.log("Calculando insumos necesarios...");
+    this.obtenerInsumosNecesarios();
+    this.mostrarInsumosTabla = true;
+    setTimeout(() => {
+      const insumosTabla = document.getElementById('insumosTabla');
+      if (insumosTabla) {
+        insumosTabla.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 0);
+  }
+
+  async obtenerInsumosNecesarios() {
     try {
+      if (this.pedidosFiltrados.length === 0) {
+        this.pedidosFiltrados = this.pedidos;
+      }
       const pedidoIds = this.pedidosFiltrados.map(pedido => pedido.id);
+      console.log('Pedido IDs', pedidoIds);
       const response = await this.pedidosService.getIngredientes(pedidoIds);
       this.insumosNecesarios = response;
       this.mostrarInsumosTabla = true;
+      setTimeout(() => {
+        const insumosTabla = document.getElementById('insumosTabla');
+        if (insumosTabla) {
+          insumosTabla.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 0);
     } catch (error) {
       console.error('Error fetching insumos necesarios', error);
     }
