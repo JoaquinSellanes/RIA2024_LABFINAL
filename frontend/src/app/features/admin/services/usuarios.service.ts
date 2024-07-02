@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
 
 interface Usuario {
+  isDeleted: boolean;
   id: number;
   email: string;
   role: string;
@@ -28,7 +29,6 @@ export class UsuariosService {
     }
   }
 
-  // /usuarios/modificar-rol
   async cambiarRol(userId: number, role: string): Promise<void> {
     try {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
@@ -37,7 +37,16 @@ export class UsuariosService {
       console.error('Error changing role', error);
       throw error;
     }
+  }
 
+  async eliminarUsuario(userId: number): Promise<void> {
+    try {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+      await firstValueFrom(this.http.put<void>(`${this.apiUrl}/usuarios/baja/${userId}`, {}, { headers }));
+    } catch (error) {
+      console.error('Error deleting user', error);
+      throw error;
+    }
   }
 
   private getToken(): string {

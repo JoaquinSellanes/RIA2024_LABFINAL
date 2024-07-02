@@ -6,6 +6,7 @@ class Pedido {
         this.estado = estado; // 'pendiente', 'en preparación', 'listo para recoger'
         this.fecha = fecha;
         this.fechaEntrega = fechaEntrega;
+        this.isDeleted = false;
     }
 }
 

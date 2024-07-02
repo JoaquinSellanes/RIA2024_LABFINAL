@@ -92,15 +92,24 @@ exports.darDeBajaUsuario = (req, res) => {
         }
 
         if (usuario.isDeleted) {
-            res.status(400).json({ error: 'El usuario ya se encuentra dado de baja' });
+            return res.status(400).json({ error: 'El usuario ya se encuentra dado de baja' });
         }
+
+        // Obtener los pedidos del usuario
+        const pedidos = pedidoService.obtenerPedidosPorClienteId(id);
+        const pedidosPendientes = pedidos.filter(pedido => pedido.estado === 'pendiente' || pedido.estado === 'en preparación');
+
+        // Eliminar todos los pedidos pendientes
+        pedidosPendientes.forEach(pedido => {
+            pedidoService.eliminarPedido(pedido.id);
+        });
 
         usuario.isDeleted = true;
         const usuarioActualizado = usuarioService.actualizarUsuario(id, usuario);
 
-        const {isDeleted, ...usuarioSinPasswd} = usuarioActualizado
+        const { isDeleted, password, ...usuarioSinPasswd } = usuarioActualizado;
 
-        res.status(200).json({ message: 'Usuario dado de baja exitosamente', usuario: usuarioSinPasswd });
+        res.status(200).json({ message: 'Usuario dado de baja exitosamente y pedidos pendientes eliminados', usuario: usuarioSinPasswd });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

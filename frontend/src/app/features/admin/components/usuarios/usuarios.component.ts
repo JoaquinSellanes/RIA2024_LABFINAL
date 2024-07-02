@@ -6,6 +6,7 @@ interface Usuario {
   id: number;
   email: string;
   role: string;
+  isDeleted: boolean;
 }
 
 @Component({
@@ -44,7 +45,12 @@ export class UsuariosComponent implements OnInit {
   async cargarUsuarios() {
     try {
       const response = await this.usuariosService.getUsuarios();
-      this.usuarios = response;
+      this.usuarios = response.map(usuario => ({
+        id: usuario.id,
+        email: usuario.email,
+        role: usuario.role,
+        isDeleted: usuario.isDeleted
+      }));
       this.usuariosFiltrados = this.usuarios;
       this.totalPaginas = Math.ceil(this.usuariosFiltrados.length / this.elementosPorPagina);
       this.actualizarPagina();
@@ -102,8 +108,13 @@ export class UsuariosComponent implements OnInit {
     this.closeModal();
   }
 
-  eliminarUsuario(id: number) {
-    throw new Error('Method not implemented.');
+  async eliminarUsuario(id: number) {
+    try {
+      await this.usuariosService.eliminarUsuario(id);
+      await this.cargarUsuarios();
+    } catch (error) {
+      console.error('Error deleting user', error);
+    }
   }
 
   roleUsuario(id: number) {
