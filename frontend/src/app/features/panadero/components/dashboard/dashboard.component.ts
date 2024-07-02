@@ -160,4 +160,9 @@ export class panaderoDashboardComponent implements OnInit {
     }
     this.closeModalCambioEstado();
   }
+
+  calcularInsumos() {
+    console.log("Calculando insumos necesarios...");
+    // Lógica para calcular los insumos necesarios
+  }
 }

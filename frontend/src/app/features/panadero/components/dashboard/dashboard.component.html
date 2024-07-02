@@ -11,13 +11,14 @@
   </div>
 </div>
 
-<div class="flex justify-center mb-4">
-  <select class="select select-bordered w-full max-w-xs" (change)="cambiarOrden($event)">
+<div class="flex flex-col sm:flex-row justify-center mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
+  <select class="select select-bordered w-full sm:w-auto max-w-xs" (change)="cambiarOrden($event)">
     <option value="fechaAsc">Fecha de Pedido Ascendente</option>
     <option value="fechaDesc">Fecha de Pedido Descendente</option>
     <option value="fechaEntregaAsc">Fecha de Entrega Ascendente</option>
     <option value="fechaEntregaDesc">Fecha de Entrega Descendente</option>
   </select>
+  <button class="btn btn-secondary w-full sm:w-auto" (click)="calcularInsumos()">Calcular insumos necesarios</button>
 </div>
 
 <div class="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
