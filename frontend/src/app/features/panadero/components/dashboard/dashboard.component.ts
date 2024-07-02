@@ -129,4 +129,25 @@ export class panaderoDashboardComponent implements OnInit {
     console.log('Ver detalles del pedido:', pedidoId);
     this.router.navigate(['/panaderia/pedidos', pedidoId]);
   }
+
+  cambiarEstadoPedido(pedido: PedidoData) {
+    if (pedido.estado === 'pendiente') {
+      this.pedidosService.cambiarEstadoEnPreparacion(pedido.id).then(() => {
+        pedido.estado = 'en preparación';
+        // this.toast.showToast(`El estado del pedido ${pedido.id} ha cambiado a "En preparación"`);
+      }).catch(error => {
+        console.error('Error al cambiar el estado del pedido', error);
+        // this.toast.showToast('Error al cambiar el estado del pedido', 'alert-error');
+      });
+    } else if (pedido.estado === 'en preparación') {
+      this.pedidosService.cambiarEstadoListoParaRecoger(pedido.id).then(() => {
+        pedido.estado = 'listo para recoger';
+        // this.toast.showToast(`El estado del pedido ${pedido.id} ha cambiado a "Listo para recoger"`);
+      }).catch(error => {
+        console.error('Error al cambiar el estado del pedido', error);
+        // this.toast.showToast('Error al cambiar el estado del pedido', 'alert-error');
+      });
+    }
+  }
+
 }

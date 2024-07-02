@@ -40,6 +40,11 @@
       </p>
       <div class="card-actions justify-end">
         <button class="btn btn-primary" (click)="verDetalles(pedido.id)">Ver Detalles</button>
+        <button *ngIf="pedido.estado === 'pendiente' || pedido.estado === 'en preparación'"
+                class="btn btn-secondary"
+                (click)="cambiarEstadoPedido(pedido)">
+          {{pedido.estado === 'pendiente' ? 'Cambiar a En preparación' : 'Mover a Listo para recoger'}}
+        </button>
       </div>
     </div>
   </div>

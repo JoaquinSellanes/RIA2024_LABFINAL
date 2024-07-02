@@ -37,6 +37,26 @@ export class PedidosService {
     }
   }
 
+  async cambiarEstadoEnPreparacion(pedidoId: number): Promise<void> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    try {
+      await firstValueFrom(this.http.post<void>(`${this.apiUrl}/pedidos/${pedidoId}/en-preparacion`, {}, { headers }));
+    } catch (error) {
+      console.error('Error al cambiar el estado del pedido a en preparación', error);
+      throw error;
+    }
+  }
+  
+  async cambiarEstadoListoParaRecoger(pedidoId: number): Promise<void> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    try {
+      await firstValueFrom(this.http.post<void>(`${this.apiUrl}/pedidos/${pedidoId}/listo-para-recoger`, {}, { headers }));
+    } catch (error) {
+      console.error('Error al cambiar el estado del pedido a listo para recoger', error);
+      throw error;
+    }
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
     if (!token) {
