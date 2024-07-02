@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-producto-modal',
   template: `
-    <dialog [id]="modalId" class="modal">
+    <dialog #modal class="modal">
       <div class="modal-box" *ngIf="!loading && !error">
         <form method="dialog">
           <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -39,30 +39,25 @@ import { ProductoService } from '../../services/producto.service';
   `,
   styles: ``
 })
-export class ProductoModalComponent implements OnInit {
-  @Input() modalId: number = -1;
+export class ProductoModalComponent implements OnChanges {
+  @Input() producto: any;
+  @ViewChild('modal') modal!: ElementRef<HTMLDialogElement>;
   loading: boolean = true;
   error: boolean = false;
-  producto: any;
 
-  constructor(private ps: ProductoService) { }
-
-  ngOnInit(): void {
-    // getProductoById
-    if (this.modalId !== -1) {
-      this.ps.getProductoById(this.modalId).then((producto) => {
-        this.producto = producto;
-        this.loading = false;
-        this.error = false;
-        console.log("Producto", this.producto);
-      }).catch((error) => {
-        this.error = true;
-        this.loading = false;
-        console.error('Error fetching product in modal component', error);
-      });
-    } else {
-      this.error = true;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['producto'] && this.producto) {
       this.loading = false;
+      this.error = false;
+      this.showModal();
     }
+  }
+
+  showModal() {
+    this.modal.nativeElement.showModal();
+  }
+
+  closeModal() {
+    this.modal.nativeElement.close();
   }
 }

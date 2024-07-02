@@ -1,5 +1,6 @@
 <div *ngIf="loaded">
   <app-toast #toast></app-toast>
+  <app-producto-modal #productoModal [producto]="productoSeleccionado"></app-producto-modal>
 
   <div class="w-[100%] flex justify-start items-center">
     <button class="btn btn-neutral w-[100%]" routerLink="/administracion/crear-producto">Crear</button>
@@ -25,9 +26,9 @@
     class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 mb-8">
     <div *ngFor="let foo of productosPaginados" class="card card-compact w-[100%] bg-base-100 shadow-xl">
       <figure>
-        <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
+        <img *ngIf="foo.imagen !== ''" class="transition-all cursor-pointer max-h-56" (click)="consulta(foo.id)"
           [src]="foo.imagen" alt="Imagen del producto" />
-        <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer" (click)="consulta(foo.id)"
+        <img *ngIf="foo.imagen == ''" class="transition-all cursor-pointer max-h-56" (click)="consulta(foo.id)"
           src="/assets/no-image.png" alt="Imagen del producto" />
       </figure>
       <div class="card-body">
@@ -73,6 +74,4 @@
       </svg>
     </button>
   </div>
-
-  <app-producto-modal *ngFor="let foo of productos" [modalId]="foo.id"></app-producto-modal>
 </div>

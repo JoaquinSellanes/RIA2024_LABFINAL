@@ -20,19 +20,31 @@ interface itemenv {
         </form>
         <h3 class="font-bold text-lg">Carrito de Compras</h3>
         <ul class="py-4" *ngIf="cartItems.length > 0; else emptyCart">
-          <li *ngFor="let item of cartItems" class="grid grid-cols-3 gap-3 mb-3">
+          <li *ngFor="let item of cartItems; let i = index" class="grid grid-cols-3 gap-3 mb-3 border-b">
             <figure class="col-span-1">
-              <img *ngIf="item.product.imagen !== ''" class="transition-all cursor-pointer" [src]="item.product.imagen"
+              <img *ngIf="item.product.imagen !== ''" class="transition-all cursor-pointer max-h-24" [src]="item.product.imagen"
                 alt="Imagen del producto" />
-              <img *ngIf="item.product.imagen == ''" class="transition-all cursor-pointer" src="/assets/no-image.png"
+              <img *ngIf="item.product.imagen == ''" class="transition-all cursor-pointer max-h-24" src="/assets/no-image.png"
                 alt="Imagen del producto" />
             </figure>
-            <div class="col-span-2">
-              <h4 class="font-bold">{{ item.product.nombre }}</h4>
-              <p>{{ item.quantity }} Unidades</p>
-              <div class="flex justify-end">
-                <p class="text-primary font-bold"> &#36;{{item.product.precio * item.quantity}} UYU</p>
+            <div class="col-span-2 flex w-full gap-2">
+              <div class="w-full">
+                <h4 class="font-bold">{{ item.product.nombre }}</h4>
+                <p>{{ item.quantity }} Unidades</p>
+                
               </div>
+              <div>
+                <div class="flex justify-end">
+                  <button class="btn btn-sm btn-outline mr-2" (click)="decrementQuantity(i)">-</button>
+                  <button class="btn btn-sm btn-outline" (click)="incrementQuantity(i)">+</button>
+                </div>
+                <div class="flex justify-end mt-2">
+                  <button class="btn btn-error btn-sm" (click)="removeItem(i)">Eliminar</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-3 flex justify-end mt-2">
+              <p class="text-primary font-bold"> &#36;{{item.product.precio * item.quantity}} UYU</p>
             </div>
           </li>
           <div class="flex justify-end">
@@ -124,12 +136,30 @@ export class CartModalComponent implements OnInit {
     console.log("FechaEntrega: ", fechaEntrega);
     this.pedidosService.createPedido(productos, fechaEntrega).then(response => {
       console.log("Pedido creado: ", response);
-      this.toast.showToast("Pedido realizado con éxito!");
+      // this.toast.showToast("Pedido realizado con éxito!");
       this.cartService.clearCart();
+      this.showThankYouMessage();
     }).catch(error => {
       console.error("Error al crear pedido: ", error);
       this.toast.showToast("Error al realizar el pedido. Inténtelo de nuevo.");
     });
+  }
+
+  incrementQuantity(index: number): void {
+    const item = this.cartItems[index];
+    this.cartService.updateCartItemQuantity(item.product.id, item.quantity + 1);
+  }
+
+  decrementQuantity(index: number): void {
+    const item = this.cartItems[index];
+    if (item.quantity > 1) {
+      this.cartService.updateCartItemQuantity(item.product.id, item.quantity - 1);
+    }
+  }
+
+  removeItem(index: number): void {
+    const item = this.cartItems[index];
+    this.cartService.removeFromCart(item.product.id);
   }
 
   dateValidator(control: AbstractControl): { [key: string]: any } | null {
@@ -143,5 +173,13 @@ export class CartModalComponent implements OnInit {
       return { 'dateInvalid': true };
     }
     return null;
+  }
+
+  showThankYouMessage(): void {
+    const modal = document.getElementById('cartModal') as HTMLDialogElement;
+    modal.close();
+    setTimeout(() => {
+      this.toast.showToast("¡Gracias por su compra! Su pedido ha sido realizado con éxito.");
+    }, 1000);
   }
 }

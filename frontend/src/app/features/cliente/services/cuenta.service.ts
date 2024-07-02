@@ -10,7 +10,8 @@ interface CuentaResponse {
   pedidos: {
     total: number;
     pendientes: number;
-    finalizados: number;
+    enPreparacion: number;
+    listosParaRecoger: number;
   };
 }
 
@@ -22,7 +23,6 @@ export class CuentaService {
 
   constructor(private http: HttpClient) { }
 
-  // GET    |  /usuarios/mi-cuenta
   async getMiCuenta(): Promise<CuentaResponse> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     try {
@@ -35,7 +35,6 @@ export class CuentaService {
 
   getToken() {
     const token = localStorage.getItem('token');
-
     if (!token) {
       throw new Error('No token found in localStorage');
     } else {

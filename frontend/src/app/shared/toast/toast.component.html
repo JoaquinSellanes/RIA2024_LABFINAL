@@ -1,7 +1,7 @@
-<div *ngIf="visible" class="toast toast-center z-50">
-  <div [ngClass]="toastClass">
-    <div>
-      <span>{{ message }}</span>
+<div *ngIf="visible" class="toast toast-center z-50 max-w-[90vw]">
+  <div class="flex max-w-[90vw]" [ngClass]="toastClass">
+    <div class="flex max-w-full">
+      <p class="flex max-w-full break-words">{{ message }}</p>
     </div>
   </div>
 </div>
