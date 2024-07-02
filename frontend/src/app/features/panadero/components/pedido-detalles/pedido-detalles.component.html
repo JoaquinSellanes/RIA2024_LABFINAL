@@ -2,7 +2,7 @@
   <div class="card card-compact w-[90%] bg-base-100 shadow-xl">
     <div class="card-body">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="card-title text-2xl">Detalles del Pedido: {{pedido.id}}</h2>
+        <h2 class="card-title text-2xl mt-3">Detalles del Pedido: {{pedido.id}}</h2>
         <div class="badge absolute top-2 right-2 badge-lg badge-warning">{{pedido.estado | titlecase}}</div>
       </div>
       <p class="mb-2"><strong>Cliente:</strong> {{pedido.cliente.email}}</p>
@@ -16,7 +16,7 @@
           <h4 class="card-title text-lg">{{item.producto.nombre}}</h4>
           <p><strong>Cantidad:</strong> {{item.cantidad}}</p>
           <div *ngIf="item.producto.imagen" class="mt-2">
-            <img [src]="item.producto.imagen" alt="{{item.producto.nombre}}" class="w-24 h-auto rounded-lg"/>
+            <img [src]="item.producto.imagen" alt="{{item.producto.nombre}}" class="w-24 h-auto rounded-lg" />
           </div>
           <div class="mt-2">
             <h5 class="font-semibold">Ingredientes:</h5>
