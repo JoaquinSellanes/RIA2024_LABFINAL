@@ -134,20 +134,17 @@ export class panaderoDashboardComponent implements OnInit {
     if (pedido.estado === 'pendiente') {
       this.pedidosService.cambiarEstadoEnPreparacion(pedido.id).then(() => {
         pedido.estado = 'en preparación';
-        // this.toast.showToast(`El estado del pedido ${pedido.id} ha cambiado a "En preparación"`);
+        this.aplicarFiltros();
       }).catch(error => {
         console.error('Error al cambiar el estado del pedido', error);
-        // this.toast.showToast('Error al cambiar el estado del pedido', 'alert-error');
       });
     } else if (pedido.estado === 'en preparación') {
       this.pedidosService.cambiarEstadoListoParaRecoger(pedido.id).then(() => {
         pedido.estado = 'listo para recoger';
-        // this.toast.showToast(`El estado del pedido ${pedido.id} ha cambiado a "Listo para recoger"`);
+        this.aplicarFiltros();
       }).catch(error => {
         console.error('Error al cambiar el estado del pedido', error);
-        // this.toast.showToast('Error al cambiar el estado del pedido', 'alert-error');
       });
     }
   }
-
 }
