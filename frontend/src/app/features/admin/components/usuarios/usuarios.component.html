@@ -9,7 +9,7 @@
 </div>
 
 <div class="w-full flex justify-center" *ngIf="loaded">
-  <div class="w-[70%] mb-3">
+  <div class="w-full md:w-4/5 lg:w-3/4 mb-3">
     <div class="prose mb-4">
       <h1>Usuarios</h1>
       <p>Lista los usuarios y administra los roles eficientemente.</p>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="overflow-x-auto border rounded-lg mt-2">
-      <table class="table">
+      <table class="table w-full">
         <thead>
           <tr>
             <th>Id</th>
@@ -42,7 +42,7 @@
             <!-- <th>Teléfono</th> -->
             <th>Rol</th>
             <th>Estado</th> <!-- Nueva columna -->
-            <th class="flex justify-end">Administrar</th>
+            <th class="text-right">Administrar</th>
           </tr>
         </thead>
         <tbody>
@@ -52,16 +52,14 @@
             <!-- <td>{{ usuario.telefono }}</td> -->
             <td>{{ usuario.role }}</td>
             <td>
-              <span [ngClass]="usuario.isDeleted ? 'text-red-500' : 'text-green-500'">
+              <span class="badge" [ngClass]="usuario.isDeleted ? 'badge-error' : 'badge-success'">
                 {{ usuario.isDeleted ? 'Inactivo' : 'Activo' }}
               </span>
             </td>
-            <td>
-              <div class="join flex justify-end">
-                <button class="btn btn-outline btn-primary join-item" (click)="roleUsuario(usuario.id)">Cambiar
-                  Rol</button>
-                <button class="btn btn-outline btn-danger join-item" (click)="eliminarUsuario(usuario.id)">Dar de
-                  Baja</button>
+            <td class="text-right">
+              <div class="flex flex-col sm:flex-row sm:space-x-2 justify-end">
+                <button class="btn btn-outline btn-primary mb-2 sm:mb-0" (click)="roleUsuario(usuario.id)">Cambiar Rol</button>
+                <button class="btn btn-outline btn-danger" (click)="openModalEliminar(usuario.id)">Dar de Baja</button>
               </div>
             </td>
           </tr>
@@ -79,7 +77,7 @@
         <button class="btn btn-sm" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             class="inline-block h-5 w-5 stroke-current">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
           </svg>
         </button>
       </div>
@@ -105,6 +103,20 @@
       <div class="modal-action">
         <button type="button" class="btn btn-primary" (click)="cambiarRol()"
           [disabled]="selectedRole == ''">Guardar</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<dialog #modalConfirmarEliminar class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="closeModalEliminar()">✕</button>
+      <h3 class="text-lg font-bold">Confirmar Eliminación</h3>
+      <p>¿Estás seguro de que deseas eliminar a este usuario?</p>
+      <div class="modal-action">
+        <button type="button" class="btn btn-error" (click)="confirmarEliminar()">Eliminar</button>
+        <button type="button" class="btn" (click)="closeModalEliminar()">Cancelar</button>
       </div>
     </form>
   </div>

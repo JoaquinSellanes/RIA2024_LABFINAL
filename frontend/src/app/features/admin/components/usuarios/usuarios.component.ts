@@ -37,6 +37,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   @ViewChild('modalCambiarRol') modalCambiarRol!: ElementRef<HTMLDialogElement>;
+  @ViewChild('modalConfirmarEliminar') modalConfirmarEliminar!: ElementRef<HTMLDialogElement>;
 
   async ngOnInit() {
     await this.cargarUsuarios();
@@ -108,13 +109,23 @@ export class UsuariosComponent implements OnInit {
     this.closeModal();
   }
 
-  async eliminarUsuario(id: number) {
-    try {
-      await this.usuariosService.eliminarUsuario(id);
+  openModalEliminar(userId: number) {
+    this.selectedUserId = userId;
+    this.modalConfirmarEliminar.nativeElement?.showModal();
+  }
+
+  closeModalEliminar() {
+    this.modalConfirmarEliminar.nativeElement?.close();
+  }
+
+  async confirmarEliminar() {
+    if (this.selectedUserId !== null) {
+      console.log(`Deleting user ${this.selectedUserId}`);
+      await this.usuariosService.eliminarUsuario(this.selectedUserId);
       await this.cargarUsuarios();
-    } catch (error) {
-      console.error('Error deleting user', error);
     }
+    this.selectedUserId = null;
+    this.closeModalEliminar();
   }
 
   roleUsuario(id: number) {
