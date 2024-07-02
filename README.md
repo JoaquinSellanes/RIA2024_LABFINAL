@@ -27,7 +27,14 @@ cd RIA2024_LABFINAL/backend
 npm install
 ```
 
-### 3. Levantar el Servidor
+### 3. Generar .env
+Dentro de la carpeta del Back-end se encontrará un .env.example que deberás copiar y dejarle el nombre de ".env" (sin las comillas) para que el servidor tenga las variables de entorno correspondientes.
+
+```bash
+cp .env.example .env
+```
+
+### 4. Levantar el Servidor
 
 ```bash
 npm run start
@@ -76,7 +83,7 @@ Guarda los cambios y cierra el archivo. Ahora, podrás acceder a la aplicación 
 ### 4. Levantar la Aplicación
 
 ```bash
-ng serve --host panpan.uy
+ng serve --port 80 --host panpan.uy
 ```
 
 En caso de no tener el dominio agregado en los hosts ejecuta:
