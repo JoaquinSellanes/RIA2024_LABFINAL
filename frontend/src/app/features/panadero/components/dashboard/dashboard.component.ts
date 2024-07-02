@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PedidosService } from '../../services/pedidos.service';
 import { Router } from '@angular/router';
 
@@ -46,6 +46,10 @@ export class panaderoDashboardComponent implements OnInit {
   elementosPorPagina: number = 16;
   totalPaginas: number = 1;
   orden: string = 'fechaAsc'; // Orden por defecto
+  pedidoSeleccionado: PedidoData | null = null;
+  mensajeModal: string = '';
+
+  @ViewChild('modalConfirmarCambioEstado') modalConfirmarCambioEstado!: ElementRef<HTMLDialogElement>;
 
   constructor(
     private pedidosService: PedidosService,
@@ -130,21 +134,30 @@ export class panaderoDashboardComponent implements OnInit {
     this.router.navigate(['/panaderia/pedidos', pedidoId]);
   }
 
-  cambiarEstadoPedido(pedido: PedidoData) {
-    if (pedido.estado === 'pendiente') {
-      this.pedidosService.cambiarEstadoEnPreparacion(pedido.id).then(() => {
+  openModalCambioEstado(pedido: PedidoData) {
+    this.pedidoSeleccionado = pedido;
+    const nuevoEstado = pedido.estado === 'pendiente' ? 'En preparación' : 'Listo para recoger';
+    this.mensajeModal = `¿Estás seguro de que deseas cambiar el estado del pedido ${pedido.id} a "${nuevoEstado}"?`;
+    this.modalConfirmarCambioEstado.nativeElement?.showModal();
+  }
+
+  closeModalCambioEstado() {
+    this.pedidoSeleccionado = null;
+    this.modalConfirmarCambioEstado.nativeElement?.close();
+  }
+
+  async confirmarCambioEstado() {
+    if (this.pedidoSeleccionado) {
+      const pedido = this.pedidoSeleccionado;
+      if (pedido.estado === 'pendiente') {
+        await this.pedidosService.cambiarEstadoEnPreparacion(pedido.id);
         pedido.estado = 'en preparación';
-        this.aplicarFiltros();
-      }).catch(error => {
-        console.error('Error al cambiar el estado del pedido', error);
-      });
-    } else if (pedido.estado === 'en preparación') {
-      this.pedidosService.cambiarEstadoListoParaRecoger(pedido.id).then(() => {
+      } else if (pedido.estado === 'en preparación') {
+        await this.pedidosService.cambiarEstadoListoParaRecoger(pedido.id);
         pedido.estado = 'listo para recoger';
-        this.aplicarFiltros();
-      }).catch(error => {
-        console.error('Error al cambiar el estado del pedido', error);
-      });
+      }
+      this.aplicarFiltros();
     }
+    this.closeModalCambioEstado();
   }
 }

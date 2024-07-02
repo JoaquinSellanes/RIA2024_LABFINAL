@@ -5,9 +5,9 @@
     <button class="btn join-item w-full sm:w-auto" [class.btn-primary]="filtro === 'pendiente'"
       (click)="cambiarFiltro('pendiente')">Pendiente</button>
     <button class="btn join-item w-full sm:w-auto" [class.btn-primary]="filtro === 'en preparación'"
-      (click)="cambiarFiltro('en preparación')">En preparación</button>
+      (click)="cambiarFiltro('en preparación')">En Preparación</button>
     <button class="btn join-item w-full sm:w-auto" [class.btn-primary]="filtro === 'listo para recoger'"
-      (click)="cambiarFiltro('listo para recoger')">Listo para recoger</button>
+      (click)="cambiarFiltro('listo para recoger')">Listo Para Recoger</button>
   </div>
 </div>
 
@@ -39,16 +39,30 @@
         Cantidad de productos: {{pedido.cantProductos}}
       </p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary" (click)="verDetalles(pedido.id)">Ver Detalles</button>
         <button *ngIf="pedido.estado === 'pendiente' || pedido.estado === 'en preparación'"
                 class="btn btn-secondary"
-                (click)="cambiarEstadoPedido(pedido)">
+                (click)="openModalCambioEstado(pedido)">
           {{pedido.estado === 'pendiente' ? 'Cambiar a En preparación' : 'Mover a Listo para recoger'}}
         </button>
+        <button class="btn btn-primary" (click)="verDetalles(pedido.id)">Ver Detalles</button>
       </div>
     </div>
   </div>
 </div>
+
+<dialog #modalConfirmarCambioEstado class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="closeModalCambioEstado()">✕</button>
+      <h3 class="text-lg font-bold">Confirmar Cambio de Estado</h3>
+      <p>{{ mensajeModal }}</p>
+      <div class="modal-action">
+        <button type="button" class="btn" (click)="closeModalCambioEstado()">Cancelar</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmarCambioEstado()">Sí, cambiar estado</button>
+      </div>
+    </form>
+  </div>
+</dialog>
 
 <div class="flex items-center justify-center my-8 p-1 gap-1">
   <button class="btn btn-sm" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
