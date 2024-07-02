@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UsuariosService } from '../../services/usuarios.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastComponent } from '../../../../shared/toast/toast.component'; // Asegúrate de ajustar la ruta
 
 interface Usuario {
   id: number;
@@ -38,6 +39,7 @@ export class UsuariosComponent implements OnInit {
 
   @ViewChild('modalCambiarRol') modalCambiarRol!: ElementRef<HTMLDialogElement>;
   @ViewChild('modalConfirmarEliminar') modalConfirmarEliminar!: ElementRef<HTMLDialogElement>;
+  @ViewChild('toast') toast!: ToastComponent;
 
   async ngOnInit() {
     await this.cargarUsuarios();
@@ -104,6 +106,7 @@ export class UsuariosComponent implements OnInit {
       console.log(`Changing role of user ${this.selectedUserId} to ${this.selectedRole}`);
       await this.usuariosService.cambiarRol(this.selectedUserId, this.selectedRole);
       await this.cargarUsuarios();
+      this.toast.showToast('Rol cambiado exitosamente', 'alert alert-success');
     }
     this.resetModal();
     this.closeModal();
@@ -120,9 +123,22 @@ export class UsuariosComponent implements OnInit {
 
   async confirmarEliminar() {
     if (this.selectedUserId !== null) {
-      console.log(`Deleting user ${this.selectedUserId}`);
-      await this.usuariosService.eliminarUsuario(this.selectedUserId);
-      await this.cargarUsuarios();
+      try {
+        console.log(`Deleting user ${this.selectedUserId}`);
+        await this.usuariosService.eliminarUsuario(this.selectedUserId);
+        await this.cargarUsuarios();
+        this.toast.showToast('Usuario eliminado exitosamente', 'alert alert-success');
+      } catch (error: any) {
+        console.log(error.status);
+        if (error.status === 400 && error.error.error == 'El usuario ya se encuentra dado de baja') {
+          this.toast.showToast('El usuario ya se encuentra dado de baja', 'alert alert-error');
+        } else if (error.status === 400 && error.error.error == 'El usuario tiene pedidos en preparación y no puede ser dado de baja') {
+          this.toast.showToast('El usuario tiene pedidos en preparación y no puede ser dado de baja', 'alert alert-error');
+        } else {
+          // console.error('Error deleting user', error);
+          this.toast.showToast('Error al eliminar el usuario', 'alert alert-error');
+        }
+      }
     }
     this.selectedUserId = null;
     this.closeModalEliminar();

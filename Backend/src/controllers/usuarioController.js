@@ -97,9 +97,15 @@ exports.darDeBajaUsuario = (req, res) => {
 
         // Obtener los pedidos del usuario
         const pedidos = pedidoService.obtenerPedidosPorClienteId(id);
-        const pedidosPendientes = pedidos.filter(pedido => pedido.estado === 'pendiente' || pedido.estado === 'en preparación');
+        const pedidosEnPreparacion = pedidos.filter(pedido => pedido.estado === 'en preparación');
+
+        // Verificar si hay pedidos en preparación
+        if (pedidosEnPreparacion.length > 0) {
+            return res.status(400).json({ error: 'El usuario tiene pedidos en preparación y no puede ser dado de baja' });
+        }
 
         // Eliminar todos los pedidos pendientes
+        const pedidosPendientes = pedidos.filter(pedido => pedido.estado === 'pendiente');
         pedidosPendientes.forEach(pedido => {
             pedidoService.eliminarPedido(pedido.id);
         });
@@ -114,3 +120,4 @@ exports.darDeBajaUsuario = (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
