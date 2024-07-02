@@ -10,6 +10,17 @@
       <p class="mb-2"><strong>Fecha de Pedido:</strong> {{pedido.fecha}}</p>
       <p class="mb-2"><strong>Fecha de Entrega:</strong> {{pedido.fechaEntrega}}</p>
       <p class="mb-4"><strong>Estado:</strong> {{pedido.estado | titlecase}}</p>
+      
+      <!-- Nuevo Select para cambiar el estado -->
+      <div class="mb-4">
+        <label for="estado" class="block mb-2 text-sm font-medium text-gray-700">Cambiar Estado</label>
+        <select id="estado" class="select select-bordered w-full max-w-xs" (change)="cambiarEstado($event)">
+          <option value="pendiente" [selected]="pedido.estado === 'pendiente'">Pendiente</option>
+          <option value="en preparación" [selected]="pedido.estado === 'en preparación'">En preparación</option>
+          <option value="listo para recoger" [selected]="pedido.estado === 'listo para recoger'">Listo para recoger</option>
+        </select>
+      </div>
+
       <h3 class="text-xl mb-4">Productos:</h3>
       <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
         <div *ngFor="let item of pedido.productos" class="card bg-base-200 shadow-md p-4">
@@ -49,3 +60,15 @@
 <div *ngIf="!pedido" class="flex justify-center items-center h-screen">
   <p class="text-lg">Cargando detalles del pedido...</p>
 </div>
+
+<!-- Modal de Confirmación -->
+<dialog #modalConfirmarEstado class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Confirmar Cambio de Estado</h3>
+    <p>¿Estás seguro de que deseas cambiar el estado del pedido {{pedido.id}} a "{{nuevoEstado | titlecase}}"?</p>
+    <div class="modal-action">
+      <button type="button" class="btn btn-primary" (click)="confirmarCambioEstado()">Confirmar</button>
+      <button type="button" class="btn" (click)="closeModalConfirmarEstado()">Cancelar</button>
+    </div>
+  </div>
+</dialog>

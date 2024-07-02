@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
 
@@ -11,6 +11,10 @@ export class PedidoDetallesComponent implements OnInit {
   @Input() pedidoId!: number;
   pedido: any;
   insumosTotales: { nombre: string; totalCantidad: number }[] = [];
+  nuevoEstado: string = '';
+  estados: string[] = ['pendiente', 'en preparación', 'listo para recoger'];
+
+  @ViewChild('modalConfirmarEstado') modalConfirmarEstado!: ElementRef<HTMLDialogElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +56,30 @@ export class PedidoDetallesComponent implements OnInit {
     }));
   }
 
+  cambiarEstado(event: any) {
+    this.nuevoEstado = event.target.value;
+    this.openModalConfirmarEstado();
+  }
+
+  async confirmarCambioEstado() {
+    try {
+      await this.pedidosService.cambiarEstado(this.pedido.id, this.nuevoEstado);
+      this.pedido.estado = this.nuevoEstado;
+      this.closeModalConfirmarEstado();
+    } catch (error) {
+      console.error('Error changing order status', error);
+    }
+  }
+
   volver() {
     this.router.navigate(['/panaderia/pedidos']);
+  }
+
+  openModalConfirmarEstado() {
+    this.modalConfirmarEstado.nativeElement?.showModal();
+  }
+
+  closeModalConfirmarEstado() {
+    this.modalConfirmarEstado.nativeElement?.close();
   }
 }

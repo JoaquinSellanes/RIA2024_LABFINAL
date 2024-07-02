@@ -57,6 +57,17 @@ export class PedidosService {
     }
   }
 
+  // POST /pedidos/cambiar-estado
+  async cambiarEstado(pedidoId: number, estado: string): Promise<void> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    try {
+      await firstValueFrom(this.http.post<void>(`${this.apiUrl}/pedidos/cambiar-estado`, { id: pedidoId, estado }, { headers }));
+    } catch (error) {
+      console.error(`Error al cambiar el estado del pedido a ${estado}`, error);
+      throw error;
+    }
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
     if (!token) {
