@@ -10,7 +10,9 @@ import { PanaderoModule } from './features/panadero/panadero.module';
 import { ClienteModule } from './features/cliente/cliente.module';
 import { AuthModule } from './features/auth/auth.module';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
     HttpClientModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
