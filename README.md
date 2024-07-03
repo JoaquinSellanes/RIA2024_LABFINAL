@@ -81,7 +81,6 @@ Este proyecto está dividido en dos partes: un backend desarrollado con Node.js 
 - Node.js (>= 14.x)
 - Angular CLI (>= 12.x)
 
----
 
 ## Instrucciones para el Backend
 
@@ -110,8 +109,6 @@ cp .env.example .env
 ```bash
 npm run start
 ```
-
----
 
 ## Instrucciones para el Frontend
 
@@ -163,7 +160,13 @@ En caso de no tener el dominio agregado en los hosts ejecuta:
 ng serve
 ```
 
----
+
+## Usuarios del mock de datos
+- Usuario: `admin@panpan.uy` Contraseña: `asdasd123`
+- Usuario: `panadero@panpan.uy` Contraseña: `panadero`
+- Usuario: `cliente@panpan.uy` Contraseña: `cliente`
+- Usuario: `cliente2@panpan.uy` Contraseña: `cliente2`
+
 
 ## Estructura del Proyecto
 
@@ -181,13 +184,11 @@ RIA2024_LABFINAL/
 └── README.md
 ```
 
----
 
 ## Notas Adicionales
 
 - Asegúrate de tener configuradas las variables de entorno necesarias tanto para el backend como para el frontend.
 
----
 
 ## Contacto
 
