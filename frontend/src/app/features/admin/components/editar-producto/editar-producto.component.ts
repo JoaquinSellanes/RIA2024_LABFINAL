@@ -19,7 +19,7 @@ interface Insumo {
 })
 export class EditarProductoComponent implements OnInit {
   productoForm: FormGroup;
-  id: number = 0;
+  id: string = "";
   insumos: Insumo[] = [];
   insumosActivos: Insumo[] = [];
   @ViewChild('toast') toast!: ToastComponent;
@@ -42,7 +42,7 @@ export class EditarProductoComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async params => {
-      const id = +params['id'];
+      const id = params['id'];
       this.id = id;
       await this.cargarInsumos();
       await this.cargarProducto(id);
@@ -108,7 +108,7 @@ export class EditarProductoComponent implements OnInit {
     }
   }
 
-  async cargarProducto(id: number) {
+  async cargarProducto(id: string) {
     try {
       const producto = await this.productoService.getProductoById(id);
       this.productoForm.patchValue({

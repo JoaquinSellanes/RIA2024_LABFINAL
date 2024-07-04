@@ -58,7 +58,7 @@ export class ProductoService {
     }
   }
 
-  async getProductoById(id: number) {
+  async getProductoById(id: string) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     try {
       const response = await firstValueFrom(this.http.get<Producto>(`${this.apiUrl}/productos/${id}`, { headers }));
@@ -69,7 +69,7 @@ export class ProductoService {
     }
   }
 
-  async updateProducto(producto: Producto, id: number) {
+  async updateProducto(producto: Producto, id: string) {
     console.log("ProductoService -> updateProducto -> producto", producto);
 
     const token = this.getToken();

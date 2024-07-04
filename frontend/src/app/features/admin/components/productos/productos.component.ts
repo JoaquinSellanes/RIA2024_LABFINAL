@@ -90,7 +90,7 @@ export class ProductosComponent implements OnInit {
 
   async consulta(id: string) {
     try {
-      this.productoSeleccionado = await this.productoService.getProductoById(parseInt(id));
+      this.productoSeleccionado = await this.productoService.getProductoById(id);
       this.productoModal.showModal();
     } catch (error) {
       console.error('Error fetching product details', error);
